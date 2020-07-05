@@ -11,10 +11,27 @@ function Grid(props) {
   const height = props.height; const width = props.width;
   const gridList = [];
   const grid = props.grid;
+
   for (let i = 0; i < height; i++) {
     const rowList = [];
     for (let j = 0; j < width; j++) {
-      if (grid[i][j] === 1) {
+      if ((i === props.start[0] && j === props.start[1])||
+          (i === props.end[0] && j === props.end[1])) {
+        rowList.push(
+            <div
+              key={i + j}
+              style={{
+                width: '35px',
+                height: '35px',
+                border: '1.5px solid black',
+                backgroundColor: '#fff3b0',
+                WebkitUserSelect: 'none',
+              }}
+              onClick={() => props.changeState(i, j)}
+            >
+            </div>,
+        );
+      } else if (grid[i][j] === 1) {
         rowList.push(
             <div
               key={i + j}
@@ -25,6 +42,7 @@ function Grid(props) {
                 backgroundColor: '#540B0E',
                 WebkitUserSelect: 'none',
               }}
+              onClick={() => props.changeState(i, j)}
             >
             </div>,
         );
@@ -38,6 +56,7 @@ function Grid(props) {
                 border: '1.5px solid black',
                 WebkitUserSelect: 'none',
               }}
+              onClick={() => props.changeState(i, j)}
             >
             </div>,
         );
@@ -61,5 +80,8 @@ Grid.propTypes = {
   height: PropTypes.number,
   width: PropTypes.number,
   grid: PropTypes.array,
+  changeState: PropTypes.func,
+  start: PropTypes.array,
+  end: PropTypes.array,
 };
 export default Grid;

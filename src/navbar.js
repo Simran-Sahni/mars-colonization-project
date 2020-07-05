@@ -38,7 +38,7 @@ function Navbar(props) {
               </button>
             </li>
             <li>
-              <button onClick = {props.clearwalls} className="btn">
+              <button onClick = {props.clearWalls} className="btn">
                                 Clear Walls
               </button>
             </li>
@@ -53,12 +53,15 @@ function Navbar(props) {
                 type="button"
                 data-toggle="dropdown"
               >
-                                Speed <span className="caret"/>
+              Speed <span className="caret"/>
               </button>
               <ul className="dropdown-menu">
-                <li><a href="#">Fast</a></li>
-                <li><a href="#">Medium</a></li>
-                <li><a href="#">Slow</a></li>
+                <li><button onClick={()=> props.newSpeed(1)}>Fast
+                </button></li>
+                <li><button onClick={() => props.newSpeed(350)}>Medium
+                </button></li>
+                <li><button onClick={() => props.newSpeed(750)}>Slow
+                </button></li>
               </ul>
             </li>
           </ul>
@@ -68,8 +71,9 @@ function Navbar(props) {
   );
 }
 Navbar.propTypes = {
-  clearwalls: PropTypes.func,
+  clearWalls: PropTypes.func,
   randomize: PropTypes.func,
+  newSpeed: PropTypes.func,
 };
 export default Navbar;
 
