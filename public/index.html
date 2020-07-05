@@ -3,28 +3,30 @@
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/marsrover.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
       content="Web site created using create-react-app"
     />
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    />
 
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    <!-- Popper JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-
-   <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
-    <link href='https://fonts.googleapis.com/css?family=Charm' rel='stylesheet'>
-    <link rel="stylesheet" href="/src/index.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link
+      href="https://fonts.googleapis.com/css?family=Charm"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/index.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -41,58 +43,66 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>Mars Colonizer</title>
-
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <!--navbar-->
 
-     <nav class="navbar navbar-expand-lg">
-       <div class="container-fluid">
-         <div class="navbar-header">
-           <a id="refreshButton" class="navbar-brand" href="#">
-             <i class="fa fa-rocket"></i>Conquer Mars!</a>
-         </div>
-         <ul class="nav navbar-nav">
-           <li class="dropdown">
-             <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">Algorithms
-               <span class="caret"></span></button>
-             <ul class="dropdown-menu">
-               <li id='startButtonDijkstra'><a href="#">Dijkstra's Algorithm</a></li>
-               <li id='startButtonAStar2'><a href="#">A* Search</a></li>
-             </ul>
-
-           </li>
-           <li>
-             <button class="btn">
-               Randomize
-             </button>
-           </li>
-           <li>
-             <button class="btn">
-               Clear Walls
-             </button>
-           </li>
-           <li>
-             <button class="btn">
-               Clear Path
-             </button>
-           </li>
-           <li class="dropdown">
-             <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">Speed
-               <span class="caret"></span> </button>
-             <ul class="dropdown-menu">
-               <li><a href="#">Fast</a></li>
-               <li><a href="#">Medium</a></li>
-               <li><a href="#">Slow</a></li>
-             </ul>
-
-           </li>
-
-         </ul>
-       </div>
-     </nav>
-
+    <nav class="navbar navbar-expand-lg">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a id="refreshButton" class="navbar-brand" href="#">
+            <i class="fa fa-rocket"></i>Conquer Mars!</a
+          >
+        </div>
+        <ul class="nav navbar-nav">
+          <li class="dropdown">
+            <button
+              class="btn dropdown-toggle"
+              type="button"
+              data-toggle="dropdown"
+            >
+              Algorithms <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li id="startButtonDijkstra">
+                <a href="#">Dijkstra's Algorithm</a>
+              </li>
+              <li id="startButtonAStar2"><a href="#">A* Search</a></li>
+            </ul>
+          </li>
+          <li>
+            <button class="btn">
+              Randomize
+            </button>
+          </li>
+          <li>
+            <button class="btn">
+              Clear Walls
+            </button>
+          </li>
+          <li>
+            <button class="btn">
+              Clear Path
+            </button>
+          </li>
+          <li class="dropdown">
+            <button
+              class="btn dropdown-toggle"
+              type="button"
+              data-toggle="dropdown"
+            >
+              Speed <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a href="#">Fast</a></li>
+              <li><a href="#">Medium</a></li>
+              <li><a href="#">Slow</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
 
     <div id="root"></div>
     <!--
@@ -106,8 +116,19 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
   </body>
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
+  <script
+    src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"
+  ></script>
 </html>
