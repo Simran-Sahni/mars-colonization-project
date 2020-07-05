@@ -1,37 +1,39 @@
-#modal{
+#modal {
   position: fixed;
   top: 200px;
   color: white;
   left: 44vw;
 }
 
-.mx-2{
+.mx-2 {
   width: 30px;
   height: 30px;
   -webkit-user-select: none;
 }
 
-#visited-node{
+#visited-node {
   width: 30px;
   height: 30px;
   background-color: #8ccbbe;
   -webkit-user-select: none;
 }
-#unvisited-node{
+
+#unvisited-node {
   width: 30px;
   height: 30px;
   background-color: white;
-  border:1px solid lightblue;
+  border: 1px solid lightblue;
   -webkit-user-select: none;
 }
-#shortestnode{
+
+#shortestnode {
   width: 30px;
   height: 30px;
   background-color: #ffd23f;
   -webkit-user-select: none;
 }
-#wall-node
-{
+
+#wall-node {
   width: 30px;
   height: 30px;
   background-color: #540b0e;

@@ -1,11 +1,20 @@
-body{
+body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-  sans-serif;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Roboto",
+    "Oxygen",
+    "Ubuntu",
+    "Cantarell",
+    "Fira Sans",
+    "Droid Sans",
+    "Helvetica Neue",
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-   background: url("bg.png") no-repeat center center fixed;
+  background: url("bg.png") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -23,19 +32,30 @@ ul li ul li{
 }
 .btn{
   background-color: #E09F3E;
+
+a:hover {
+  color: #e09f3a;
+}
+
+button,
+.btn {
+  background-color: #e09f3e;
   margin-left: 2px;
 }
 
-.navbar{
-  background-color: #AF3860;
+.navbar {
+  background-color: #af3860;
   color: #50514f;
 }
-.navbar-brand{
+
+.navbar-brand {
   text-transform: uppercase;
-  font-family: 'Charm';
+  font-family:
+    "Charm",
+    sans-serif !important;
   font-weight: bold;
   text-shadow: peachpuff;
-  color:peachpuff;
+  color: peachpuff;
 }
 
 .dropdown-menu{
