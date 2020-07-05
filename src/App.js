@@ -8,11 +8,7 @@ class App extends Component{
     end: [15,25],
   }
   render(){
-    return(
-        <div>
-          <p>Hello Mars from App.js</p>
-        </div>
-    )
+     return(<h2>Hello Mars</h2>)
   }
 }
 export default App;
