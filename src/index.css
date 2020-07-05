@@ -30,8 +30,6 @@ li>a:hover{
 ul li ul li{
   border: 1px solid black;
 }
-.btn{
-  background-color: #E09F3E;
 
 a:hover {
   color: #e09f3a;
@@ -66,5 +64,4 @@ button,
 }
 ul li ul li a{
   color:black;
-
 }
