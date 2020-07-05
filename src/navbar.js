@@ -27,7 +27,7 @@ function Navbar(props) {
               </button>
               <ul className="dropdown-menu">
                 <li id="startButtonDijkstra">
-                  <a href="#">Dijkstra's Algorithm</a>
+                  <a href="#">Dijkstra Algorithm</a>
                 </li>
                 <li id="startButtonAStar2"><a href="#">A* Search</a></li>
               </ul>

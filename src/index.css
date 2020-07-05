@@ -21,16 +21,12 @@ body {
   background-size: cover;
 }
 
-li:hover {
-  background: orange;
-}
-
-li > a:hover {
-  text-decoration: none;
-}
-
 ul li ul li {
   border: 1px solid black;
+}
+
+li:hover {
+  background: orange;
 }
 
 ul li ul li a {
@@ -39,6 +35,10 @@ ul li ul li a {
 
 a:hover {
   color: #e09f3a;
+}
+
+li > a:hover {
+  text-decoration: none;
 }
 
 button,
