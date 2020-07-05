@@ -10,25 +10,25 @@ class App extends Component{
         grid: Array(20).fill(undefined, undefined, undefined).map(() => Array(30).fill(0)),
     };
     randomizeMatrix = () =>{
-        const newgrid = Array(20).fill().map(() => Array(40).fill(0));
+        const newGrid = Array(20).fill(undefined, undefined, undefined).map(() => Array(40).fill(0));
         for(let i=0;i<20;i++){
             for(let j=0;j<40;j++){
-                newgrid[i][j]= (Math.floor(Math.random()*10)%2);
+                newGrid[i][j]= (Math.floor(Math.random()*10)%2);
         }
     }
-    newgrid[this.state.start[0]][this.state.start[1]]=0;
-    newgrid[this.state.end[0]][this.state.end[1]]=0;
-    this.setState({grid:newgrid});
+    newGrid[this.state.start[0]][this.state.start[1]]=0;
+    newGrid[this.state.end[0]][this.state.end[1]]=0;
+    this.setState({grid:newGrid});
 }
-    cleargrid = () =>{
-        const newgrid = Array(20).fill().map(() => Array(40).fill(0));
-        this.setState({grid:newgrid});
+    clearGrid = () =>{
+        const newGrid = Array(20).fill(undefined, undefined, undefined).map(() => Array(40).fill(0));
+        this.setState({grid:newGrid});
     }
     render(){
         return(
             <div>
             <div>
-                <Navbar randomize = {this.randomizeMatrix} clearwalls = {this.cleargrid}/>
+                <Navbar randomize = {this.randomizeMatrix} clearwalls = {this.clearGrid}/>
             </div>
             <div>
                 <Grid height={this.state.height} width={this.state.width} grid = {this.state.grid} />
