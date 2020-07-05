@@ -12,11 +12,16 @@ body{
   background-size: cover;
 }
 
-a:hover{
-  color:#E09F3A;
+li:hover{
+  background:orange;
 }
-
-button,.btn{
+li>a:hover{
+  text-decoration: none;
+}
+ul li ul li{
+  border: 1px solid black;
+}
+.btn{
   background-color: #E09F3E;
   margin-left: 2px;
 }
@@ -31,4 +36,15 @@ button,.btn{
   font-weight: bold;
   text-shadow: peachpuff;
   color:peachpuff;
+}
+
+.dropdown-menu{
+  text-align: center;
+  background:#E09F3E ;
+  color:black;
+
+}
+ul li ul li a{
+  color:black;
+
 }
