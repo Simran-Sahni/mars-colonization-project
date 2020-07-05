@@ -21,11 +21,11 @@ body {
   background-size: cover;
 }
 
-li: hover {
+li:hover {
   background: orange;
 }
 
-li>a: hover {
+li > a:hover {
   text-decoration: none;
 }
 
