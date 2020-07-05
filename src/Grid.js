@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 /**
- * To generate grid
- * @param props
+ *
+ * @param {props} props
  * @return {*}
  * @constructor
  */
@@ -43,5 +44,8 @@ function Grid(props) {
     </div>
   );
 }
-
+Grid.propTypes = {
+  height: PropTypes.number,
+  width: PropTypes.number,
+};
 export default Grid;
