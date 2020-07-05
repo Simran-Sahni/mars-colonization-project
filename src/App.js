@@ -1,123 +1,41 @@
 import React, { Component } from "react";
-import PropTypes from 'prop-types';
-
-
-      function NavBar(){
-          return (
-           <nav className="navbar navbar-expand-lg">
-            <div className="container-fluid">
-                <div className="navbar-header">
-                    <a id="refreshButton" className="navbar-brand" href="#">
-                        <i className="fa fa-rocket"></i>Conquer Mars!</a
-                    >
-                </div>
-                <ul className="nav navbar-nav">
-                    <li className="dropdown">
-                        <button
-                            className="btn dropdown-toggle"
-                            type="button"
-                            data-toggle="dropdown"
-                        >
-                            Algorithms <span className="caret"></span>
-                        </button>
-                        <ul className="dropdown-menu">
-                            <li id="startButtonDijkstra">
-                                <a href="#">Dijkstra's Algorithm</a>
-                            </li>
-                            <li id="startButtonAStar2"><a href="#">A* Search</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <button className="btn">
-                            Randomize
-                        </button>
-                    </li>
-                    <li>
-                        <button className="btn">
-                            Clear Walls
-                        </button>
-                    </li>
-                    <li>
-                        <button className="btn">
-                            Clear Path
-                        </button>
-                    </li>
-                    <li className="dropdown">
-                        <button
-                            className="btn dropdown-toggle"
-                            type="button"
-                            data-toggle="dropdown"
-                        >
-                            Speed <span className="caret"></span>
-                        </button>
-                        <ul className="dropdown-menu">
-                            <li><a href="#">Fast</a></li>
-                            <li><a href="#">Medium</a></li>
-                            <li><a href="#">Slow</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-       );
-    }
-
-
-
-function Grid(props) {
-    const height = props.height; const width = props.width;
-    const gridList = [];
-    for (let i = 0; i < height; i++) {
-        const rowList = [];
-        for (let j = 0; j < width; j++) {
-            rowList.push(
-                <div
-                    key={i + j}
-                    style={{
-                        width: '30px',
-                        height: '30px',
-                        border: '1px solid black',
-                        WebkitUserSelect: 'none',
-                    }}
-                >
-
-                </div>,
-            );
-        }
-        gridList.push(rowList);
-    }
-    return (
-        <div className="p-4">
-            {' '}
-            {gridList.map((object, index) => {
-                return (
-                    <div className="row justify-content-center " key = {index}>
-                        {' '}
-                        {object}
-                        {' '}
-                    </div>
-                );
-            })}{' '}
-        </div>
-    );
-}
-Grid.propTypes = {
-    height: PropTypes.number,
-    width: PropTypes.number,
-};
-
-//ReactDOM.render(<Grid />,document.getElementById("root"));
+import Grid from "./Grid";
+import Navbar from "./navbar"
 class App extends Component{
-  state = {
-    height: 20,
-    width: 30,
-    start: [15,5],
-    end: [15,25],
-  };
-  render(){
-     return(
-         <Grid height = {this.state.height} width = {this.state.width}/>
-     );
-  }
+    state = {
+        height: 20,
+        width: 30,
+        start: [15,5],
+        end: [15,25],
+        grid: Array(20).fill(undefined, undefined, undefined).map(() => Array(30).fill(0)),
+    };
+    randomizeMatrix = () =>{
+        const newgrid = Array(20).fill().map(() => Array(40).fill(0));
+        for(let i=0;i<20;i++){
+            for(let j=0;j<40;j++){
+                newgrid[i][j]= (Math.floor(Math.random()*10)%2);
+        }
+    }
+    newgrid[this.state.start[0]][this.state.start[1]]=0;
+    newgrid[this.state.end[0]][this.state.end[1]]=0;
+    this.setState({grid:newgrid});
+}
+    cleargrid = () =>{
+        const newgrid = Array(20).fill().map(() => Array(40).fill(0));
+        this.setState({grid:newgrid});
+    }
+    render(){
+        return(
+            <div>
+            <div>
+                <Navbar randomize = {this.randomizeMatrix} clearwalls = {this.cleargrid}/>
+            </div>
+            <div>
+                <Grid height={this.state.height} width={this.state.width} grid = {this.state.grid} />
+            </div>
+            </div>
+        );
+    }
+
 }
 export default App;
