@@ -38,7 +38,9 @@ button,
 
 .navbar-brand {
   text-transform: uppercase;
-  font-family: "Charm";
+  font-family:
+    "Charm",
+    sans-serif !important;
   font-weight: bold;
   text-shadow: peachpuff;
   color: peachpuff;
