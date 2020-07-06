@@ -44,7 +44,7 @@ li > a:hover {
 button,
 .btn {
   background-color: #e09f3e;
-  margin-left: 2px;
+  margin-left: 5px;
 }
 
 .navbar {
@@ -66,4 +66,9 @@ button,
   text-align: center;
   background: #e09f3e;
   color: black;
+}
+
+#visualizebtn{
+  margin-right:5px;
+
 }

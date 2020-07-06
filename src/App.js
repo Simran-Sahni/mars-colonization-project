@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Grid from "./Grid";
-import Navbar from "./navbar"
+import Navbar from "./Navbar"
 class App extends Component{
     state = {
         height: 20,
@@ -9,6 +9,7 @@ class App extends Component{
         end: [10,25],
         grid: Array(20).fill(undefined, undefined, undefined).map(() => Array(30).fill(0)),
         speed : 1,
+        currentAlgo:""
     };
     randomizeMatrix = () =>{
         const newGrid = Array(20).fill(undefined, undefined, undefined).map(() => Array(30).fill(0));
@@ -43,11 +44,17 @@ class App extends Component{
             this.setState({speed: newspeed});
         }
     }
+
+    selectAlgo = (name) => {
+            this.setState({currentAlgo: name});
+            console.log(this.currentAlgo);
+    }
+
     render(){
         return(
             <div>
             <div>
-                <Navbar randomize = {this.randomizeMatrix} clearWalls = {this.clearGrid} newSpeed= {this.changeSpeed}/>
+                <Navbar randomize = {this.randomizeMatrix} clearWalls = {this.clearGrid} newSpeed= {this.changeSpeed} handleChange={this.selectAlgo} selectedAlgo={this.currentAlgo} />
             </div>
             <div>
                 <Grid start = {this.state.start} end = {this.state.end } height={this.state.height} width={this.state.width} grid = {this.state.grid} changeState = {this.changeState}/>
