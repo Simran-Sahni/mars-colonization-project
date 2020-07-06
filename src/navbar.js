@@ -1,79 +1,48 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Navbar, Nav, Form, FormControl, Button, NavDropdown} from 'react-bootstrap';
+
+
 /**
  *
  * @param {props} props
  * @return {*}
  * @constructor
  */
-function Navbar(props) {
+function Navbarr(props) {
   return (
-    <div>
-      <nav className="navbar navbar-expand-lg">
-        <div className="container-fluid">
-          <div className="navbar-header">
-            <a id="refreshButton" className="navbar-brand" href="#">
-              <i className="fa fa-rocket"/>Conquer Mars!</a
-            >
-          </div>
-          <ul className="nav navbar-nav">
-            <li className="dropdown">
-              <button
-                className="btn dropdown-toggle"
-                type="button"
-                data-toggle="dropdown"
-              >
-                                Algorithms <span className="caret"/>
-              </button>
-              <ul className="dropdown-menu">
-                <li id="startButtonDijkstra">
-                  <a href="#">Dijkstra Algorithm</a>
-                </li>
-                <li id="startButtonAStar2"><a href="#">A* Search</a></li>
-              </ul>
-            </li>
-            <li>
-              <button onClick={props.randomize} className="btn">
-                                Randomize
-              </button>
-            </li>
-            <li>
-              <button onClick = {props.clearWalls} className="btn">
-                                Clear Walls
-              </button>
-            </li>
-            <li>
-              <button className="btn">
-                                Clear Path
-              </button>
-            </li>
-            <li className="dropdown">
-              <button
-                className="btn dropdown-toggle"
-                type="button"
-                data-toggle="dropdown"
-              >
-              Speed <span className="caret"/>
-              </button>
-              <ul className="dropdown-menu">
-                <li><button onClick={()=> props.newSpeed(1)}>Fast
-                </button></li>
-                <li><button onClick={() => props.newSpeed(350)}>Medium
-                </button></li>
-                <li><button onClick={() => props.newSpeed(750)}>Slow
-                </button></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </nav>
-    </div>
+    <Navbar expand="lg">
+      <Navbar.Brand href="#home">Conquer Mars</Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+
+        <Nav className="mr-auto">
+          <NavDropdown title="Algorithms" id="basic-nav-dropdown">
+            <NavDropdown.Item>A*</NavDropdown.Item>
+            <NavDropdown.Item>Best First Search</NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item >Dijkstra</NavDropdown.Item>
+            <NavDropdown.Item >BFS</NavDropdown.Item>
+            <NavDropdown.Item >DFS</NavDropdown.Item>
+          </NavDropdown>
+          <NavDropdown title="Speed" id="basic-nav-dropdown">
+            <NavDropdown.Item onClick = {() => props.newSpeed(750)}>Slow</NavDropdown.Item>
+            <NavDropdown.Item onClick = {() => props.newSpeed(350)}>Medium</NavDropdown.Item>
+            <NavDropdown.Item onClick = {() => props.newSpeed(1)}>Fast</NavDropdown.Item>
+          </NavDropdown>
+          <Nav.Link>Visualize</Nav.Link>
+        </Nav>
+        <Nav.Link onClick ={props.randomize}>Randomize</Nav.Link>
+        <Nav.Link onClick ={props.clearWalls}>Clear Grid</Nav.Link>
+        <Nav.Link >Clear Path</Nav.Link>
+      </Navbar.Collapse>
+    </Navbar>
   );
 }
-Navbar.propTypes = {
+Navbarr.propTypes = {
   clearWalls: PropTypes.func,
   randomize: PropTypes.func,
   newSpeed: PropTypes.func,
 };
-export default Navbar;
+export default Navbarr;
 

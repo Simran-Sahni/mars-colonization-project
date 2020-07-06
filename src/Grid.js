@@ -68,7 +68,7 @@ function Grid(props) {
     <div className="p-4">
       {gridList.map((object, index) => {
         return (
-          <div className="row justify-content-center" key = {index}>
+          <div className="row justify-content-center flex-nowrap" key = {index}>
             {object}
           </div>
         );

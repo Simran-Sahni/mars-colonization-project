@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Grid from "./Grid";
-import Navbar from "./navbar"
+import Navbarr from "./navbar"
 class App extends Component{
     state = {
         height: 20,
@@ -47,7 +47,7 @@ class App extends Component{
         return(
             <div>
             <div>
-                <Navbar randomize = {this.randomizeMatrix} clearWalls = {this.clearGrid} newSpeed= {this.changeSpeed}/>
+                <Navbarr randomize = {this.randomizeMatrix} clearWalls = {this.clearGrid} newSpeed= {this.changeSpeed}/>
             </div>
             <div>
                 <Grid start = {this.state.start} end = {this.state.end } height={this.state.height} width={this.state.width} grid = {this.state.grid} changeState = {this.changeState}/>
