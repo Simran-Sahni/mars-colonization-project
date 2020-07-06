@@ -14,8 +14,8 @@ function Navbarr(props) {
     <Navbar expand="lg">
       <Navbar.Brand >
         <img
+          src="/public/rocket1.svg"
           alt=""
-          src="/public/rocket1.png"
           width="30"
           height="30"
           className="d-inline-block align-top"
