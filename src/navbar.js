@@ -12,7 +12,16 @@ import {Navbar, Nav, Form, FormControl, Button, NavDropdown} from 'react-bootstr
 function Navbarr(props) {
   return (
     <Navbar expand="lg">
-      <Navbar.Brand href="#home">Conquer Mars</Navbar.Brand>
+      <Navbar.Brand >
+        <img
+          alt=""
+          src="/public/rocket1.png"
+          width="30"
+          height="30"
+          className="d-inline-block align-top"
+        />{' '}
+        Conquer Mars!
+      </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
 
