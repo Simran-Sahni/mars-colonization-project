@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Navbar, Nav, Form, FormControl, Button, NavDropdown} from 'react-bootstrap';
+import {Navbar, Nav, NavDropdown} from 'react-bootstrap';
 
 
 /**
@@ -52,7 +52,7 @@ class Navbarr extends Component {
               <NavDropdown.Item onClick = {() => this.props.newSpeed(350)}>Medium</NavDropdown.Item>
               <NavDropdown.Item onClick = {() => this.props.newSpeed(1)}>Fast</NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link>Visualize {this.state.selectedAlgo}</Nav.Link>
+            <Nav.Link onClick = {this.props.dijkstra}>Visualize {this.state.selectedAlgo}</Nav.Link>
           </Nav>
           <Nav.Link onClick ={this.props.randomize}>Randomize</Nav.Link>
           <Nav.Link onClick ={this.props.clearWalls}>Clear Grid</Nav.Link>
@@ -67,6 +67,7 @@ Navbarr.propTypes = {
   clearWalls: PropTypes.func,
   randomize: PropTypes.func,
   newSpeed: PropTypes.func,
+  dijkstra:PropTypes.func,
 };
 export default Navbarr;
 

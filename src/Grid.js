@@ -10,13 +10,20 @@ import PropTypes from 'prop-types';
 function Grid(props) {
   const height = props.height; const width = props.width;
   const gridList = [];
-  const grid = props.grid;
+
+  /* status of grid states for reference
+    0: normal cell
+    1:wall
+    2:visited during search
+    3:Special Points (Start & End)
+    4:Cells in Final Shortest Path
+    */
+
 
   for (let i = 0; i < height; i++) {
     const rowList = [];
     for (let j = 0; j < width; j++) {
-      if ((i === props.start[0] && j === props.start[1])||
-          (i === props.end[0] && j === props.end[1])) {
+      if (props.pointer && i === props.pointer[0] && j === props.pointer[1]) { // display the current pointer
         rowList.push(
             <div
               key={i + j}
@@ -24,14 +31,27 @@ function Grid(props) {
                 width: '35px',
                 height: '35px',
                 border: '1.5px solid black',
-                backgroundColor: '#fff3b0',
+                backgroundColor: '#69fff1',
                 WebkitUserSelect: 'none',
               }}
-              onClick={() => props.changeState(i, j)}
             >
             </div>,
         );
-      } else if (grid[i][j] === 1) {
+      } else if (props.grid[i][j] === 3) { // check if the current point is a special point (start or end)
+        rowList.push(
+            <div
+              key={i + j}
+              style={{
+                width: '35px',
+                height: '35px',
+                border: '1.5px solid black',
+                backgroundColor: '#335c67',
+                WebkitUserSelect: 'none',
+              }}
+            >
+            </div>,
+        );
+      } else if (props.grid[i][j] === 1) { // This is a wall
         rowList.push(
             <div
               key={i + j}
@@ -46,7 +66,23 @@ function Grid(props) {
             >
             </div>,
         );
-      } else {
+      } else if (props.grid[i][j] === 2) // this is a visited cell
+      {
+        rowList.push(
+            <div
+              key={i + j}
+              style={{
+                width: '35px',
+                height: '35px',
+                border: '1.5px solid black',
+                backgroundColor: '#fff3b0',
+                WebkitUserSelect: 'none',
+              }}
+              onClick={() => props.changeState(i, j)}
+            >
+            </div>,
+        );
+      } else { // This is an empty cell
         rowList.push(
             <div
               key={i + j}
@@ -83,5 +119,6 @@ Grid.propTypes = {
   changeState: PropTypes.func,
   start: PropTypes.array,
   end: PropTypes.array,
+  pointer: PropTypes.array,
 };
 export default Grid;
