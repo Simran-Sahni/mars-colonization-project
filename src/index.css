@@ -21,6 +21,9 @@ body {
   background-size: cover;
 }
 
+.icon{
+  background: url("astronaut.ico") no-repeat center fixed;
+}
 ul li ul li {
   border: 1px solid black;
 }

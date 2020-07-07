@@ -10,7 +10,7 @@ class Navbar extends React.Component {
    constructor(props) {
      super(props);
      this.state={
-       selectedAlgo: props.selectedAlgo,
+       selectedAlgo: props.currentAlgo,
      };
    }
    handleChange(event){
@@ -18,8 +18,11 @@ class Navbar extends React.Component {
      var setString = 'Visualize  ' + algo + '!';
      console.log(algo); console.log(setString);
      document.getElementById("visualizebtn").innerHTML = '<button id="visualizebtn" class="btn" type="button">'+setString+'</button>';
+
+     this.props.handle(algo);
      this.setState({selectedAlgo:algo});
-     this.props.handleChange(this.state.selectedAlgo);
+     console.log(this.state.selectedAlgo);
+
    }
 
    render(){
@@ -29,7 +32,7 @@ class Navbar extends React.Component {
         <div className="container-fluid">
           <div className="navbar-header">
             <a id="refreshButton" className="navbar-brand" href="#">
-              <i className="fa fa-rocket"/>Conquer Mars!</a
+              Conquer Mars! <i className="fa fa-rocket"/> <span className="icon" /></a
             >
           </div>
           <ul className="nav navbar-nav">
@@ -37,6 +40,7 @@ class Navbar extends React.Component {
                 id="visualizebtn"
                 className="btn"
                 type="button"
+                onClick={this.props.visual}
             >
               Visualize
             </button>
@@ -111,6 +115,8 @@ Navbar.propTypes = {
   newSpeed: PropTypes.func,
   currentAlgo:PropTypes.string,
   selectAlgo: PropTypes.func,
+  visual:PropTypes.func,
+  handle:PropTypes.func,
 };
 export default Navbar;
 
