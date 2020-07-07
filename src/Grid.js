@@ -15,8 +15,9 @@ function Grid(props) {
     0: normal cell
     1:wall
     2:visited during search
-    3:Special Points (Start & End)
-    4:Cells in Final Shortest Path
+    3:Special Points : start
+    4:Special Points : end
+    5:Cells in Final Shortest Path
     */
 
 
@@ -37,7 +38,7 @@ function Grid(props) {
             >
             </div>,
         );
-      } else if (props.grid[i][j] === 3) { // check if the current point is a special point (start or end)
+      } else if (props.grid[i][j] === 3 || props.grid[i][j] === 4) { // check if the current point is a special point (start or end)
         rowList.push(
             <div
               key={i + j}

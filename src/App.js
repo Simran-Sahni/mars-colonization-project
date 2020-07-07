@@ -1,22 +1,24 @@
 import React, { Component } from "react";
 import Grid from "./Grid";
 import Navbarr from "./navbar"
+
 class App extends Component{
     state = {
-        height: 20, // height of the grid
-        width: 30, // width of the grid
-        start: [5,5], // start position
-        end: [5,8], // end position
-        grid: Array(20).fill(undefined, undefined, undefined).map(() => Array(30).fill(0)),
+        height: 15, // height of the grid
+        width: 20, // width of the grid
+        start: [5,2], // start position
+        end: [5,7], // end position
+        grid: Array(15).fill(undefined, undefined, undefined).map(() => Array(20).fill(0)),
         speed : 50, // speed for animation
         pointer:null, // store the pointer for visualization
     };
     constructor() {
         super();
         this.state.grid[this.state.start[0]][this.state.start[1]] = 3; // special point : start point
-        this.state.grid[this.state.end[0]][this.state.end[1]] = 3; // special point : end point
+        this.state.grid[this.state.end[0]][this.state.end[1]] = 4; // special point : end point
     }
     randomizeMatrix = () =>{
+        this.clearGrid();
         const newGrid = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
         for(let i=0;i<this.state.height;i++){
             for(let j=0;j<this.state.width;j++){
@@ -24,13 +26,13 @@ class App extends Component{
         }
     }
     newGrid[this.state.start[0]][this.state.start[1]]= 3; // special point : start
-    newGrid[this.state.end[0]][this.state.end[1]]=3; // special point : end
+    newGrid[this.state.end[0]][this.state.end[1]]=4; // special point : end
     this.setState({grid:newGrid});
 }
     clearGrid = () =>{
         const newGrid = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
         newGrid[this.state.start[0]][this.state.start[1]] = 3; // special point : start
-        newGrid[this.state.end[0]][this.state.end[1]] = 3; // special point : end
+        newGrid[this.state.end[0]][this.state.end[1]] = 4; // special point : end
         this.setState({grid:newGrid,pointer : null});
     }
     changeState = (x,y) =>{
@@ -52,75 +54,127 @@ class App extends Component{
         let queue = [this.state.start];
         let grid = this.state.grid;
         console.log(grid);
+        console.log(this.state.start);
         console.log(this.state.end);
         let flag = 1;
-        let visited = new Set();
-
-        while(queue.length !== 0 && flag === 1)
+        let ok = true;
+        while(queue.length !== 0)
         {
-            const k = queue[0];
-            visited.add(k);
+            const current = queue[0];
             queue.shift(); // pop the queue
-
-            console.log(k);
-
-
-            // console.log(grid[k[0]][k[1]]);
-            if(k === this.state.end)
+            if(grid[current[0]][current[1]] === 1)
             {
-                flag = 0;
-                break;
+                continue;
             }
-            if(grid[k[0]][k[1]] ===2)
+            if(grid[current[0]][current[1]] === 3)
             {
-                continue; // already visited
-            }
+                if(ok)
+                {
+                    ok = false;
 
-            if(k === this.state.end)
+                }
+                else
+                    {
+                    continue;
+                }
+            }
+            if(grid[current[0]][current[1]] ===4)
             {
-                flag = 0;
+                this.setState({grid:grid,pointer:current});
+                await new Promise((done) => setTimeout(() => done(), this.state.speed));//To slow down the speed of Animation
                 break;
             }
             else
             {
                 let list = [];
-                if(k[0] !== this.state.height - 1 && grid[k[0] + 1][k[1]] !== 1)
+                if(current[0] !== this.state.height - 1 && grid[current[0] + 1][current[1]] !== 2)
                 {
-                    list.push([k[0]+1,k[1]]);
+                    list.push([current[0]+1,current[1]]);
                 }
-                if(k[1] !== this.state.width-1 && grid[k[0]][k[1]+1] !== 1)
+                if(current[1] !== this.state.width-1 && grid[current[0]][current[1]+1] !== 2)
                 {
-                    list.push([k[0],k[1]+1]);
+                    list.push([current[0],current[1]+1]);
                 }
-                if(k[0] !== 0 && grid[k[0]-1][k[1]] !==1 )
+                if(current[0] !== 0 && grid[current[0]-1][current[1]] !==2)
                 {
-                    list.push([k[0]-1,k[1]]);
+                    list.push([current[0]-1,current[1]]);
                 }
-                if(k[1] !== 0 && grid[k[0]][k[1]-1] !== 1)
+                if(current[1] !== 0 && grid[current[0]][current[1]-1] !== 2)
                 {
-                    list.push([k[0],k[1]-1]);
+                    list.push([current[0],current[1]-1]);
                 }
-                //console.log(queue);
-                    grid[k[0]][k[1]] = 2; // mark it as visited
-
-                this.setState({grid:grid,pointer:k});
+                    if(grid[current[0]][current[1]] !== 3)
+                    {
+                        grid[current[0]][current[1]] = 2; // mark it as visited
+                    }
+                this.setState({grid:grid,pointer:current});
                 await new Promise((done) => setTimeout(() => done(), this.state.speed));//To slow down the speed of Animation
-                console.log(list);
                 queue = queue.concat(list);
             }
         }
+    }
 
-        console.log(grid);
+    dfs = async() => {
+        let stack = [this.state.start];
+        let grid = this.state.grid;
+
+        let flag = 1;
 
 
+        while(stack.length !== 0)
+        {
+            const current = stack[stack.length -1];
+            stack.pop();
+            if(current[0]<0 || current[0]>=this.state.height)
+                continue;
+            if(current[1]<0 || current[1]>=this.state.width)
+                continue;
 
+
+            if(this.state.grid[current[0]][current[1]] ===2 || this.state.grid[current[0]][current[1]] === 1)
+            {
+                continue; // already visited or wall
+            }
+
+            if(grid[current[0]][current[1]] === 4)
+            {
+                this.setState({grid:grid,pointer:current});
+                await new Promise((done) => setTimeout(() => done(), this.state.speed));//To slow down the speed of Animation
+                console.log('LOOP BREAK');
+                break;
+            }
+            else
+            {
+                let list = [];  //temporary array to store next points
+                list.push([current[0]+1,current[1]]);  //Go right
+                list.push([current[0],current[1]+1]);  //Go Above
+                list.push([current[0]-1,current[1]]);   //Go Left
+                list.push([current[0],current[1]-1]);   //Go below
+                if(grid[current[0]][current[1]] !== 3)
+                {
+                    this.state.grid[current[0]][current[1]] = 2; // mark it as visited
+                }
+
+                console.log(list);
+                stack = stack.concat(list);
+
+            }
+            this.setState({grid:grid,pointer:current});
+            await new Promise((done) => setTimeout(() => done(), this.state.speed));//To slow down the speed of Animation
+
+        }
+        if(flag === 0) this.setState({grid:grid});
 
     }
+
+
+
+    
     render(){
         return(
             <div>
             <div>
-                <Navbarr randomize = {this.randomizeMatrix} clearWalls = {this.clearGrid} newSpeed= {this.changeSpeed} dijkstra = {this.Dijkstra}/>
+                <Navbarr randomize = {this.randomizeMatrix} clearWalls = {this.clearGrid} newSpeed= {this.changeSpeed} dijkstra = {this.Dijkstra} dfs = {this.dfs}/>
             </div>
             <div>
                 <Grid start = {this.state.start} end = {this.state.end } pointer = {this.state.pointer} height={this.state.height} width={this.state.width} grid = {this.state.grid} changeState = {this.changeState}/>
