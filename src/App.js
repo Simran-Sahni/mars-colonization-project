@@ -5,11 +5,11 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-        height: 20,
+        height: 25,
         width: 40,
-        start: [5, 3],
-        end: [15, 12],
-        grid: Array(20).fill(undefined, undefined, undefined).map(() => Array(40).fill(0)),
+        start: [7, 3],
+        end: [7, 12],
+        grid: Array(25).fill(undefined, undefined, undefined).map(() => Array(40).fill(0)),
         heuristic: null,
         speed: 5,
         path: [],
@@ -73,6 +73,18 @@ class App extends Component {
         console.log(this.state.currentAlgo);
     }
 
+    pathdisplay = async(path) => {
+        for(let i = 0; i<path.length;i++)
+        {
+            if(this.state.grid[path[0]][path[1]] === 3 ) continue;
+            else{
+                this.state.grid[path[i][0]][path[i][1]] = 5;
+                //this.setState({ grid });
+                await new Promise((done) => setTimeout(() => done(), this.state.speed));//To slow down the speeD
+            }
+        }
+    }
+
     visualize = async() => {
         console.log(this.state.currentAlgo);
         if(this.state.currentAlgo === "dfs")
@@ -90,7 +102,7 @@ class App extends Component {
                     continue;
                 if(k[1]<0 || k[1]>=this.state.width)
                     continue;
-                if(this.state.grid[k[0]][k[1]] ===2 || this.state.grid[k[0]][k[1]] === 1)
+                if(this.state.grid[k[0]][k[1]] ===2 || this.state.grid[k[0]][k[1]] === 1 )
                 {
                     continue; // already visited
                 }
@@ -146,6 +158,9 @@ class App extends Component {
                     {
                         continue; // already visited
                     }
+
+                    if(grid[k[0]][k[1]] === 3 && queue.length !==0)
+                        continue;
                     if(grid[k[0]][k[1]] === 4)
                     {
                         flag = 0;
@@ -192,6 +207,7 @@ class App extends Component {
             let grid = this.state.grid;
             let flag = 1;
             let visited = new Set();
+            let parent = [];
             while(queue.length !== 0 && flag === 1)
             {
                 const k = queue[0];
@@ -201,7 +217,8 @@ class App extends Component {
                 {
                     continue; // already visited
                 }
-
+                if(grid[k[0]][k[1]] === 3 && queue.length !==0)
+                    continue;
                 if(grid[k[0]][k[1]] === 4)
                 {
                     flag = 0;

@@ -38,7 +38,21 @@ function Grid(props) {
                     >
                     </div>,
                 );
-            } else if (props.grid[i][j] === 3){//start point
+            } else if (props.grid[i][j] === 5){  //cell in final shortest path
+                rowList.push(
+                    <div
+                        key={i + j}
+                        style={{
+                            width: '35px',
+                            height: '35px',
+                            border: '1.5px solid black',
+                            backgroundColor: '#FEE440',
+                            WebkitUserSelect: 'none',
+                        }}
+                    >
+                    </div>,
+                );
+            }else if (props.grid[i][j] === 3){//start point
                 rowList.push(
                     <div
                         key={i + j}
