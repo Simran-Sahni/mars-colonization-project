@@ -12,12 +12,13 @@ function Grid(props) {
     const gridList = [];
 
     /* status of grid states for reference
-      0: normal cell
-      1:wall
-      2:visited during search
-      3:Special Points (Start & End)
-      4:Cells in Final Shortest Path
-      */
+    0: normal cell
+    1:wall
+    2:visited during search
+    3:Special Points : start
+    4:Special Points : end
+    5:Cells in Final Shortest Path
+    */
 
 
     for (let i = 0; i < height; i++) {
@@ -37,7 +38,7 @@ function Grid(props) {
                     >
                     </div>,
                 );
-            } else if (props.grid[i][j] === 3) { // check if the current point is a special point (start or end)
+            } else if (props.grid[i][j] === 3){//start point
                 rowList.push(
                     <div
                         key={i + j}
@@ -45,13 +46,27 @@ function Grid(props) {
                             width: '35px',
                             height: '35px',
                             border: '1.5px solid black',
-                            backgroundColor: '#335c67',
+                            backgroundColor: '#00EE00',
                             WebkitUserSelect: 'none',
                         }}
                     >
                     </div>,
                 );
-            } else if (props.grid[i][j] === 1) { // This is a wall
+            } else if(props.grid[i][j] === 4) { //end point
+                rowList.push(
+                    <div
+                        key={i + j}
+                        style={{
+                            width: '35px',
+                            height: '35px',
+                            border: '1.5px solid black',
+                            backgroundColor: '#EE0000',
+                            WebkitUserSelect: 'none',
+                        }}
+                    >
+                    </div>,
+                );
+            }else if (props.grid[i][j] === 1) { // This is a wall
                 rowList.push(
                     <div
                         key={i + j}
