@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
  * @constructor
  */
 function Grid(props) {
+
     const height = props.height; const width = props.width;
     const gridList = [];
 
@@ -150,4 +151,5 @@ Grid.propTypes = {
     end: PropTypes.array,
     pointer: PropTypes.array,
 };
+
 export default Grid;

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import Grid from "./Grid";
 import Navbar from "./Navbar"
-class App extends Component {
+
+class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -14,7 +15,8 @@ class App extends Component {
         speed: 5,
         path: [],
         currentAlgo: "",
-        pointer: null,
+        pointer:null, // store the pointer for visualization
+
         };
         this.state.grid[this.state.start[0]][this.state.start[1]] = 3; // special point : start point
         this.state.grid[this.state.end[0]][this.state.end[1]] = 4; // special point : end point
@@ -31,40 +33,44 @@ class App extends Component {
         }
         this.setState({ heuristic });
     }
-    randomizeMatrix = () =>{
-        const newGrid =  Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
-        for(let i=0;i<10;i++){
-            for(let j=0;j<15;j++){
-                newGrid[i][j]= (Math.floor(Math.random()*10)%2);
+
+    randomizeMatrix = () => {
+        this.clearGrid();
+        const newGrid = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
+        for(let i=0;i<this.state.height;i++){
+            for(let j=0;j<this.state.width;j++){
+                newGrid[i][j]= (Math.floor(Math.random()*10)%2); // random values of zero or one to generate a random grid of walls amd empty cells
         }
     }
-    newGrid[this.state.start[0]][this.state.start[1]]=3;
-    newGrid[this.state.end[0]][this.state.end[1]]=4;
+    newGrid[this.state.start[0]][this.state.start[1]]= 3; // special point : start
+    newGrid[this.state.end[0]][this.state.end[1]]=4; // special point : end
     this.setState({grid:newGrid});
-}
+    }
     clearGrid = () =>{
-        const newGrid =  Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
-        this.setState({grid:newGrid});
+        const newGrid = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
+        newGrid[this.state.start[0]][this.state.start[1]] = 3; // special point : start
+        newGrid[this.state.end[0]][this.state.end[1]] = 4; // special point : end
+        this.setState({grid:newGrid,pointer : null});
     }
     changeState = (x,y) =>{
+        if(this.state.grid[x][y] === 3)return; // check if the current point is a special point (start or end)
+
         let grid = this.state.grid;
-        if(grid[x][y] ===0){
+        if(grid[x][y] ===0 || grid[x][y] === 2){ // if it is a visited cell or empty , make it a wall
             grid[x][y] = 1;
         }
-        else{
+        else{  // convert a wall to empty cell
             grid[x][y] = 0;
         }
+
         grid[this.state.start[0]][this.state.start[1]]=3;
         grid[this.state.end[0]][this.state.end[1]]=4;
         this.setState({grid:grid});
     }
     changeSpeed = (newspeed) => {
         console.log(newspeed);
-        if(this.state.speed !== newspeed)
-        {
-            this.setState({speed: newspeed});
-        }
-        console.log(this.state.speed);
+        if (this.state.speed !== newspeed)
+            this.setState({speed: newSpeed});
     }
 
     selectAlgo = (name) => {
@@ -74,191 +80,147 @@ class App extends Component {
     }
 
     pathdisplay = async(path) => {
-        for(let i = 0; i<path.length;i++)
+        let grid = this.state.grid;
+        for(let i = 1; i < path.length; i++)
         {
-            if(this.state.grid[path[0]][path[1]] === 3 ) continue;
-            else{
-                this.state.grid[path[i][0]][path[i][1]] = 5;
-                //this.setState({ grid });
-                await new Promise((done) => setTimeout(() => done(), this.state.speed));//To slow down the speeD
-            }
+            grid[path[i][0]][path[i][1]] = 5;
+            await new Promise((done) => setTimeout(() => done(),25));
+            this.setState({grid:grid});
         }
+        grid[this.state.end[0]][this.state.end[1]] = 5;
+        await new Promise((done) => setTimeout(() => done(),25));
+        this.setState({grid:grid});
+        //To slow down the speed of Animation
+
     }
 
     visualize = async() => {
         console.log(this.state.currentAlgo);
-        if(this.state.currentAlgo === "dfs")
-        {
+        if (this.state.currentAlgo === "dfs") {
             let stack = [this.state.start];
             let grid = this.state.grid;
             let flag = 1;
-            while(stack.length !== 0 && flag === 1)
-            {
-                const k = stack[stack.length -1];
-                console.log(k);
-                console.log(this.state.end);
+            let par = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
+            par[this.state.start[0]][this.state.start[1]] = [this.state.start[0], this.state.start[1]];
+            let path = [];
+            while (stack.length !== 0) {
+                const current = stack[stack.length - 1];
                 stack.pop();
-                if(k[0]<0 || k[0]>=this.state.height)
+                if (current[0] < 0 || current[0] >= this.state.height)
                     continue;
-                if(k[1]<0 || k[1]>=this.state.width)
+                if (current[1] < 0 || current[1] >= this.state.width)
                     continue;
-                if(this.state.grid[k[0]][k[1]] ===2 || this.state.grid[k[0]][k[1]] === 1 )
-                {
-                    continue; // already visited
-                }
-                if(k[0] === this.state.start[0] && k[1] === this.state.start[1] && stack.length!==0)
-                    continue;
-                if(this.state.grid[k[0]][k[1]] === 4)
-                {
-                    flag = 0;
-                    this.setState({grid:grid,pointer:k});
+                if (this.state.grid[current[0]][current[1]] === 2 || this.state.grid[current[0]][current[1]] === 1)
+                    continue; // already visited or wall
+
+                path = [...path, [current[0], current[1]]];
+                if (grid[current[0]][current[1]] === 4) {
+                    this.setState({grid: grid, pointer: current});
                     await new Promise((done) => setTimeout(() => done(), this.state.speed));//To slow down the speed of Animation
                     console.log('LOOP BREAK');
                     break;
-                }
-                else
-                {
+                } else {
                     let list = [];  //temporary array to store next points
-                    list.push([k[0]+1,k[1]]);  //Go right
-                    list.push([k[0],k[1]+1]);  //Go Above
-                    list.push([k[0]-1,k[1]]);   //Go Left
-                    list.push([k[0],k[1]-1]);   //Go below
-                   if(this.state.grid[k[0]][k[1]] !== 3 )this.state.grid[k[0]][k[1]] = 2; // mark it as visited
+                    list.push([current[0] + 1, current[1]]);  //Go right
+                    list.push([current[0], current[1] + 1]);  //Go Above
+                    list.push([current[0] - 1, current[1]]);   //Go Left
+                    list.push([current[0], current[1] - 1]);   //Go below
 
+                    if (grid[current[0]][current[1]] !== 3) {
+                        this.state.grid[current[0]][current[1]] = 2; // mark it as visited
+                    }
+                    //console.log(list);
                     stack = stack.concat(list);
-
                 }
-
-                this.setState({grid:grid,pointer:k});
+                this.setState({grid: grid, pointer: current});
                 await new Promise((done) => setTimeout(() => done(), this.state.speed));//To slow down the speed of Animation
-
             }
-            if(flag === 0) this.setState({grid:grid});
+            console.log(path);
+            if (flag === 0) this.setState({grid: grid});
+            if (this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1]) return; // return if path not found
+            await this.pathdisplay(path);
 
         }
-        if(this.state.currentAlgo === "a-star")
-        {
 
-        }
-        if(this.state.currentAlgo === "dijkstra"){
-
-                let queue = [this.state.start];
-                let grid = this.state.grid;
-                console.log(grid);
-                console.log(this.state.end);
-                let flag = 1;
-                let visited = new Set();
-
-                while(queue.length !== 0 && flag === 1)
-                {
-                    const k = queue[0];
-                    visited.add(k);
-                    queue.shift(); // pop the queue
-                    if(grid[k[0]][k[1]] ===2 || grid[k[0]][k[1]] === 1)
-                    {
-                        continue; // already visited
-                    }
-
-                    if(grid[k[0]][k[1]] === 3 && queue.length !==0)
-                        continue;
-                    if(grid[k[0]][k[1]] === 4)
-                    {
-                        flag = 0;
-                        this.setState({grid:grid,pointer:k});
-                        await new Promise((done) => setTimeout(() => done(), this.state.speed));//To slow down the speed
-                        console.log('loop is breaking');
-                        break;
-                    }
-                    else
-                    {
-                        let list = [];
-                        if(k[0] !== this.state.height - 1 && grid[k[0] + 1][k[1]] !== 1)
-                        {
-                            list.push([k[0]+1,k[1]]);
-                        }
-                        if(k[1] !== this.state.width-1 && grid[k[0]][k[1]+1] !== 1)
-                        {
-                            list.push([k[0],k[1]+1]);
-                        }
-                        if(k[0] !== 0 && grid[k[0]-1][k[1]] !==1 )
-                        {
-                            list.push([k[0]-1,k[1]]);
-                        }
-                        if(k[1] !== 0 && grid[k[0]][k[1]-1] !== 1)
-                        {
-                            list.push([k[0],k[1]-1]);
-                        }
-                        //console.log(queue);
-                        if(grid[k[0]][k[1]] !== 3) grid[k[0]][k[1]] = 2; // mark it as visited
-                        console.log(list);
-                        queue = queue.concat(list);
-
-                    }
-                    this.setState({grid:grid,pointer:k});
-                    await new Promise((done) => setTimeout(() => done(), this.state.speed));//To slow down the speed of Animation
-
-                }
-            if(flag === 0) this.setState({grid:grid});
-        }
-
-        if(this.state.currentAlgo === "bfs"){
-
+        if (this.state.currentAlgo === "dijkstra") {
             let queue = [this.state.start];
             let grid = this.state.grid;
-            let flag = 1;
-            let visited = new Set();
-            let parent = [];
-            while(queue.length !== 0 && flag === 1)
-            {
-                const k = queue[0];
-                visited.add(k);
+            let dist = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(1000000000));
+            let par = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
+            dist[this.state.start[0]][this.state.start[1]] = 0;
+            par[this.state.start[0]][this.state.start[1]] = [this.state.start[0], this.state.start[1]];
+            let ok = true;
+            while (queue.length !== 0) {
+                const current = queue[0];
                 queue.shift(); // pop the queue
-                if(grid[k[0]][k[1]] ===2 || grid[k[0]][k[1]] === 1)
-                {
-                    continue; // already visited
-                }
-                if(grid[k[0]][k[1]] === 3 && queue.length !==0)
+                if (grid[current[0]][current[1]] === 1 || grid[current[0]][current[1]] === 2)
                     continue;
-                if(grid[k[0]][k[1]] === 4)
-                {
-                    flag = 0;
-                    this.setState({grid:grid,pointer:k});
-                    await new Promise((done) => setTimeout(() => done(), this.state.speed));//To slow down the speed
-                    console.log('loop is breaking');
-                    break;
+                if (grid[current[0]][current[1]] === 3) {
+                    if (ok) ok = false;
+                    else continue;
                 }
-                else
-                {
+                if (grid[current[0]][current[1]] === 4) {
+                    this.setState({grid: grid, pointer: current});
+                    await new Promise((done) => setTimeout(() => done(), this.state.speed));//To slow down the speed of Animation
+                    break;
+                } else {
                     let list = [];
-                    if(k[0] !== this.state.height - 1 && grid[k[0] + 1][k[1]] !== 1)
-                    {
-                        list.push([k[0]+1,k[1]]);
+                    if (current[0] !== this.state.height - 1 && grid[current[0] + 1][current[1]] !== 2) {
+                        if (dist[current[0] + 1][current[1]] > dist[current[0]][current[1]] + 1) {
+                            dist[current[0] + 1][current[1]] = dist[current[0]][current[1]] + 1;
+                            par[current[0] + 1][current[1]] = [current[0], current[1]];
+                        }
+                        list.push([current[0] + 1, current[1]]);
                     }
-                    if(k[1] !== this.state.width-1 && grid[k[0]][k[1]+1] !== 1)
-                    {
-                        list.push([k[0],k[1]+1]);
+                    if (current[1] !== this.state.width - 1 && grid[current[0]][current[1] + 1] !== 2) {
+                        if (dist[current[0]][current[1] + 1] > dist[current[0]][current[1]] + 1) {
+                            dist[current[0]][current[1] + 1] = dist[current[0]][current[1]] + 1;
+                            par[current[0]][current[1] + 1] = [current[0], current[1]];
+                        }
+
+                        list.push([current[0], current[1] + 1]);
                     }
-                    if(k[0] !== 0 && grid[k[0]-1][k[1]] !==1 )
-                    {
-                        list.push([k[0]-1,k[1]]);
+                    if (current[0] !== 0 && grid[current[0] - 1][current[1]] !== 2) {
+                        if (dist[current[0] - 1][current[1]] > dist[current[0]][current[1]] + 1) {
+                            dist[current[0] - 1][current[1]] = dist[current[0]][current[1]] + 1;
+                            par[current[0] - 1][current[1]] = [current[0], current[1]];
+                        }
+                        list.push([current[0] - 1, current[1]]);
                     }
-                    if(k[1] !== 0 && grid[k[0]][k[1]-1] !== 1)
-                    {
-                        list.push([k[0],k[1]-1]);
+                    if (current[1] !== 0 && grid[current[0]][current[1] - 1] !== 2) {
+                        if (dist[current[0]][current[1] - 1] > dist[current[0]][current[1]] + 1) {
+                            dist[current[0]][current[1] - 1] = dist[current[0]][current[1]] + 1;
+                            par[current[0]][current[1] - 1] = [current[0], current[1]];
+                        }
+                        list.push([current[0], current[1] - 1]);
                     }
-                    //console.log(queue);
-                    if(grid[k[0]][k[1]] !== 3) grid[k[0]][k[1]] = 2; // mark it as visited
-                    console.log(list);
+                    if (grid[current[0]][current[1]] !== 3) {
+                        grid[current[0]][current[1]] = 2; // mark it as visited
+                    }
+                    this.setState({grid: grid, pointer: current});
+                    await new Promise((done) => setTimeout(() => done(), this.state.speed));//To slow down the speed of Animation
                     queue = queue.concat(list);
                 }
-                this.setState({grid:grid,pointer:k});
-                await new Promise((done) => setTimeout(() => done(), this.state.speed));//To slow down the speed of Animation
             }
-            if(flag === 0) this.setState({grid:grid});
+        }
+        if (this.state.currentAlgo === "bfs") {
+            if (this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1]) return; // return if path not found
+            let ptr = [this.state.end[0], this.state.end[1]];
+            let path = [];
+            while (true) {
+
+                path = [...path, ptr];
+                if (ptr[0] === this.state.start[0] && ptr[1] === this.state.start[1]) {
+                    break;
+                } else {
+                    ptr = par[ptr[0]][ptr[1]];
+                }
+            }
+            path = path.reverse();
+            await this.pathdisplay(path);
         }
     }
-
-    render(){
+     render(){
         return(
             <div>
             <div>
@@ -270,5 +232,5 @@ class App extends Component {
             </div>
         );
     }
-}
+}s
 export default App;
