@@ -86,6 +86,7 @@ class App extends Component {
             let par = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
             par[this.state.start[0]][this.state.start[1]] = [this.state.start[0], this.state.start[1]];
             let path = [];
+            let ok = true;
             while (stack.length !== 0) {
                 const current = stack[stack.length - 1];
                 stack.pop();
@@ -95,6 +96,17 @@ class App extends Component {
                     continue;
                 if (this.state.grid[current[0]][current[1]] === 2 || this.state.grid[current[0]][current[1]] === 1)
                     continue; // already visited or wall
+                if(this.state.grid[current[0]][current[1]] === 3)
+                {
+                    if(ok)
+                    {
+                        ok = false;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
 
                 path = [...path, [current[0], current[1]]];
                 if (grid[current[0]][current[1]] === 4) {
