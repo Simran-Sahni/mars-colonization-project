@@ -83,6 +83,21 @@ function Grid(props) {
             >
             </div>,
         );
+      } else if (props.grid[i][j] === 5) {
+        rowList.push(
+            <div
+              key={i + j}
+              style={{
+                width: '35px',
+                height: '35px',
+                border: '1.5px solid black',
+                backgroundColor: 'orange',
+                WebkitUserSelect: 'none',
+              }}
+              onClick={() => props.changeState(i, j)}
+            >
+            </div>,
+        );
       } else { // This is an empty cell
         rowList.push(
             <div

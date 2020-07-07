@@ -11,19 +11,16 @@ import {Navbar, Nav, NavDropdown} from 'react-bootstrap';
  */
 
 class Navbarr extends Component {
+  constructor() {
+    super();
+    this.state ={
+
+    };
+  }
   render() {
     return (
       <Navbar expand="lg">
-        <Navbar.Brand >
-          <img
-            src="/public/rocket1.svg"
-            alt=""
-            width="30"
-            height="30"
-            className="d-inline-block align-top"
-          />{' '}
-            Conquer Mars!
-        </Navbar.Brand>
+        <Navbar.Brand >Conquer Mars!</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
 

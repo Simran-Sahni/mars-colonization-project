@@ -4,11 +4,11 @@ import Navbarr from "./navbar"
 
 class App extends Component{
     state = {
-        height: 15, // height of the grid
+        height: 20, // height of the grid
         width: 20, // width of the grid
-        start: [5,2], // start position
-        end: [5,7], // end position
-        grid: Array(15).fill(undefined, undefined, undefined).map(() => Array(20).fill(0)),
+        start: [10,2], // start position
+        end: [10,15], // end position
+        grid: Array(20).fill(undefined, undefined, undefined).map(() => Array(30).fill(0)),
         speed : 50, // speed for animation
         pointer:null, // store the pointer for visualization
     };
@@ -53,30 +53,21 @@ class App extends Component{
     Dijkstra = async() => {
         let queue = [this.state.start];
         let grid = this.state.grid;
-        console.log(grid);
-        console.log(this.state.start);
-        console.log(this.state.end);
-        let flag = 1;
+        let dist = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(1000000000));
+        let par = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
+        dist[this.state.start[0]][this.state.start[1]] = 0;
+        par[this.state.start[0]][this.state.start[1]] = [this.state.start[0],this.state.start[1]];
         let ok = true;
         while(queue.length !== 0)
         {
             const current = queue[0];
             queue.shift(); // pop the queue
-            if(grid[current[0]][current[1]] === 1)
-            {
+            if(grid[current[0]][current[1]] === 1 || grid[current[0]][current[1]] === 2)
                 continue;
-            }
             if(grid[current[0]][current[1]] === 3)
             {
-                if(ok)
-                {
-                    ok = false;
-
-                }
-                else
-                    {
-                    continue;
-                }
+                if(ok) ok = false;
+                else continue;
             }
             if(grid[current[0]][current[1]] ===4)
             {
@@ -89,18 +80,39 @@ class App extends Component{
                 let list = [];
                 if(current[0] !== this.state.height - 1 && grid[current[0] + 1][current[1]] !== 2)
                 {
+                    if(dist[current[0]+1][current[1]] > dist[current[0]][current[1]] + 1)
+                    {
+                        dist[current[0]+1][current[1]] = dist[current[0]][current[1]] + 1;
+                        par[current[0]+1][current[1]] = [current[0],current[1]];
+                    }
                     list.push([current[0]+1,current[1]]);
                 }
                 if(current[1] !== this.state.width-1 && grid[current[0]][current[1]+1] !== 2)
                 {
+                    if(dist[current[0]][current[1]+1] > dist[current[0]][current[1]] + 1)
+                    {
+                        dist[current[0]][current[1]+1] = dist[current[0]][current[1]] + 1;
+                        par[current[0]][current[1]+1] = [current[0],current[1]];
+                    }
+
                     list.push([current[0],current[1]+1]);
                 }
                 if(current[0] !== 0 && grid[current[0]-1][current[1]] !==2)
                 {
+                    if(dist[current[0]-1][current[1]] > dist[current[0]][current[1]] + 1)
+                    {
+                        dist[current[0]-1][current[1]] = dist[current[0]][current[1]] + 1;
+                        par[current[0]-1][current[1]] = [current[0],current[1]];
+                    }
                     list.push([current[0]-1,current[1]]);
                 }
                 if(current[1] !== 0 && grid[current[0]][current[1]-1] !== 2)
                 {
+                    if(dist[current[0]][current[1]-1] > dist[current[0]][current[1]] + 1)
+                    {
+                        dist[current[0]][current[1]-1] = dist[current[0]][current[1]] + 1;
+                        par[current[0]][current[1]-1] = [current[0],current[1]];
+                    }
                     list.push([current[0],current[1]-1]);
                 }
                     if(grid[current[0]][current[1]] !== 3)
@@ -112,15 +124,32 @@ class App extends Component{
                 queue = queue.concat(list);
             }
         }
-    }
+        if(this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1])return; // return if path not found
+        let ptr = [this.state.end[0],this.state.end[1]];
+        let path = [];
+        while(true)
+        {
 
+            path = [...path,ptr];
+            if(ptr[0] === this.state.start[0] && ptr[1] === this.state.start[1])
+            {
+                break;
+            }
+            else
+            {
+                ptr = par[ptr[0]][ptr[1]];
+            }
+        }
+        path = path.reverse();
+        await this.pathdisplay(path);
+    }
     dfs = async() => {
         let stack = [this.state.start];
         let grid = this.state.grid;
-
         let flag = 1;
-
-
+        let par = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
+        par[this.state.start[0]][this.state.start[1]] = [this.state.start[0],this.state.start[1]];
+        let path = [];
         while(stack.length !== 0)
         {
             const current = stack[stack.length -1];
@@ -129,13 +158,10 @@ class App extends Component{
                 continue;
             if(current[1]<0 || current[1]>=this.state.width)
                 continue;
-
-
             if(this.state.grid[current[0]][current[1]] ===2 || this.state.grid[current[0]][current[1]] === 1)
-            {
                 continue; // already visited or wall
-            }
 
+            path = [...path,[current[0],current[1]]];
             if(grid[current[0]][current[1]] === 4)
             {
                 this.setState({grid:grid,pointer:current});
@@ -150,26 +176,35 @@ class App extends Component{
                 list.push([current[0],current[1]+1]);  //Go Above
                 list.push([current[0]-1,current[1]]);   //Go Left
                 list.push([current[0],current[1]-1]);   //Go below
+
                 if(grid[current[0]][current[1]] !== 3)
                 {
                     this.state.grid[current[0]][current[1]] = 2; // mark it as visited
                 }
-
-                console.log(list);
+                //console.log(list);
                 stack = stack.concat(list);
-
             }
             this.setState({grid:grid,pointer:current});
             await new Promise((done) => setTimeout(() => done(), this.state.speed));//To slow down the speed of Animation
-
         }
+        console.log(path);
         if(flag === 0) this.setState({grid:grid});
-
+        if(this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1])return; // return if path not found
+        await this.pathdisplay(path);
     }
-
-
-
-    
+    pathdisplay = async(path) => {
+        let grid = this.state.grid;
+        for(let i = 1; i < path.length; i++)
+        {
+            grid[path[i][0]][path[i][1]] = 5;
+            await new Promise((done) => setTimeout(() => done(),25));
+            this.setState({grid:grid});
+        }
+        grid[this.state.end[0]][this.state.end[1]] = 5;
+        await new Promise((done) => setTimeout(() => done(),25));
+        this.setState({grid:grid});
+        //To slow down the speed of Animation
+    }
     render(){
         return(
             <div>
