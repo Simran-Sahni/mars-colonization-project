@@ -47,7 +47,7 @@ function Grid(props) {
                             width: '35px',
                             height: '35px',
                             border: '1.5px solid black',
-                            backgroundColor: '#FEE440',
+                            backgroundColor: '#fee440',
                             WebkitUserSelect: 'none',
                         }}
                     >
@@ -61,7 +61,7 @@ function Grid(props) {
                             width: '35px',
                             height: '35px',
                             border: '1.5px solid black',
-                            backgroundColor: '#00EE00',
+                            backgroundColor: '#00ee00',
                             WebkitUserSelect: 'none',
                         }}
                     >
@@ -75,7 +75,7 @@ function Grid(props) {
                             width: '35px',
                             height: '35px',
                             border: '1.5px solid black',
-                            backgroundColor: '#EE0000',
+                            backgroundColor: '#ee0000',
                             WebkitUserSelect: 'none',
                         }}
                     >
@@ -89,7 +89,7 @@ function Grid(props) {
                             width: '35px',
                             height: '35px',
                             border: '1.5px solid black',
-                            backgroundColor: '#540B0E',
+                            backgroundColor: '#540b0e',
                             WebkitUserSelect: 'none',
                         }}
                         onClick={() => props.changeState(i, j)}

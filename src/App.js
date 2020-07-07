@@ -1,100 +1,83 @@
 import React, { Component } from "react";
 import Grid from "./Grid";
-import Navbar from "./Navbar"
+import Navbar from "./navbar"
 
-class App extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        height: 25,
-        width: 40,
-        start: [7, 3],
-        end: [7, 12],
-        grid: Array(25).fill(undefined, undefined, undefined).map(() => Array(40).fill(0)),
-        heuristic: null,
-        speed: 5,
-        path: [],
-        currentAlgo: "",
-        pointer:null, // store the pointer for visualization
+class App extends Component {
+    state = {
+        height: 20, // height of the grid
+        width: 20, // width of the grid
+        start: [10, 2], // start position
+        end: [10, 15], // end position
+        grid: Array(20).fill(undefined, undefined, undefined).map(() => Array(30).fill(0)),
+        speed: 50, // speed for animation
+        pointer: null, // store the pointer for visualization
+    };
 
-        };
+    constructor() {
+        super();
         this.state.grid[this.state.start[0]][this.state.start[1]] = 3; // special point : start point
         this.state.grid[this.state.end[0]][this.state.end[1]] = 4; // special point : end point
-    }
-
-    componentDidMount() {
-        //Calculating Heriustic for A* Search && Best first search
-        let heuristic =  Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
-        for (let i = 0; i < this.state.height; i++) {
-            for (let j = 0; j < this.state.width; j++) {
-                heuristic[i][j] =
-                    Math.abs(this.state.end[0] - i) + Math.abs(this.state.end[1] - j);
-            }
-        }
-        this.setState({ heuristic });
     }
 
     randomizeMatrix = () => {
         this.clearGrid();
         const newGrid = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
-        for(let i=0;i<this.state.height;i++){
-            for(let j=0;j<this.state.width;j++){
-                newGrid[i][j]= (Math.floor(Math.random()*10)%2); // random values of zero or one to generate a random grid of walls amd empty cells
+        for (let i = 0; i < this.state.height; i++) {
+            for (let j = 0; j < this.state.width; j++) {
+                newGrid[i][j] = (Math.floor(Math.random() * 10) % 2); // random values of zero or one to generate a random grid of walls amd empty cells
+            }
         }
+        newGrid[this.state.start[0]][this.state.start[1]] = 3; // special point : start
+        newGrid[this.state.end[0]][this.state.end[1]] = 4; // special point : end
+        this.setState({grid: newGrid});
     }
-    newGrid[this.state.start[0]][this.state.start[1]]= 3; // special point : start
-    newGrid[this.state.end[0]][this.state.end[1]]=4; // special point : end
-    this.setState({grid:newGrid});
-    }
-    clearGrid = () =>{
+    clearGrid = () => {
         const newGrid = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
         newGrid[this.state.start[0]][this.state.start[1]] = 3; // special point : start
         newGrid[this.state.end[0]][this.state.end[1]] = 4; // special point : end
-        this.setState({grid:newGrid,pointer : null});
+        this.setState({grid: newGrid, pointer: null});
     }
-    changeState = (x,y) =>{
-        if(this.state.grid[x][y] === 3)return; // check if the current point is a special point (start or end)
+    changeState = (x, y) => {
+        if (this.state.grid[x][y] === 3) return; // check if the current point is a special point (start or end)
 
         let grid = this.state.grid;
-        if(grid[x][y] ===0 || grid[x][y] === 2){ // if it is a visited cell or empty , make it a wall
+        if (grid[x][y] === 0 || grid[x][y] === 2) { // if it is a visited cell or empty , make it a wall
             grid[x][y] = 1;
-        }
-        else{  // convert a wall to empty cell
+        } else {  // convert a wall to empty cell
             grid[x][y] = 0;
         }
 
-        grid[this.state.start[0]][this.state.start[1]]=3;
-        grid[this.state.end[0]][this.state.end[1]]=4;
-        this.setState({grid:grid});
+        grid[this.state.start[0]][this.state.start[1]] = 3;
+        grid[this.state.end[0]][this.state.end[1]] = 4;
+        this.setState({grid: grid});
     }
-    changeSpeed = (newspeed) => {
-        console.log(newspeed);
-        if (this.state.speed !== newspeed)
+    changeSpeed = (newSpeed) => {
+        console.log(newSpeed);
+        if (this.state.speed !== newSpeed)
             this.setState({speed: newSpeed});
     }
 
     selectAlgo = (name) => {
         console.log(name);
-            this.setState({currentAlgo: name});
+        this.setState({currentAlgo: name});
         console.log(this.state.currentAlgo);
     }
 
-    pathdisplay = async(path) => {
+    pathdisplay = async (path) => {
         let grid = this.state.grid;
-        for(let i = 1; i < path.length; i++)
-        {
+        for (let i = 1; i < path.length; i++) {
             grid[path[i][0]][path[i][1]] = 5;
-            await new Promise((done) => setTimeout(() => done(),25));
-            this.setState({grid:grid});
+            await new Promise((done) => setTimeout(() => done(), 25));
+            this.setState({grid: grid});
         }
         grid[this.state.end[0]][this.state.end[1]] = 5;
-        await new Promise((done) => setTimeout(() => done(),25));
-        this.setState({grid:grid});
+        await new Promise((done) => setTimeout(() => done(), 25));
+        this.setState({grid: grid});
         //To slow down the speed of Animation
 
     }
 
-    visualize = async() => {
+    visualize = async () => {
         console.log(this.state.currentAlgo);
         if (this.state.currentAlgo === "dfs") {
             let stack = [this.state.start];
@@ -142,7 +125,7 @@ class App extends React.Component {
 
         }
 
-        if (this.state.currentAlgo === "dijkstra") {
+        if (this.state.currentAlgo === "dijkstra" || this.state.currentAlgo === "bfs") {
             let queue = [this.state.start];
             let grid = this.state.grid;
             let dist = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(1000000000));
@@ -203,34 +186,22 @@ class App extends React.Component {
                 }
             }
         }
-        if (this.state.currentAlgo === "bfs") {
-            if (this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1]) return; // return if path not found
-            let ptr = [this.state.end[0], this.state.end[1]];
-            let path = [];
-            while (true) {
-
-                path = [...path, ptr];
-                if (ptr[0] === this.state.start[0] && ptr[1] === this.state.start[1]) {
-                    break;
-                } else {
-                    ptr = par[ptr[0]][ptr[1]];
-                }
-            }
-            path = path.reverse();
-            await this.pathdisplay(path);
-        }
     }
-     render(){
-        return(
+
+    render() {
+        return (
             <div>
-            <div>
-                <Navbar randomize = {this.randomizeMatrix} clearWalls = {this.clearGrid} newSpeed= {this.changeSpeed} handle={this.selectAlgo} selectedAlgo={this.currentAlgo}  visual = {this.visualize} />
-            </div>
-            <div>
-                <Grid start = {this.state.start} end = {this.state.end } height={this.state.height} width={this.state.width} grid = {this.state.grid} changeState = {this.changeState}  pointer = {this.state.pointer} />
-            </div>
+                <div>
+                    <Navbar randomize={this.randomizeMatrix} clearWalls={this.clearGrid} newSpeed={this.changeSpeed}
+                            handle={this.selectAlgo} selectedAlgo={this.currentAlgo} visual={this.visualize}/>
+                </div>
+                <div>
+                    <Grid start={this.state.start} end={this.state.end} height={this.state.height}
+                          width={this.state.width} grid={this.state.grid} changeState={this.changeState}
+                          pointer={this.state.pointer}/>
+                </div>
             </div>
         );
     }
-}s
-export default App;
+}
+    export default App;

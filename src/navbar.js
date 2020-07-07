@@ -14,8 +14,8 @@ class Navbar extends React.Component {
      };
    }
    handleChange(event){
-     var algo = (event.target.getAttribute('id')).toString();
-     var setString = 'Visualize  ' + algo + '!';
+     let algo = (event.target.getAttribute('id')).toString();
+     let setString = 'Visualize  ' + algo + '!';
      console.log(algo); console.log(setString);
      document.getElementById("visualizebtn").innerHTML = '<button id="visualizebtn" class="btn" type="button">'+setString+'</button>';
 
