@@ -1,7 +1,25 @@
 import React, { Component } from "react";
+import Modal from 'react-bootstrap/Modal'
 import Grid from "./Grid";
 import Navbar from "./navbar"
 import PriorityQueue from "./priorityq";
+function MyModal(props) {
+    return (
+        <Modal
+            {...props}
+            size="lg"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
+        >
+            <Modal.Header closeButton>
+                PATH TO THE TARGET NOT FOUND!
+            </Modal.Header>
+            <Modal.Footer>
+                <Modal.Button onClick={props.onHide}>Close</Modal.Button>
+            </Modal.Footer>
+        </Modal>
+    );
+}
 class App extends Component {
     state = {
         height: 20, // height of the grid
@@ -11,6 +29,7 @@ class App extends Component {
         grid: Array(20).fill(undefined, undefined, undefined).map(() => Array(30).fill(0)),
         speed: 50, // speed for animation
         pointer: null, // store the pointer for visualization
+        modalshow: false,
         heuristics:Array(20).fill(undefined, undefined, undefined).map(() => Array(30).fill(1000000000)),
         path: [],
     };
@@ -30,7 +49,10 @@ class App extends Component {
         this.setState({heuristics});
 
     }
-
+    setModalShow = (val) =>{
+        this.setState({modalShow: val});
+        if(val===true) setTimeout(() => this.setState({ modalShow: false }), 5000);
+    }
     randomizeMatrix = () => {
         this.clearGrid();
         const newGrid = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
@@ -371,6 +393,11 @@ class App extends Component {
                           width={this.state.width} grid={this.state.grid} changeState={this.changeState}
                           pointer={this.state.pointer}/>
                 </div>
+                <MyModal
+                    show={this.modalShow}
+                    onHide={() => this.setModalShow(false)}
+                />
+
             </div>
         );
     }
