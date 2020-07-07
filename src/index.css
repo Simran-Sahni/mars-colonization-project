@@ -21,9 +21,10 @@ body {
   background-size: cover;
 }
 
-.icon{
+.icon {
   background: url("astronaut.ico") no-repeat center fixed;
 }
+
 ul li ul li {
   border: 1px solid black;
 }
@@ -71,7 +72,6 @@ button,
   color: black;
 }
 
-#visualizebtn{
-  margin-right:5px;
-
+#visualizebtn {
+  margin-right: 5px;
 }
