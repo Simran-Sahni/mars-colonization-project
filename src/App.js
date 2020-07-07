@@ -1,20 +1,39 @@
 import React, { Component } from "react";
+import Modal from 'react-bootstrap/Modal'
 import Grid from "./Grid";
 import Navbar from "./Navbar"
 
+function MyModal(props) {
+    return (
+        <Modal
+            {...props}
+            size="lg"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
+        >
+            <Modal.Header closeButton>
+                PATH TO THE TARGET NOT FOUND!
+            </Modal.Header>
+            <Modal.Footer>
+                <Modal.Button onClick={props.onHide}>Close</Modal.Button>
+            </Modal.Footer>
+        </Modal>
+    );
+}
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-        height: 25,
+        height: 40,
         width: 40,
         start: [7, 3],
         end: [7, 12],
-        grid: Array(25).fill(undefined, undefined, undefined).map(() => Array(40).fill(0)),
+        grid: Array(40).fill(undefined, undefined, undefined).map(() => Array(40).fill(0)),
         heuristic: null,
         speed: 5,
         path: [],
         currentAlgo: "",
+        modalshow: false,
         pointer:null, // store the pointer for visualization
 
         };
@@ -22,6 +41,10 @@ class App extends React.Component {
         this.state.grid[this.state.end[0]][this.state.end[1]] = 4; // special point : end point
     }
 
+    setModalShow = (val) =>{
+        this.setState({modalShow: val});
+        if(val===true) setTimeout(() => this.setState({ modalShow: false }), 5000);
+    }
     componentDidMount() {
         //Calculating Heriustic for A* Search && Best first search
         let heuristic =  Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
@@ -70,7 +93,7 @@ class App extends React.Component {
     changeSpeed = (newspeed) => {
         console.log(newspeed);
         if (this.state.speed !== newspeed)
-            this.setState({speed: newSpeed});
+            this.setState({speed: newspeed});
     }
 
     selectAlgo = (name) => {
@@ -143,6 +166,7 @@ class App extends React.Component {
         }
 
         if (this.state.currentAlgo === "dijkstra") {
+            this.setModalShow(true);
             let queue = [this.state.start];
             let grid = this.state.grid;
             let dist = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(1000000000));
@@ -202,6 +226,10 @@ class App extends React.Component {
                     queue = queue.concat(list);
                 }
             }
+          /*  if(flag===0)
+            {
+                this.setModalShow(true);
+            } */
         }
         if (this.state.currentAlgo === "bfs") {
             if (this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1]) return; // return if path not found
@@ -213,7 +241,7 @@ class App extends React.Component {
                 if (ptr[0] === this.state.start[0] && ptr[1] === this.state.start[1]) {
                     break;
                 } else {
-                    ptr = par[ptr[0]][ptr[1]];
+                    //ptr = par[ptr[0]][ptr[1]];
                 }
             }
             path = path.reverse();
@@ -229,8 +257,12 @@ class App extends React.Component {
             <div>
                 <Grid start = {this.state.start} end = {this.state.end } height={this.state.height} width={this.state.width} grid = {this.state.grid} changeState = {this.changeState}  pointer = {this.state.pointer} />
             </div>
+                <MyModal
+                show={this.modalShow}
+                onHide={() => this.setModalShow(false)}
+                />
             </div>
         );
     }
-}s
+}
 export default App;
