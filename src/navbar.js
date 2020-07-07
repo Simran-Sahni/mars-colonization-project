@@ -14,14 +14,14 @@ class Navbar extends React.Component {
      };
    }
    handleChange(event){
-     var algo = (event.target.getAttribute('id')).toString();
-     var setString = 'Visualize  ' + algo + '!';
-     console.log(algo); console.log(setString);
+     let algo = (event.target.getAttribute('id')).toString();
+     let setString = 'Visualize  ' + algo + '!';
+    // console.log(algo); console.log(setString);
      document.getElementById("visualizebtn").innerHTML = '<button id="visualizebtn" class="btn" type="button">'+setString+'</button>';
 
      this.props.handle(algo);
      this.setState({selectedAlgo:algo});
-     console.log(this.state.selectedAlgo);
+    // console.log(this.state.selectedAlgo);
 
    }
 
@@ -81,7 +81,7 @@ class Navbar extends React.Component {
               </button>
             </li>
             <li>
-              <button className="btn">
+              <button onClick = {this.props.clearPath} className="btn">
                                 Clear Path
               </button>
             </li>
@@ -117,6 +117,7 @@ Navbar.propTypes = {
   selectAlgo: PropTypes.func,
   visual:PropTypes.func,
   handle:PropTypes.func,
+  clearPath:PropTypes.func,
 };
 export default Navbar;
 

@@ -12,6 +12,7 @@ class App extends Component {
         speed: 50, // speed for animation
         pointer: null, // store the pointer for visualization
         heuristics:Array(20).fill(undefined, undefined, undefined).map(() => Array(30).fill(0)),
+        path: [],
     };
 
     constructor() {
@@ -62,26 +63,26 @@ class App extends Component {
         this.setState({grid: grid});
     }
     changeSpeed = (newSpeed) => {
-        console.log(newSpeed);
+       // console.log(newSpeed);
         if (this.state.speed !== newSpeed)
             this.setState({speed: newSpeed});
     }
 
     selectAlgo = (name) => {
-        console.log(name);
+       // console.log(name);
         this.setState({currentAlgo: name});
-        console.log(this.state.currentAlgo);
+       // console.log(this.state.currentAlgo);
     }
 
     visualize = async () => {
-        console.log(this.state.currentAlgo);
+       // console.log(this.state.currentAlgo);
         if (this.state.currentAlgo === "dfs") {
+            this.path.clear();
             let stack = [this.state.start];
             let grid = this.state.grid;
             let flag = 1;
             let par = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
             par[this.state.start[0]][this.state.start[1]] = [this.state.start[0], this.state.start[1]];
-            let path = [];
             let ok = true;
             while (stack.length !== 0) {
                 const current = stack[stack.length - 1];
@@ -104,11 +105,11 @@ class App extends Component {
                     }
                 }
 
-                path = [...path, [current[0], current[1]]];
+                this.state.path = [...this.state.path, [current[0], current[1]]];
                 if (grid[current[0]][current[1]] === 4) {
                     this.setState({grid: grid, pointer: current});
                     await new Promise((done) => setTimeout(() => done(), this.state.speed));//To slow down the speed of Animation
-                    console.log('LOOP BREAK');
+                    //console.log('LOOP BREAK');
                     break;
                 } else {
                     let list = [];  //temporary array to store next points
@@ -126,10 +127,10 @@ class App extends Component {
                 this.setState({grid: grid, pointer: current});
                 await new Promise((done) => setTimeout(() => done(), this.state.speed));//To slow down the speed of Animation
             }
-            console.log(path);
+            //console.log(path);
             if (flag === 0) this.setState({grid: grid});
             if (this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1]) return; // return if path not found
-            await this.pathdisplay(path);
+            await this.pathdisplay(this.state.path);
 
         }
 
@@ -195,11 +196,10 @@ class App extends Component {
             }
             if (this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1]) return; // return if path not found
             let ptr = [this.state.end[0],this.state.end[1]];
-            let path = [];
             while(true)
             {
 
-                path = [...path,ptr];
+                this.state.path = [...this.state.path,ptr];
                 if(ptr[0] === this.state.start[0] && ptr[1] === this.state.start[1])
                 {
                     break;
@@ -209,9 +209,14 @@ class App extends Component {
                     ptr = par[ptr[0]][ptr[1]];
                 }
             }
-            path = path.reverse();
-            await this.pathdisplay(path);
+            this.state.path = this.state.path.reverse();
+            await this.pathdisplay(this.state.path);
         }
+        if(this.state.currentAlgo === "bestfs")
+        {
+            console.log("Radhesh");
+        }
+
 
     }
     pathdisplay = async (path) => {
@@ -227,13 +232,22 @@ class App extends Component {
         //To slow down the speed of Animation
 
     }
-
+    clearPath = () => {
+        let grid = this.state.grid;
+        let path = this.state.path;
+        for(let i = 0; i < path.length; i++)
+        {
+            grid[path[i][0]][path[i][1]] = 2;
+        }
+        this.setState({path:[]});
+        this.setState({grid});
+}
     render() {
         return (
             <div>
                 <div>
                     <Navbar randomize={this.randomizeMatrix} clearWalls={this.clearGrid} newSpeed={this.changeSpeed}
-                            handle={this.selectAlgo} selectedAlgo={this.currentAlgo} visual={this.visualize}/>
+                            handle={this.selectAlgo} selectedAlgo={this.currentAlgo} visual={this.visualize} clearPath = {this.clearPath}/>
                 </div>
                 <div>
                     <Grid start={this.state.start} end={this.state.end} height={this.state.height}
