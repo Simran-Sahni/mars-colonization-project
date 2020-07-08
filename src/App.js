@@ -1,19 +1,9 @@
 import React, { Component } from "react";
 import Modal from 'react-bootstrap/Modal'
 import Grid from "./Grid";
-<<<<<<< HEAD
-<<<<<<< HEAD
-import Navbar from "./Navbar"
-
-=======
-import Navbar from "./navbar"
-import PriorityQueue from "./priorityq";
->>>>>>> dc3c8675b6ef21dc185a62ee1e9778cf29ecc809
-=======
 import Navbar from "./navbar"
 import PriorityQueue from "./priorityq";
 
->>>>>>> a6e1a71763fff4cb348b07f7a14ff3e7d7d93b0f
 function MyModal(props) {
     return (
         <Modal
@@ -31,26 +21,6 @@ function MyModal(props) {
         </Modal>
     );
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
-class App extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        height: 40,
-        width: 40,
-        start: [7, 3],
-        end: [7, 12],
-        grid: Array(40).fill(undefined, undefined, undefined).map(() => Array(40).fill(0)),
-        heuristic: null,
-        speed: 5,
-        path: [],
-        currentAlgo: "",
-        modalshow: false,
-        pointer:null, // store the pointer for visualization
-=======
-=======
->>>>>>> a6e1a71763fff4cb348b07f7a14ff3e7d7d93b0f
 class App extends Component {
     state = {
         height: 20, // height of the grid
@@ -64,43 +34,17 @@ class App extends Component {
         heuristics:Array(20).fill(undefined, undefined, undefined).map(() => Array(30).fill(1000000000)),
         path: [],
     };
-<<<<<<< HEAD
->>>>>>> dc3c8675b6ef21dc185a62ee1e9778cf29ecc809
-=======
->>>>>>> a6e1a71763fff4cb348b07f7a14ff3e7d7d93b0f
 
     constructor() {
         super();
         this.state.grid[this.state.start[0]][this.state.start[1]] = 3; // special point : start point
         this.state.grid[this.state.end[0]][this.state.end[1]] = 4; // special point : end point
-<<<<<<< HEAD
-<<<<<<< HEAD
-    }
-
-    setModalShow = (val) =>{
-        this.setState({modalShow: val});
-        if(val===true) setTimeout(() => this.setState({ modalShow: false }), 5000);
-    }
-    componentDidMount() {
-        //Calculating Heriustic for A* Search && Best first search
-        let heuristic =  Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
-        for (let i = 0; i < this.state.height; i++) {
-            for (let j = 0; j < this.state.width; j++) {
-                heuristic[i][j] =
-                    Math.abs(this.state.end[0] - i) + Math.abs(this.state.end[1] - j);
-=======
-=======
->>>>>>> a6e1a71763fff4cb348b07f7a14ff3e7d7d93b0f
         let heuristics = this.state.heuristics;
         for(let i = 0; i < this.state.height; i++)
         {
             for(let j = 0; j < this.state.width; j++)
             {
                 heuristics[i][j] = Math.abs(this.state.end[0]-i) + Math.abs(this.state.end[1]-j);
-<<<<<<< HEAD
->>>>>>> dc3c8675b6ef21dc185a62ee1e9778cf29ecc809
-=======
->>>>>>> a6e1a71763fff4cb348b07f7a14ff3e7d7d93b0f
             }
         }
         this.setState({heuristics});
@@ -142,23 +86,10 @@ class App extends Component {
         grid[this.state.end[0]][this.state.end[1]] = 4;
         this.setState({grid: grid});
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
-    changeSpeed = (newspeed) => {
-        console.log(newspeed);
-        if (this.state.speed !== newspeed)
-            this.setState({speed: newspeed});
-=======
-=======
->>>>>>> a6e1a71763fff4cb348b07f7a14ff3e7d7d93b0f
     changeSpeed = (newSpeed) => {
         // console.log(newSpeed);
         if (this.state.speed !== newSpeed)
             this.setState({speed: newSpeed});
-<<<<<<< HEAD
->>>>>>> dc3c8675b6ef21dc185a62ee1e9778cf29ecc809
-=======
->>>>>>> a6e1a71763fff4cb348b07f7a14ff3e7d7d93b0f
     }
 
     selectAlgo = (name) => {
@@ -227,18 +158,8 @@ class App extends Component {
 
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if (this.state.currentAlgo === "dijkstra") {
-            this.setModalShow(true);
-=======
         if (this.state.currentAlgo === "dijkstra" || this.state.currentAlgo === "bfs") {
             this.setState({path:[]});
->>>>>>> dc3c8675b6ef21dc185a62ee1e9778cf29ecc809
-=======
-        if (this.state.currentAlgo === "dijkstra" || this.state.currentAlgo === "bfs") {
-            this.setState({path:[]});
->>>>>>> a6e1a71763fff4cb348b07f7a14ff3e7d7d93b0f
             let queue = [this.state.start];
             let grid = this.state.grid;
             let dist = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(1000000000));
@@ -298,20 +219,7 @@ class App extends Component {
                     queue = queue.concat(list);
                 }
             }
-<<<<<<< HEAD
-<<<<<<< HEAD
-          /*  if(flag===0)
-            {
-                this.setModalShow(true);
-            } */
-        }
-        if (this.state.currentAlgo === "bfs") {
-=======
->>>>>>> dc3c8675b6ef21dc185a62ee1e9778cf29ecc809
-            if (this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1]) return; // return if path not found
-=======
             if (this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1]) {this.setState({modalShow:true});return;} // return if path not found
->>>>>>> a6e1a71763fff4cb348b07f7a14ff3e7d7d93b0f
             let ptr = [this.state.end[0],this.state.end[1]];
             while(true)
             {
@@ -320,21 +228,10 @@ class App extends Component {
                 if(ptr[0] === this.state.start[0] && ptr[1] === this.state.start[1])
                 {
                     break;
-<<<<<<< HEAD
-<<<<<<< HEAD
-                } else {
-                    //ptr = par[ptr[0]][ptr[1]];
-=======
-=======
->>>>>>> a6e1a71763fff4cb348b07f7a14ff3e7d7d93b0f
                 }
                 else
                 {
                     ptr = par[ptr[0]][ptr[1]];
-<<<<<<< HEAD
->>>>>>> dc3c8675b6ef21dc185a62ee1e9778cf29ecc809
-=======
->>>>>>> a6e1a71763fff4cb348b07f7a14ff3e7d7d93b0f
                 }
             }
             this.state.path = this.state.path.reverse();
@@ -488,17 +385,6 @@ class App extends Component {
     render() {
         return (
             <div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-                <Grid start = {this.state.start} end = {this.state.end } height={this.state.height} width={this.state.width} grid = {this.state.grid} changeState = {this.changeState}  pointer = {this.state.pointer} />
-            </div>
-                <MyModal
-                show={this.modalShow}
-                onHide={() => this.setModalShow(false)}
-                />
-=======
-=======
->>>>>>> a6e1a71763fff4cb348b07f7a14ff3e7d7d93b0f
                 <div>
                     <Navbar randomize={this.randomizeMatrix} clearWalls={this.clearGrid} newSpeed={this.changeSpeed}
                             handle={this.selectAlgo} selectedAlgo={this.currentAlgo} visual={this.visualize} clearPath = {this.clearPath}/>
@@ -513,20 +399,8 @@ class App extends Component {
                     onHide={() => this.setModalShow(false)}
                 />
 
-<<<<<<< HEAD
->>>>>>> dc3c8675b6ef21dc185a62ee1e9778cf29ecc809
-=======
->>>>>>> a6e1a71763fff4cb348b07f7a14ff3e7d7d93b0f
             </div>
         );
     }
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 export default App;
-=======
-    export default App;
->>>>>>> dc3c8675b6ef21dc185a62ee1e9778cf29ecc809
-=======
-export default App;
->>>>>>> a6e1a71763fff4cb348b07f7a14ff3e7d7d93b0f

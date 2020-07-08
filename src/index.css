@@ -21,23 +21,16 @@ body {
   background-size: cover;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 #root{
   position: relative;
 }
-.icon{
-=======
-.icon {
->>>>>>> dc3c8675b6ef21dc185a62ee1e9778cf29ecc809
-  background: url("astronaut.ico") no-repeat center fixed;
-=======
+
 #home {
   background: url("LANDING.png") no-repeat center fixed;
   width:100%;
   height: 540px;
->>>>>>> a6e1a71763fff4cb348b07f7a14ff3e7d7d93b0f
+
 }
 
 ul li ul li {
@@ -87,8 +80,6 @@ button,
   color: black;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 #visualizebtn{
   margin-right:5px;
 }
@@ -96,19 +87,15 @@ button,
 .btn:hover {
   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
-#info{
+#info {
   background: #f7d6e0;
   border-radius: 50%;
-  position:fixed;
-  right:0px;
-  bottom:0px;
-  box-shadow:#f7d6e0;
-=======
-=======
->>>>>>> a6e1a71763fff4cb348b07f7a14ff3e7d7d93b0f
-#visualizebtn {
-  margin-right: 5px;
+  position: fixed;
+  right: 0px;
+  bottom: 0px;
+  box-shadow: #f7d6e0;
 }
+
 .modal.right .modal-content {
   height: 100%;
   overflow-y: auto;
@@ -133,41 +120,3 @@ button,
   transition: opacity 0.3s linear, right 0.3s ease-out;
 }
 
-.modal.right.fade.in .modal-dialog {
-  right: 0;
-<<<<<<< HEAD
->>>>>>> dc3c8675b6ef21dc185a62ee1e9778cf29ecc809
-}
-.modal.right .modal-content {
-  height: 100%;
-  overflow-y: auto;
-  opacity: 80%;
-}
-.modal.right .modal-dialog {
-  position: fixed;
-  right:0px;
-  width: 320px;
-  height: 100%;
-  -webkit-transform: translate3d(0%, 0, 0);
-  -ms-transform: translate3d(0%, 0, 0);
-  -o-transform: translate3d(0%, 0, 0);
-  transform: translate3d(0%, 0, 0);
-=======
->>>>>>> a6e1a71763fff4cb348b07f7a14ff3e7d7d93b0f
-}
-
-#root{
-  position: relative;
-}
-
-.btn:hover {
-  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24);
-}
-#info {
-  background: #f7d6e0;
-  border-radius: 50%;
-  position: fixed;
-  right: 0px;
-  bottom: 0px;
-  box-shadow: #f7d6e0;
-}
