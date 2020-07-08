@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Modal from 'react-bootstrap/Modal'
 import App from './App'
 import Home from './components/Home'
 import {

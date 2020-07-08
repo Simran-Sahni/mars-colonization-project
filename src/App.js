@@ -1,26 +1,40 @@
 import React, { Component } from "react";
-import Modal from 'react-bootstrap/Modal'
 import Grid from "./Grid";
-import Navbar from "./navbar"
+import Navbar from "./Navbar"
+import Modal from  "react-bootstrap/Modal"
+import Button from "react-bootstrap/Button"
 import PriorityQueue from "./priorityq";
 
-function MyModal(props) {
+const D = ({ handleClose, show}) => {
+
     return (
-        <Modal
-            {...props}
-            size="lg"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-        >
-            <Modal.Header closeButton>
-                PATH TO THE TARGET NOT FOUND!
-            </Modal.Header>
-            <Modal.Footer>
-                <Modal.Button onClick={props.onHide}>Close</Modal.Button>
-            </Modal.Footer>
-        </Modal>
+        <>
+
+
+            <Modal
+                show={show}
+                onHide={handleClose}
+                backdrop="static"
+                keyboard={false}
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>Modal title</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    I will not close if you click outside me. Don't even try to press
+                    escape key.
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary">Understood</Button>
+                </Modal.Footer>
+            </Modal>
+        </>
     );
-}
+};
+
 class App extends Component {
     state = {
         height: 20, // height of the grid
@@ -50,10 +64,13 @@ class App extends Component {
         this.setState({heuristics});
 
     }
-    setModalShow = (val) =>{
-        this.setState({modalShow: val});
-        if(val===true) setTimeout(() => this.setState({ modalShow: false }), 5000);
-    }
+    showModal = () => {
+        this.setState({ modalshow: true });
+    };
+
+    hideModal = () => {
+        this.setState({ modalshow: false });
+    };
     randomizeMatrix = () => {
         this.clearGrid();
         const newGrid = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
@@ -219,7 +236,7 @@ class App extends Component {
                     queue = queue.concat(list);
                 }
             }
-            if (this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1]) {this.setState({modalShow:true});return;} // return if path not found
+            if (this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1]) {this.showModal(); return;} // return if path not found
             let ptr = [this.state.end[0],this.state.end[1]];
             while(true)
             {
@@ -394,10 +411,8 @@ class App extends Component {
                           width={this.state.width} grid={this.state.grid} changeState={this.changeState}
                           pointer={this.state.pointer}/>
                 </div>
-                <MyModal
-                    show={this.modalShow}
-                    onHide={() => this.setModalShow(false)}
-                />
+
+                <D show={this.state.modalshow} handleClose={this.hideModal} />
 
             </div>
         );
