@@ -2,7 +2,7 @@ import React, { Component,useState } from "react";
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import { Redirect} from 'react-router-dom';
-
+import './Home.css';
 const Entry = ( {handleClose,show,onSubmit} ) => {
     return (
         <>
@@ -12,8 +12,7 @@ const Entry = ( {handleClose,show,onSubmit} ) => {
                 backdrop="static"
                 keyboard={false}
                 style={{
-                    backgroundColor:'#3a506b',
-
+                    opacity:0.95,
                 }}
 
             >
@@ -42,7 +41,7 @@ const Entry = ( {handleClose,show,onSubmit} ) => {
                     <Button variant="primary" style={{
                         backgroundColor:'#00ff00'
                     }}
-                    onClick={onSubmit}>
+                            onClick={onSubmit}>
                         LETS GO!
                     </Button>
                 </Modal.Footer>
@@ -75,7 +74,7 @@ class Home extends Component{
         {  return <Redirect to='/App'/>}
         return (
 
-          <div id="home"  style={{ background:"url('./LANDING.png') no-repeat center center fixed"}}>
+            <div id="home"  style={{ background:"url('./LANDING.png') no-repeat center center fixed"}}>
 
                 <Button variant="primary" onClick={this.handleShow} style={{
                     backgroundColor:'#b8f2e6',
