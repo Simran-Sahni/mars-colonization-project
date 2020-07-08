@@ -3,6 +3,7 @@ import Modal from 'react-bootstrap/Modal'
 import Grid from "./Grid";
 import Navbar from "./navbar"
 import PriorityQueue from "./priorityq";
+
 function MyModal(props) {
     return (
         <Modal
@@ -86,19 +87,19 @@ class App extends Component {
         this.setState({grid: grid});
     }
     changeSpeed = (newSpeed) => {
-       // console.log(newSpeed);
+        // console.log(newSpeed);
         if (this.state.speed !== newSpeed)
             this.setState({speed: newSpeed});
     }
 
     selectAlgo = (name) => {
-       // console.log(name);
+        // console.log(name);
         this.setState({currentAlgo: name});
-       // console.log(this.state.currentAlgo);
+        // console.log(this.state.currentAlgo);
     }
 
     visualize = async () => {
-       // console.log(this.state.currentAlgo);
+        // console.log(this.state.currentAlgo);
         if (this.state.currentAlgo === "dfs") {
             this.setState({path:[]});
             let stack = [this.state.start];
@@ -218,7 +219,7 @@ class App extends Component {
                     queue = queue.concat(list);
                 }
             }
-            if (this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1]) return; // return if path not found
+            if (this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1]) {this.setState({modalShow:true});return;} // return if path not found
             let ptr = [this.state.end[0],this.state.end[1]];
             while(true)
             {
@@ -380,7 +381,7 @@ class App extends Component {
         }
         this.setState({path:[]});
         this.setState({grid});
-}
+    }
     render() {
         return (
             <div>
@@ -402,4 +403,4 @@ class App extends Component {
         );
     }
 }
-    export default App;
+export default App;

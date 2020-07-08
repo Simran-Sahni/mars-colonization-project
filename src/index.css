@@ -1,17 +1,17 @@
 body {
   margin: 0;
   font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    "Roboto",
-    "Oxygen",
-    "Ubuntu",
-    "Cantarell",
-    "Fira Sans",
-    "Droid Sans",
-    "Helvetica Neue",
-    sans-serif;
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          "Roboto",
+          "Oxygen",
+          "Ubuntu",
+          "Cantarell",
+          "Fira Sans",
+          "Droid Sans",
+          "Helvetica Neue",
+          sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: url("bg.png") no-repeat center center fixed;
@@ -21,8 +21,10 @@ body {
   background-size: cover;
 }
 
-.icon {
-  background: url("astronaut.ico") no-repeat center fixed;
+#home {
+  background: url("LANDING.png") no-repeat center fixed;
+  width:100%;
+  height: 540px;
 }
 
 ul li ul li {
@@ -30,7 +32,7 @@ ul li ul li {
 }
 
 li:hover {
-  background: orange;
+  background:  #e09f3e;
 }
 
 ul li ul li a {
@@ -59,8 +61,8 @@ button,
 .navbar-brand {
   text-transform: uppercase;
   font-family:
-    "Charm",
-    sans-serif !important;
+          "Charm",
+          sans-serif !important;
   font-weight: bold;
   text-shadow: peachpuff;
   color: peachpuff;
@@ -101,4 +103,20 @@ button,
 
 .modal.right.fade.in .modal-dialog {
   right: 0;
+}
+
+#root{
+  position: relative;
+}
+
+.btn:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24);
+}
+#info {
+  background: #f7d6e0;
+  border-radius: 50%;
+  position: fixed;
+  right: 0px;
+  bottom: 0px;
+  box-shadow: #f7d6e0;
 }
