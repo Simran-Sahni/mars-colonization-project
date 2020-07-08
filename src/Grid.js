@@ -8,19 +8,20 @@ import PropTypes from 'prop-types';
  * @constructor
  */
 function Grid(props) {
-
     const height = props.height; const width = props.width;
     const gridList = [];
 
     /* status of grid states for reference
-    0: normal cell
-    1:wall
-    2:visited during search
-    3:Special Points : start
-    4:Special Points : end
-    5:Cells in Final Shortest Path
-    */
+      0: normal cell
+      1:wall
+      2:visited during search
+      3:Special Points : start
+      4:Special Points : end
+      5:Cells in Final Shortest Path
+      */
 
+    props.grid[props.start[0]][props.start[1]] = 3;
+    props.grid[props.end[0]][props.end[1]] = 4;
 
     for (let i = 0; i < height; i++) {
         const rowList = [];
@@ -39,7 +40,7 @@ function Grid(props) {
                     >
                     </div>,
                 );
-            } else if (props.grid[i][j] === 5){  //cell in final shortest path
+            } else if (props.grid[i][j] === 5) { // cell in final shortest path
                 rowList.push(
                     <div
                         key={i + j}
@@ -53,7 +54,7 @@ function Grid(props) {
                     >
                     </div>,
                 );
-            }else if (props.grid[i][j] === 3){//start point
+            } else if (props.grid[i][j] === 3) {// start point
                 rowList.push(
                     <div
                         key={i + j}
@@ -67,7 +68,7 @@ function Grid(props) {
                     >
                     </div>,
                 );
-            } else if(props.grid[i][j] === 4) { //end point
+            } else if (props.grid[i][j] === 4) { // end point
                 rowList.push(
                     <div
                         key={i + j}
@@ -81,7 +82,7 @@ function Grid(props) {
                     >
                     </div>,
                 );
-            }else if (props.grid[i][j] === 1) { // This is a wall
+            } else if (props.grid[i][j] === 1) { // This is a wall
                 rowList.push(
                     <div
                         key={i + j}
