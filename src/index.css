@@ -1,17 +1,17 @@
 body {
   margin: 0;
   font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    "Roboto",
-    "Oxygen",
-    "Ubuntu",
-    "Cantarell",
-    "Fira Sans",
-    "Droid Sans",
-    "Helvetica Neue",
-    sans-serif;
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          "Roboto",
+          "Oxygen",
+          "Ubuntu",
+          "Cantarell",
+          "Fira Sans",
+          "Droid Sans",
+          "Helvetica Neue",
+          sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: url("bg.png") no-repeat center center fixed;
@@ -22,6 +22,7 @@ body {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 #root{
   position: relative;
@@ -31,6 +32,12 @@ body {
 .icon {
 >>>>>>> dc3c8675b6ef21dc185a62ee1e9778cf29ecc809
   background: url("astronaut.ico") no-repeat center fixed;
+=======
+#home {
+  background: url("LANDING.png") no-repeat center fixed;
+  width:100%;
+  height: 540px;
+>>>>>>> a6e1a71763fff4cb348b07f7a14ff3e7d7d93b0f
 }
 
 ul li ul li {
@@ -38,7 +45,7 @@ ul li ul li {
 }
 
 li:hover {
-  background: orange;
+  background:  #e09f3e;
 }
 
 ul li ul li a {
@@ -67,8 +74,8 @@ button,
 .navbar-brand {
   text-transform: uppercase;
   font-family:
-    "Charm",
-    sans-serif !important;
+          "Charm",
+          sans-serif !important;
   font-weight: bold;
   text-shadow: peachpuff;
   color: peachpuff;
@@ -80,6 +87,7 @@ button,
   color: black;
 }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 #visualizebtn{
   margin-right:5px;
@@ -96,6 +104,8 @@ button,
   bottom:0px;
   box-shadow:#f7d6e0;
 =======
+=======
+>>>>>>> a6e1a71763fff4cb348b07f7a14ff3e7d7d93b0f
 #visualizebtn {
   margin-right: 5px;
 }
@@ -125,6 +135,7 @@ button,
 
 .modal.right.fade.in .modal-dialog {
   right: 0;
+<<<<<<< HEAD
 >>>>>>> dc3c8675b6ef21dc185a62ee1e9778cf29ecc809
 }
 .modal.right .modal-content {
@@ -141,16 +152,22 @@ button,
   -ms-transform: translate3d(0%, 0, 0);
   -o-transform: translate3d(0%, 0, 0);
   transform: translate3d(0%, 0, 0);
-}
-/*Right*/
-.modal.right.fade .modal-dialog {
-   /*right:-320px; */
-  -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
-  -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
-  -o-transition: opacity 0.3s linear, right 0.3s ease-out;
-  transition: opacity 0.3s linear, right 0.3s ease-out;
+=======
+>>>>>>> a6e1a71763fff4cb348b07f7a14ff3e7d7d93b0f
 }
 
-.modal.right.fade.in .modal-dialog {
-  right: 0;
+#root{
+  position: relative;
+}
+
+.btn:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24);
+}
+#info {
+  background: #f7d6e0;
+  border-radius: 50%;
+  position: fixed;
+  right: 0px;
+  bottom: 0px;
+  box-shadow: #f7d6e0;
 }
