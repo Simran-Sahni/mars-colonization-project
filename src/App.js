@@ -256,14 +256,14 @@ class App extends Component {
                 {
                     break;
                 }
-                if (current[1] !== this.state.width - 1 && (grid[current[0]][current[1] + 1] === 0 || grid[current[0]][current[1] + 1] === 4))
+                if (current[1] !== this.state.width - 1 && (((grid[current[0]][current[1] + 1] === 0) || (grid[current[0]][current[1] + 1] === 4))))
                 {
                     if (path[current[0]][current[1] + 1].length === 0 || path[current[0]][current[1] + 1].length > [...path[current[0]][current[1]], current].length) {
                         pq.enqueue([current[0], current[1] + 1], this.state.heuristics[current[0]][current[1] + 1]);
                         path[current[0]][current[1] + 1] = [...path[current[0]][current[1]], current,];
                     }
                 }
-                if (current[0] !== this.state.height - 1 && (grid[current[0] + 1][current[1]] === 0) || grid[current[0] + 1][current[1]] === 4)
+                if (current[0] !== this.state.height - 1 && ((grid[current[0] + 1][current[1]] === 0) || (grid[current[0] + 1][current[1]] === 4)))
                 {
                     if (path[current[0] + 1][current[1]].length === 0 || path[current[0] + 1][current[1]].length > [...path[current[0]][current[1]], current])
                     {
@@ -271,7 +271,7 @@ class App extends Component {
                         path[current[0] + 1][current[1]] = [...path[current[0]][current[1]], current,];
                     }
                 }
-                if (current[0] !== 0 && (grid[current[0] - 1][current[1]] === 0 || (grid[current[0] - 1][current[1]] === 4)))
+                if (current[0] !== 0 && ((grid[current[0] - 1][current[1]] === 0) || (grid[current[0] - 1][current[1]] === 4)))
                 {
                     if (path[current[0] - 1][current[1]].length === 0 || path[current[0] - 1][current[1]].length > [...path[current[0]][current[1]], current])
                     {
@@ -324,7 +324,7 @@ class App extends Component {
                         dp[current[0]][current[1] + 1] = [...dp[current[0]][current[1]], current,];
                     }
                 }
-                if (current[0] !== this.state.height - 1 && (grid[current[0] + 1][current[1]] === 0) || grid[current[0] + 1][current[1]] === 4)
+                if (current[0] !== this.state.height - 1 && (((grid[current[0] + 1][current[1]] === 0) || grid[current[0] + 1][current[1]] === 4)))
                 {
                     if (dp[current[0] + 1][current[1]].length === 0 || dp[current[0] + 1][current[1]].length > [...dp[current[0]][current[1]], current])
                     {
