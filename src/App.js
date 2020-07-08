@@ -6,29 +6,29 @@ import Button from "react-bootstrap/Button"
 import PriorityQueue from "./priorityq";
 
 const D = ({ handleClose, show}) => {
-
     return (
         <>
-
-
             <Modal
                 show={show}
                 onHide={handleClose}
                 backdrop="static"
                 keyboard={false}
+                style={{
+                    opacity: "90%",
+                    backgroundColor: '#000000',
+                    color: '#fee440'
+                }}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal title</Modal.Title>
+                    <Modal.Title>Uh-Oh!!</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    I will not close if you click outside me. Don't even try to press
-                    escape key.
+                    PATH TO THE TARGET NOT FOUND!
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary">Understood</Button>
                 </Modal.Footer>
             </Modal>
         </>

@@ -7,8 +7,6 @@ import {
     Route,
     Link,
     Redirect,
-    useLocation,
-    useParams
 } from "react-router-dom";
 
 export default function Root(){
@@ -18,7 +16,8 @@ export default function Root(){
                 <Route exact path="/">
                     <Home />
                 </Route>
-                <Route path="/">
+
+                <Route path="/App">
                     <App />
                 </Route>
 
