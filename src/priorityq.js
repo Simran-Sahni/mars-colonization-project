@@ -4,8 +4,9 @@
 class QElement {
   /**
    *
-   * @param element
-   * @param priority
+   *
+   * @param {number} element
+   * @param {number} priority
    */
   constructor(element, priority) {
     this.element = element;
