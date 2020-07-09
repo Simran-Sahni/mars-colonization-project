@@ -226,7 +226,7 @@ class App extends Component {
                     }
                     if (current[1] !== 0 && grid[current[0]][current[1] - 1] !== 2) {
                         if (dist[current[0]][current[1] - 1] > dist[current[0]][current[1]] + 1) {
-                            dist[current[0]][current[1] - 1] = distcd .[current[0]][current[1]] + 1;
+                            dist[current[0]][current[1] - 1] = dist[current[0]][current[1]] + 1;
                             par[current[0]][current[1] - 1] = [current[0], current[1]];
                         }
                         list.push([current[0], current[1] - 1]);
