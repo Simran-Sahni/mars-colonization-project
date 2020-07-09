@@ -16,6 +16,11 @@ class Navbar extends React.Component {
       selectedAlgo: props.currentAlgo,
     };
   }
+
+  /**
+   *
+   * @param {event} event
+   */
   handleChange(event) {
     const algo = (event.target.getAttribute('id')).toString();
     const setString = 'Visualize  ' + algo + '!';

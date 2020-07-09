@@ -3,8 +3,6 @@
  */
 class QElement {
   /**
-   *
-   *
    * @param {number} element
    * @param {number} priority
    */
@@ -28,6 +26,10 @@ export default class PriorityQueue {
 
   // enqueue function to add element
   // to the queue as per priority
+  /**
+   * @param {number} element
+   * @param {number} priority
+   */
   enqueue(element, priority) {
     // creating object from queue element
     const qElement = new QElement(element, priority);
