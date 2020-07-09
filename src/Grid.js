@@ -152,6 +152,8 @@ Grid.propTypes = {
   start: PropTypes.array,
   end: PropTypes.array,
   pointer: PropTypes.array,
+  changeSource: PropTypes.bool,
+
 };
 
 export default Grid;

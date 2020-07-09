@@ -48,6 +48,14 @@ class Navbar extends React.Component {
               >
             </div>
             <ul className="nav navbar-nav">
+              <button onClick={this.props.toggleSource} className="btn">
+                Change Source
+              </button>
+
+              <button onClick={this.props.toggleDestination} className="btn">
+                Change Destination
+              </button>
+
               <button
                 id="visualizebtn"
                 className="btn"
@@ -134,5 +142,10 @@ Navbar.propTypes = {
   selectAlgo: PropTypes.func,
   visual: PropTypes.func,
   handle: PropTypes.func,
+  toggleSource: PropTypes.func,
+  toggleDestination: PropTypes.func,
+  changeGrid: PropTypes.func,
+
+
 };
 export default Navbar;

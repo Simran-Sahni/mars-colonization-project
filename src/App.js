@@ -46,6 +46,8 @@ class App extends Component {
         modalshow: false,
         heuristics:Array(20).fill(undefined, undefined, undefined).map(() => Array(30).fill(1000000000)),
         path: [],
+        changeSource:false,
+        changeDestination:false,
     };
     constructor() {
         super();
@@ -62,13 +64,12 @@ class App extends Component {
         this.setState({heuristics});
 
     }
-    showModal = () => {
-        this.setState({ modalshow: true });
-    };
+    changeGrid=(grid)=>this.setState(grid);
+    toggleSource=()=>this.setState({changeSource: !this.state.changeSource});
+    toggleDestination = ()=>this.setState({changeDestination: !this.state.changeDestination});
+    showModal = () => this.setState({ modalshow: true });
+    hideModal = () => this.setState({ modalshow: false });
 
-    hideModal = () => {
-        this.setState({ modalshow: false });
-    };
     randomizeMatrix = () => {
         this.clearGrid();
         const newGrid = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
@@ -107,14 +108,8 @@ class App extends Component {
             this.setState({speed: newSpeed});
     }
 
-    selectAlgo = (name) => {
-        // console.log(name);
-        this.setState({currentAlgo: name});
-        // console.log(this.state.currentAlgo);
-    }
-
+    selectAlgo = (name) => this.setState({currentAlgo: name});
     visualize = async () => {
-        // console.log(this.state.currentAlgo);
         if (this.state.currentAlgo === "dfs") {
             this.setState({path:[]});
             let stack = [this.state.start];
@@ -425,12 +420,13 @@ class App extends Component {
             <div>
                 <div>
                     <Navbar randomize={this.randomizeMatrix} clearWalls={this.clearGrid} newSpeed={this.changeSpeed}
-                            handle={this.selectAlgo} selectedAlgo={this.currentAlgo} visual={this.visualize} clearPath = {this.clearPath}/>
+                            handle={this.selectAlgo} selectedAlgo={this.currentAlgo} visual={this.visualize} clearPath = {this.clearPath}
+                            toggleSource= {this.toggleSource} toggleDestination= {this.toggleDestination}/>
                 </div>
                 <div>
                     <Grid start={this.state.start} end={this.state.end} height={this.state.height}
                           width={this.state.width} grid={this.state.grid} changeState={this.changeState}
-                          pointer={this.state.pointer}/>
+                          pointer={this.state.pointer} changeGrid = {this.changeGrid} changeSource = {this.state.changeSource} changeDestination = {this.state.changeDestination} />
                 </div>
 
                 <D show={this.state.modalshow} handleClose={this.hideModal} />
