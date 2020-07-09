@@ -1,30 +1,23 @@
-import React, { Component } from "react";
-import Modal from 'react-bootstrap/Modal'
-import App from './App'
-import Home from './components/Home'
+import React from 'react';
+import App from './App';
+import Home from './components/Home';
 import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    Redirect,
-    useLocation,
-    useParams
-} from "react-router-dom";
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from 'react-router-dom';
 
-export default function Root(){
-    return (
-        <Router>
-            <Switch>
-                <Route exact path="/">
-                    <Home />
-                </Route>
-                <Route path="/">
-                    <App />
-                </Route>
-
-            </Switch>
-        </Router>
-    );
-
+export default function Root() {
+  return (
+    <Router>
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route path="/App">
+          <App />
+        </Route>
+      </Switch>
+    </Router>
+  );
 }

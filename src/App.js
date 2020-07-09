@@ -1,26 +1,39 @@
 import React, { Component } from "react";
-import Modal from 'react-bootstrap/Modal'
 import Grid from "./Grid";
-import Navbar from "./navbar"
+import Navbar from "./Navbar"
+import Modal from  "react-bootstrap/Modal"
+import Button from "react-bootstrap/Button"
 import PriorityQueue from "./priorityq";
-
-function MyModal(props) {
+const D = ({ handleClose, show}) => {
     return (
-        <Modal
-            {...props}
-            size="lg"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-        >
-            <Modal.Header closeButton>
-                PATH TO THE TARGET NOT FOUND!
-            </Modal.Header>
-            <Modal.Footer>
-                <Modal.Button onClick={props.onHide}>Close</Modal.Button>
-            </Modal.Footer>
-        </Modal>
+        <>
+            <Modal
+                show={show}
+                onHide={handleClose}
+                backdrop="static"
+                keyboard={false}
+                style={{
+                    opacity: "90%",
+                    backgroundColor: '#000000',
+                    color: '#fee440'
+                }}
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>Uh-Oh!!</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    PATH TO THE TARGET NOT FOUND!
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </>
     );
-}
+};
+
 class App extends Component {
     state = {
         height: 20, // height of the grid
@@ -34,7 +47,6 @@ class App extends Component {
         heuristics:Array(20).fill(undefined, undefined, undefined).map(() => Array(30).fill(1000000000)),
         path: [],
     };
-
     constructor() {
         super();
         this.state.grid[this.state.start[0]][this.state.start[1]] = 3; // special point : start point
@@ -50,10 +62,13 @@ class App extends Component {
         this.setState({heuristics});
 
     }
-    setModalShow = (val) =>{
-        this.setState({modalShow: val});
-        if(val===true) setTimeout(() => this.setState({ modalShow: false }), 5000);
-    }
+    showModal = () => {
+        this.setState({ modalshow: true });
+    };
+
+    hideModal = () => {
+        this.setState({ modalshow: false });
+    };
     randomizeMatrix = () => {
         this.clearGrid();
         const newGrid = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
@@ -153,7 +168,12 @@ class App extends Component {
             }
             //console.log(path);
             if (flag === 0) this.setState({grid: grid});
-            if (this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1]) return; // return if path not found
+            if (this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1])
+            {
+                this.showModal(); // return if path not found
+                return;
+            }
+
             await this.pathdisplay(this.state.path);
 
         }
@@ -219,7 +239,11 @@ class App extends Component {
                     queue = queue.concat(list);
                 }
             }
-            if (this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1]) {this.setState({modalShow:true});return;} // return if path not found
+            if (this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1])
+            {
+                this.showModal(); // return if path not found
+                return;
+            }
             let ptr = [this.state.end[0],this.state.end[1]];
             while(true)
             {
@@ -254,6 +278,7 @@ class App extends Component {
                 this.setState({current});
                 if(grid[current[0]][current[1]] === 4)
                 {
+                    this.setState({ grid,pointer:current });
                     break;
                 }
                 if (current[1] !== this.state.width - 1 && (((grid[current[0]][current[1] + 1] === 0) || (grid[current[0]][current[1] + 1] === 4))))
@@ -288,11 +313,18 @@ class App extends Component {
                     }
                 }
                 grid[current[0]][current[1]] = 2;
-                this.setState({ grid });
+                this.setState({ grid,pointer:current });
                 await new Promise((done) => setTimeout(() => done(), 25)); //To slow down the animation
             }
 
+            if (this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1])
+            {
+                this.showModal(); // return if path not found
+                return;
+            }
+
             this.state.path = path[this.state.end[0]][this.state.end[1]];
+
             await this.pathdisplay(this.state.path);
 
 
@@ -315,6 +347,7 @@ class App extends Component {
                 this.setState({current});
                 if(grid[current[0]][current[1]] === 4)
                 {
+                    this.setState({ grid,pointer:current });
                     break;
                 }
                 if (current[1] !== this.state.width - 1 && (grid[current[0]][current[1] + 1] === 0 || grid[current[0]][current[1] + 1] === 4))
@@ -349,9 +382,14 @@ class App extends Component {
                     }
                 }
                 grid[current[0]][current[1]] = 2; // this node as visited
-                this.setState({ grid });
+                this.setState({ grid,pointer:current });
                 await new Promise((done) => setTimeout(() => done(), 25)); //To slow down the animation
 
+            }
+            if (this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1])
+            {
+                this.showModal(); // return if path not found
+                return;
             }
             this.state.path = dp[this.state.end[0]][this.state.end[1]];
             await this.pathdisplay(this.state.path);
@@ -394,10 +432,8 @@ class App extends Component {
                           width={this.state.width} grid={this.state.grid} changeState={this.changeState}
                           pointer={this.state.pointer}/>
                 </div>
-                <MyModal
-                    show={this.modalShow}
-                    onHide={() => this.setModalShow(false)}
-                />
+
+                <D show={this.state.modalshow} handleClose={this.hideModal} />
 
             </div>
         );
