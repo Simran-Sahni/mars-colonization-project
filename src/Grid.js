@@ -26,7 +26,9 @@ function Grid(props) {
   for (let i = 0; i < height; i++) {
     const rowList = [];
     for (let j = 0; j < width; j++) {
-      if (props.pointer && i === props.pointer[0] && j === props.pointer[1]) { // display the current pointer
+      if (props.pointer &&
+          i === props.pointer[0] &&
+          j === props.pointer[1]) { // display the current pointer
         rowList.push(
             <div
               key={i + j}
@@ -97,8 +99,7 @@ function Grid(props) {
             >
             </div>,
         );
-      } else if (props.grid[i][j] === 2) // this is a visited cell
-      {
+      } else if (props.grid[i][j] === 2) { // this is a visited cell
         rowList.push(
             <div
               key={i + j}

@@ -7,6 +7,9 @@ import PropTypes from 'prop-types';
  * @constructor
  */
 class Navbar extends React.Component {
+  /**
+   *@param {props} props
+   */
   constructor(props) {
     super(props);
     this.state={
@@ -16,14 +19,18 @@ class Navbar extends React.Component {
   handleChange(event) {
     const algo = (event.target.getAttribute('id')).toString();
     const setString = 'Visualize  ' + algo + '!';
-    console.log(algo); console.log(setString);
-    document.getElementById('visualizebtn').innerHTML = '<button id="visualizebtn" class="btn" type="button">'+setString+'</button>';
+    document.getElementById('visualizebtn').innerHTML =
+        // eslint-disable-next-line max-len
+        '<button id="visualizebtn" class="btn" type="button">'+ setString+'</ button>';
 
     this.props.handle(algo);
     this.setState({selectedAlgo: algo});
     console.log(this.state.selectedAlgo);
   }
-
+  /**
+   *
+   * @return {*}
+   */
   render() {
     return (
       <div>
@@ -53,19 +60,24 @@ class Navbar extends React.Component {
                                     Algorithms <span className="caret"/>
                 </button>
                 <ul className="dropdown-menu">
-                  <li id="dijkstra" onMouseDown={(event) => this.handleChange(event)}>
+                  <li id="dijkstra"
+                    onMouseDown={(event) => this.handleChange(event)}>
                                         Dijkstra Algorithm
                   </li>
-                  <li id="a-star" onMouseDown={(event) => this.handleChange(event)}>
+                  <li id="a-star"
+                    onMouseDown={(event) => this.handleChange(event)}>
                                         A* Search
                   </li>
-                  <li id="dfs" onMouseDown={(event) => this.handleChange(event)}>
+                  <li id="dfs"
+                    onMouseDown={(event) => this.handleChange(event)}>
                                         DFS
                   </li>
-                  <li id="bfs" onMouseDown={(event) => this.handleChange(event)}>
+                  <li id="bfs"
+                    onMouseDown={(event) => this.handleChange(event)}>
                                         BFS
                   </li>
-                  <li id="bestfs" onMouseDown={(event) => this.handleChange(event)}>
+                  <li id="bestfs"
+                    onMouseDown={(event) => this.handleChange(event)}>
                                         Greedy best-first search
                   </li>
                 </ul>

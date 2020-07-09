@@ -1,4 +1,12 @@
+/**
+ *
+ */
 class QElement {
+  /**
+   *
+   * @param element
+   * @param priority
+   */
   constructor(element, priority) {
     this.element = element;
     this.priority = priority;
@@ -6,7 +14,13 @@ class QElement {
 }
 
 // PriorityQueue class
+/**
+ *
+ */
 export default class PriorityQueue {
+  /**
+   *
+   */
   constructor() {
     this.items = [];
   }
@@ -34,38 +48,40 @@ export default class PriorityQueue {
       this.items.push(qElement);
     }
   }
+
+  /**
+   *
+   * @return {string|*}
+   */
   dequeue() {
     if (this.isEmpty()) {
       return 'Underflow';
     }
     return this.items.shift();
   }
+
+  /**
+   *
+   * @return {string|*}
+   */
   front() {
     if (this.isEmpty()) {
       return 'No elements in Queue';
     }
     return this.items[0];
   }
-  rear() {
-    if (this.isEmpty()) {
-      return 'No elements in Queue';
-    }
-    return this.items[this.items.length - 1];
-  }
-  // isEmpty function
+
+  /**
+   *
+   * @return {string|*}
+   */
+
+  /**
+   *
+   * @return {boolean}
+   */
   isEmpty() {
     // return true if the queue is empty.
     return this.items.length === 0;
-  }
-  // printQueue function
-  // prints all the element of the queue
-  printPQueue() {
-    let str = '';
-
-    for (let i = 0; i < this.items.length; i++) {
-      str += `[ ${this.items[i].element[0]},${this.items[i].element[1]}]`;
-    }
-    console.log(str);
-    return str;
   }
 }
