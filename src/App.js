@@ -1,26 +1,39 @@
 import React, { Component } from "react";
-import Modal from 'react-bootstrap/Modal'
 import Grid from "./Grid";
-import Navbar from "./navbar"
+import Navbar from "./Navbar"
+import Modal from  "react-bootstrap/Modal"
+import Button from "react-bootstrap/Button"
 import PriorityQueue from "./priorityq";
-
-function MyModal(props) {
+const D = ({ handleClose, show}) => {
     return (
-        <Modal
-            {...props}
-            size="lg"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-        >
-            <Modal.Header closeButton>
-                PATH TO THE TARGET NOT FOUND!
-            </Modal.Header>
-            <Modal.Footer>
-                <Modal.Button onClick={props.onHide}>Close</Modal.Button>
-            </Modal.Footer>
-        </Modal>
+        <>
+            <Modal
+                show={show}
+                onHide={handleClose}
+                backdrop="static"
+                keyboard={false}
+                style={{
+                    opacity: "90%",
+                    backgroundColor: '#000000',
+                    color: '#fee440'
+                }}
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>Uh-Oh!!</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    PATH TO THE TARGET NOT FOUND!
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </>
     );
-}
+};
+
 class App extends Component {
     state = {
         height: 20, // height of the grid
@@ -33,8 +46,9 @@ class App extends Component {
         modalshow: false,
         heuristics:Array(20).fill(undefined, undefined, undefined).map(() => Array(30).fill(1000000000)),
         path: [],
+        changeSource:false,
+        changeDestination:false,
     };
-
     constructor() {
         super();
         this.state.grid[this.state.start[0]][this.state.start[1]] = 3; // special point : start point
@@ -50,10 +64,12 @@ class App extends Component {
         this.setState({heuristics});
 
     }
-    setModalShow = (val) =>{
-        this.setState({modalShow: val});
-        if(val===true) setTimeout(() => this.setState({ modalShow: false }), 5000);
-    }
+    changeGrid=(grid)=>this.setState(grid);
+    toggleSource=()=>this.setState({changeSource: !this.state.changeSource});
+    toggleDestination = ()=>this.setState({changeDestination: !this.state.changeDestination});
+    showModal = () => this.setState({ modalshow: true });
+    hideModal = () => this.setState({ modalshow: false });
+
     randomizeMatrix = () => {
         this.clearGrid();
         const newGrid = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
@@ -87,19 +103,12 @@ class App extends Component {
         this.setState({grid: grid});
     }
     changeSpeed = (newSpeed) => {
-        // console.log(newSpeed);
         if (this.state.speed !== newSpeed)
             this.setState({speed: newSpeed});
     }
 
-    selectAlgo = (name) => {
-        // console.log(name);
-        this.setState({currentAlgo: name});
-        // console.log(this.state.currentAlgo);
-    }
-
+    selectAlgo = (name) => this.setState({currentAlgo: name});
     visualize = async () => {
-        // console.log(this.state.currentAlgo);
         if (this.state.currentAlgo === "dfs") {
             this.setState({path:[]});
             let stack = [this.state.start];
@@ -133,7 +142,6 @@ class App extends Component {
                 if (grid[current[0]][current[1]] === 4) {
                     this.setState({grid: grid, pointer: current});
                     await new Promise((done) => setTimeout(() => done(), this.state.speed));//To slow down the speed of Animation
-                    //console.log('LOOP BREAK');
                     break;
                 } else {
                     let list = [];  //temporary array to store next points
@@ -145,15 +153,18 @@ class App extends Component {
                     if (grid[current[0]][current[1]] !== 3) {
                         this.state.grid[current[0]][current[1]] = 2; // mark it as visited
                     }
-                    //console.log(list);
                     stack = stack.concat(list);
                 }
                 this.setState({grid: grid, pointer: current});
                 await new Promise((done) => setTimeout(() => done(), this.state.speed));//To slow down the speed of Animation
             }
-            //console.log(path);
             if (flag === 0) this.setState({grid: grid});
-            if (this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1]) return; // return if path not found
+            if (this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1])
+            {
+                this.showModal(); // return if path not found
+                return;
+            }
+
             await this.pathdisplay(this.state.path);
 
         }
@@ -219,7 +230,11 @@ class App extends Component {
                     queue = queue.concat(list);
                 }
             }
-            if (this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1]) {this.setState({modalShow:true});return;} // return if path not found
+            if (this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1])
+            {
+                this.showModal(); // return if path not found
+                return;
+            }
             let ptr = [this.state.end[0],this.state.end[1]];
             while(true)
             {
@@ -254,16 +269,17 @@ class App extends Component {
                 this.setState({current});
                 if(grid[current[0]][current[1]] === 4)
                 {
+                    this.setState({ grid,pointer:current });
                     break;
                 }
-                if (current[1] !== this.state.width - 1 && (((grid[current[0]][current[1] + 1] === 0) || (grid[current[0]][current[1] + 1] === 4))))
+                if (current[1] !== this.state.width - 1 && (grid[current[0]][current[1] + 1] === 0 || grid[current[0]][current[1] + 1] === 4))
                 {
                     if (path[current[0]][current[1] + 1].length === 0 || path[current[0]][current[1] + 1].length > [...path[current[0]][current[1]], current].length) {
                         pq.enqueue([current[0], current[1] + 1], this.state.heuristics[current[0]][current[1] + 1]);
                         path[current[0]][current[1] + 1] = [...path[current[0]][current[1]], current,];
                     }
                 }
-                if (current[0] !== this.state.height - 1 && ((grid[current[0] + 1][current[1]] === 0) || (grid[current[0] + 1][current[1]] === 4)))
+                if (current[0] !== this.state.height - 1 && (grid[current[0] + 1][current[1]] === 0) || grid[current[0] + 1][current[1]] === 4)
                 {
                     if (path[current[0] + 1][current[1]].length === 0 || path[current[0] + 1][current[1]].length > [...path[current[0]][current[1]], current])
                     {
@@ -271,7 +287,7 @@ class App extends Component {
                         path[current[0] + 1][current[1]] = [...path[current[0]][current[1]], current,];
                     }
                 }
-                if (current[0] !== 0 && ((grid[current[0] - 1][current[1]] === 0) || (grid[current[0] - 1][current[1]] === 4)))
+                if (current[0] !== 0 && (grid[current[0] - 1][current[1]] === 0 || (grid[current[0] - 1][current[1]] === 4)))
                 {
                     if (path[current[0] - 1][current[1]].length === 0 || path[current[0] - 1][current[1]].length > [...path[current[0]][current[1]], current])
                     {
@@ -288,11 +304,18 @@ class App extends Component {
                     }
                 }
                 grid[current[0]][current[1]] = 2;
-                this.setState({ grid });
+                this.setState({ grid,pointer:current });
                 await new Promise((done) => setTimeout(() => done(), 25)); //To slow down the animation
             }
 
+            if (this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1])
+            {
+                this.showModal(); // return if path not found
+                return;
+            }
+
             this.state.path = path[this.state.end[0]][this.state.end[1]];
+
             await this.pathdisplay(this.state.path);
 
 
@@ -315,6 +338,7 @@ class App extends Component {
                 this.setState({current});
                 if(grid[current[0]][current[1]] === 4)
                 {
+                    this.setState({ grid,pointer:current });
                     break;
                 }
                 if (current[1] !== this.state.width - 1 && (grid[current[0]][current[1] + 1] === 0 || grid[current[0]][current[1] + 1] === 4))
@@ -324,7 +348,7 @@ class App extends Component {
                         dp[current[0]][current[1] + 1] = [...dp[current[0]][current[1]], current,];
                     }
                 }
-                if (current[0] !== this.state.height - 1 && (((grid[current[0] + 1][current[1]] === 0) || grid[current[0] + 1][current[1]] === 4)))
+                if (current[0] !== this.state.height - 1 && (grid[current[0] + 1][current[1]] === 0) || grid[current[0] + 1][current[1]] === 4)
                 {
                     if (dp[current[0] + 1][current[1]].length === 0 || dp[current[0] + 1][current[1]].length > [...dp[current[0]][current[1]], current])
                     {
@@ -349,9 +373,14 @@ class App extends Component {
                     }
                 }
                 grid[current[0]][current[1]] = 2; // this node as visited
-                this.setState({ grid });
+                this.setState({ grid,pointer:current });
                 await new Promise((done) => setTimeout(() => done(), 25)); //To slow down the animation
 
+            }
+            if (this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1])
+            {
+                this.showModal(); // return if path not found
+                return;
             }
             this.state.path = dp[this.state.end[0]][this.state.end[1]];
             await this.pathdisplay(this.state.path);
@@ -387,17 +416,16 @@ class App extends Component {
             <div>
                 <div>
                     <Navbar randomize={this.randomizeMatrix} clearWalls={this.clearGrid} newSpeed={this.changeSpeed}
-                            handle={this.selectAlgo} selectedAlgo={this.currentAlgo} visual={this.visualize} clearPath = {this.clearPath}/>
+                            handle={this.selectAlgo} selectedAlgo={this.currentAlgo} visual={this.visualize} clearPath = {this.clearPath}
+                            toggleSource= {this.toggleSource} toggleDestination= {this.toggleDestination}/>
                 </div>
                 <div>
                     <Grid start={this.state.start} end={this.state.end} height={this.state.height}
                           width={this.state.width} grid={this.state.grid} changeState={this.changeState}
-                          pointer={this.state.pointer}/>
+                          pointer={this.state.pointer} changeGrid = {this.changeGrid} changeSource = {this.state.changeSource} changeDestination = {this.state.changeDestination} />
                 </div>
-                <MyModal
-                    show={this.modalShow}
-                    onHide={() => this.setModalShow(false)}
-                />
+
+                <D show={this.state.modalshow} handleClose={this.hideModal} />
 
             </div>
         );
