@@ -16,10 +16,10 @@ export default function Root() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/">
+        <Route exact path="/mars-colonization-project">
           <Home />
         </Route>
-        <Route path="/App">
+        <Route path="/mars-colonization-project/App">
           <App />
         </Route>
       </Switch>

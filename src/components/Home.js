@@ -113,7 +113,7 @@ class Home extends Component {
     }
     onSubmit(option) {
         if (option === this.state.answer) {
-            this.setState({redirect: '/App'});
+            this.setState({redirect: '/mars-colonization-project/App'});
         } else {
             alert('Wrong Option Chosen');
         }
@@ -128,7 +128,7 @@ class Home extends Component {
 
     render() {
         if (this.state.redirect !== null) {
-            return <Redirect to='/App'/>;
+            return <Redirect to='/mars-colonization-project/App'/>;
         }
         return (
 
