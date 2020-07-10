@@ -103,8 +103,9 @@ class App extends Component {
         this.setState({grid: grid});
     }
     changeSpeed = (newSpeed) => {
-        if (this.state.speed !== newSpeed)
+        if (this.state.speed !== newSpeed){
             this.setState({speed: newSpeed});
+        }
     }
 
     selectAlgo = (name) => this.setState({currentAlgo: name});
@@ -120,20 +121,21 @@ class App extends Component {
             while (stack.length !== 0) {
                 const current = stack[stack.length - 1];
                 stack.pop();
-                if (current[0] < 0 || current[0] >= this.state.height)
+                if (current[0] < 0 || current[0] >= this.state.height){
                     continue;
-                if (current[1] < 0 || current[1] >= this.state.width)
+                }
+                if (current[1] < 0 || current[1] >= this.state.width) {
                     continue;
-                if (this.state.grid[current[0]][current[1]] === 2 || this.state.grid[current[0]][current[1]] === 1)
+                }
+                if (this.state.grid[current[0]][current[1]] === 2 || this.state.grid[current[0]][current[1]] === 1) {
                     continue; // already visited or wall
+                }
                 if(this.state.grid[current[0]][current[1]] === 3)
                 {
-                    if(ok)
-                    {
+                    if(ok) {
                         ok = false;
                     }
-                    else
-                    {
+                    else {
                         continue;
                     }
                 }
