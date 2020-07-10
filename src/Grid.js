@@ -153,7 +153,6 @@ Grid.propTypes = {
   end: PropTypes.array,
   pointer: PropTypes.array,
   changeSource: PropTypes.bool,
-
 };
 
 export default Grid;
