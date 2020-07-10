@@ -19,7 +19,7 @@ export default function Root() {
         <Route exact path="/mars-colonization-project">
           <Home />
         </Route>
-        <Route path="/mars-colonization-project/App">
+        <Route path="/">
           <App />
         </Route>
       </Switch>
