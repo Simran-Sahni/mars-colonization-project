@@ -365,6 +365,7 @@ class App extends Component {
 
         if(this.state.currentAlgo === "a-star")
         {
+
             this.computeHeuristics();
             this.setState({path:[],pointer:this.state.start});
             let pq = new PriorityQueue();
@@ -429,9 +430,122 @@ class App extends Component {
             await this.pathdisplay(this.state.path);
         }
         if (this.state.currentAlgo === "tsp") {
-            this.state.graph = new Graph();
+            this.state.graph = new Graph(this.state.grid);
+            let unvisited = new Set();
+            unvisited.add(this.state.end);
+            unvisited.add(this.state.end2);
+            unvisited.add(this.state.end3);
+             let now = this.state.start;
+             let totalpath = [];
+             while(unvisited.size)
+             {
+                 let togo = this.findOptimalVertex(unvisited,now);
+                 unvisited.delete(togo);
+                 let newpath = await this.aStar(now, togo);
+                 totalpath = totalpath.concat(newpath);
+                 now = togo;
+             }
+            await this.pathdisplay(totalpath);
         }
 
+        }
+
+
+
+    aStar = async (start,end) => {
+        let heuristics = this.state.heuristics;
+        for(let i = 0; i < this.state.height; i++)
+        {
+            for(let j = 0; j < this.state.width; j++)
+            {
+                heuristics[i][j] = Math.abs(end[0]-i) + Math.abs(end[1]-j);
+            }
+        }
+        this.setState({heuristics});
+
+
+            this.setState({path:[],pointer:start});
+            let pq = new PriorityQueue();
+            pq.enqueue(start,this.state.heuristics[start[0]][start[1]]);
+            let dp = Array(30)
+                .fill()
+                .map(() => Array(40).fill([]));
+            while(!pq.isEmpty())
+        {
+
+            let grid = this.state.grid;
+            let current = pq.front().element;
+            pq.dequeue();
+            this.setState({current});
+            if(grid[current[0]][current[1]] === 4)
+        {
+            this.setState({ grid,pointer:current });
+            break;
+        }
+        if (current[1] !== this.state.width - 1 && (grid[current[0]][current[1] + 1] === 0 || grid[current[0]][current[1] + 1] === 4))
+        {
+            if (dp[current[0]][current[1] + 1].length === 0 || dp[current[0]][current[1] + 1].length > [...dp[current[0]][current[1]], current].length) {
+                pq.enqueue([current[0], current[1] + 1], dp[current[0]][current[1]].length+this.state.heuristics[current[0]][current[1] + 1]);
+                dp[current[0]][current[1] + 1] = [...dp[current[0]][current[1]], current,];
+            }
+        }
+        if (current[0] !== this.state.height - 1 && ((grid[current[0] + 1][current[1]] === 0) || grid[current[0] + 1][current[1]] === 4))
+        {
+            if (dp[current[0] + 1][current[1]].length === 0 || dp[current[0] + 1][current[1]].length > [...dp[current[0]][current[1]], current])
+            {
+                pq.enqueue([current[0] + 1, current[1]], dp[current[0]][current[1]].length+this.state.heuristics[current[0] + 1][current[1]]);
+                dp[current[0] + 1][current[1]] = [...dp[current[0]][current[1]], current,];
+            }
+        }
+        if (current[0] !== 0 && (grid[current[0] - 1][current[1]] === 0 || (grid[current[0] - 1][current[1]] === 4)))
+        {
+            if (dp[current[0] - 1][current[1]].length === 0 || dp[current[0] - 1][current[1]].length > [...dp[current[0]][current[1]], current])
+            {
+                pq.enqueue([current[0] - 1, current[1]], dp[current[0]][current[1]].length+this.state.heuristics[current[0] - 1][current[1]]);
+                dp[current[0] - 1][current[1]] = [...dp[current[0]][current[1]], current,];
+            }
+        }
+        if (current[1] !== 0 && (grid[current[0]][current[1] - 1] === 0 || (grid[current[0]][current[1]-1] === 4)))
+        {
+            if (dp[current[0]][current[1] - 1].length === 0 || dp[current[0]][current[1] - 1].length > [...dp[current[0]][current[1]], current].length)
+            {
+                pq.enqueue([current[0], current[1] - 1], dp[current[0]][current[1]].length+this.state.heuristics[current[0]][current[1] - 1]);
+                dp[current[0]][current[1] - 1] = [...dp[current[0]][current[1]],current,];
+            }
+        }
+        grid[current[0]][current[1]] = 2; // this node as visited
+        this.setState({ grid,pointer:current });
+        await new Promise((done) => setTimeout(() => done(), 25)); //To slow down the animation
+
+        }
+
+        let grid = this.state.grid;
+            for(let i = 0; i < this.state.height; i++){
+                for(let j = 0; j < this.state.width; j++){
+                    if(grid[i][j] ===2){
+                        grid[i][j] = 0;
+                    }
+                }
+            }
+            grid[start[0]][start[1]] = 0;
+             grid[end[0]][end[1]] = 3;
+            await this.setState({grid});
+      //  this.state.path = dp[end[0]][end[1]];
+        return dp[end[0]][end[1]];
+    }
+
+    findOptimalVertex = (unvisited,source) =>{
+        let pq = new PriorityQueue();
+        let sourceMapped = this.state.graph.map2[source];
+       // console.log(source,sourceMapped);
+        for (let item of unvisited){
+
+             let destinationMapped = this.state.graph.map2[item];
+          //  console.log(item,destinationMapped);
+            pq.enqueue(item,this.state.graph.allPairShortest[sourceMapped][destinationMapped]);
+        }
+       // console.log(pq);
+        return pq.front().element;
     }
     pathdisplay = async (path) => {
         let grid = this.state.grid;

@@ -5,15 +5,15 @@ import PropTypes from 'prop-types';
 class Graph {
   /**
    *
-   * @param props
+   * @param {array} grid
    */
   constructor(grid) {
     this.adjacencyList = {};
-    this.allPairShortest = Array(20).fill(undefined, undefined, undefined).map(() => Array(20).fill(1000000000));
+    this.allPairShortest = Array(400).fill(undefined, undefined, undefined).map(() => Array(400).fill(1000000000));
     this.grid = grid;
     this.map1 = new Map();
     this.map2 = new Map();
-    for (let i = 0; i <= 400; i++) {
+    for (let i = 0; i < 400; i++) {
       this.addVertex(i);
     }
     let counter = 0;
@@ -24,6 +24,8 @@ class Graph {
         counter++;
       }
     }
+    console.log(this.map1);
+    console.log(this.map2);
     this.constructGraph();
     this.floydWarshall();
   }
@@ -69,7 +71,12 @@ class Graph {
           for (const direction of directions) {
             const neighbor = [i + direction[0], j + direction[1]];
             if (this.isNotWall(neighbor[0], neighbor[1])) {
-              this.addEdge(this.map2[[i, j]], this.map2[neighbor[0]]);
+              const x = this.map2[[i, j]];
+              const y = this.map2[[neighbor[0], neighbor[1]]];
+              //  console.log(i, j, neighbor[0], neighbor[1], x, y);
+              this.addEdge(x, y);
+              this.allPairShortest[x][y] = 1;
+              this.allPairShortest[y][x] = 1;
             }
           }
         }
@@ -81,10 +88,11 @@ class Graph {
    *Floyd Warshal Algo to store distances betwenn all pairs of vertices
    */
   floydWarshall() {
-    for (let k = 0; k < 20; k++) {
-      for (let i = 0; i < 20; i++) {
-        for (let j = 0; j < 20; j++) {
+    for (let k = 0; k < 400; k++) {
+      for (let i = 0; i < 400; i++) {
+        for (let j = 0; j < 400; j++) {
           this.allPairShortest[i][j] = Math.min(this.allPairShortest[i][j], this.allPairShortest[i][k] + this.allPairShortest[k][j]);
+          this.allPairShortest[j][i] = this.allPairShortest[i][j];
         }
       }
     }
