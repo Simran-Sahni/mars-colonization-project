@@ -30,6 +30,10 @@ class Navbar extends React.Component {
 
     this.props.handle(algo);
     this.setState({selectedAlgo: algo});
+
+
+    console.log(this.state.selectedAlgo);
+
   }
   /**
    *
@@ -47,11 +51,18 @@ class Navbar extends React.Component {
               >
             </div>
             <ul className="nav navbar-nav">
-              <button onClick={this.props.toggleSource} className="btn">
+              <button onClick={this.props.toggleSource} className="btn"
+              style={{
+                backgroundColor:"#00ee00"
+              }}>
                 Change Source
               </button>
 
-              <button onClick={this.props.toggleDestination} className="btn">
+              <button onClick={this.props.toggleDestination} className="btn"
+                      style={{
+                        backgroundColor:"#ee0000"
+                      }}
+              >
                 Change Destination
               </button>
 

@@ -7,6 +7,7 @@ import {
   Route,
 } from 'react-router-dom';
 
+
 /**
  *
  * @return {*}
@@ -16,10 +17,11 @@ export default function Root() {
   return (
     <Router>
       <Switch>
+
         <Route exact path="/mars-colonization-project">
           <Home />
         </Route>
-        <Route path="/">
+        <Route path="/mars-colonization-project/App">
           <App />
         </Route>
       </Switch>

@@ -1,9 +1,109 @@
 import React, {Component} from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import Carousel from 'react-bootstrap/Carousel';
 import {Redirect} from 'react-router-dom';
-import './Home.css';
 import Background from './LANDING.png';
+
+
+function Child(){
+    return(
+    <Carousel
+        interval = {2000}
+        touch = {false}
+        style={{
+            width:"30%",
+            height:"20%",
+            textAlign:"center",
+            position:"fixed center",
+            marginLeft:"40%",
+            marginTop:"17.5%",
+        }}>
+        <Carousel.Item>
+            <img
+                className="d-block w-100"
+                src={require("../media/mars1.jpg")}
+                alt="First slide"
+                style={{
+                    width:"auto",
+                    height:"auto",
+                    maxWidth:"100%",
+                    maxHeight:"100%",
+                    overflow:"hidden",
+                }}
+
+            />
+
+        </Carousel.Item>
+        <Carousel.Item>
+            <img
+                className="d-block w-100"
+                src={require("../media/mars2.jpg")}
+                alt="Second slide"
+                style={{
+                    width:"auto",
+                    height:"auto",
+                    maxWidth:"100%",
+                    maxHeight:"100%",
+                    overflow:"hidden",
+                }}
+            />
+
+
+        </Carousel.Item>
+        <Carousel.Item>
+            <img
+                className="d-block w-100"
+                src={require("../media/mars3.jpg")}
+                alt="Third slide"
+                style={{
+                    width:"auto",
+                    height:"auto",
+                    maxWidth:"100%",
+                    maxHeight:"100%",
+                    overflow:"hidden",
+
+                }}
+
+            />
+        </Carousel.Item>
+        <Carousel.Item>
+            <img
+                className="d-block w-100"
+                src={require("../media/mars4.jpg")}
+                alt="Third slide"
+                style={{
+                    width:"auto",
+                    height:"auto",
+                    maxWidth:"100%",
+                    maxHeight:"100%",
+                    overflow:"hidden",
+
+                }}
+
+            />
+        </Carousel.Item>
+        <Carousel.Item>
+            <img
+                className="d-block w-100"
+                src={require("../media/mars5.jpg")}
+                alt="Third slide"
+                style={{
+                    width:"auto",
+                    height:"auto",
+                    maxWidth:"100%",
+                    maxHeight:"100%",
+                    overflow:"hidden",
+
+                }}
+
+            />
+        </Carousel.Item>
+
+
+    </Carousel>
+    );
+}
 
 class Welcome extends React.Component {
     constructor(props) {
@@ -30,7 +130,7 @@ class Welcome extends React.Component {
                     backdrop="static"
                     keyboard={false}
                     style={{
-                        opacity: 0.95,
+                        backgroundColor:"#3423ae 80%",
                     }}
 
                 >
@@ -44,6 +144,7 @@ class Welcome extends React.Component {
                         backgroundColor: '#89daff',
                         opacity: '100%',
                     }}>
+                        <div><i>Answer this to move ahead!</i></div>
                         <div>{this.props.question}</div>
                         <div>
                             <label>
@@ -105,7 +206,8 @@ class Home extends Component {
             let res = httpGet('https://opentdb.com/api.php?amount=1&category=18&type=boolean');
             res = JSON.parse(res);
             res = res['results'][0];
-            console.log(res);
+            res['question'] = res['question'].replace(/&quot;/gi,"\"");
+            res['question'] = res['question'].replace(/&#034;/gi,"/'");
             this.setState({question: res['question'], answer: res['correct_answer']});
         } catch (e) {
             console.log(e);
@@ -113,7 +215,9 @@ class Home extends Component {
     }
     onSubmit(option) {
         if (option === this.state.answer) {
+
             this.setState({redirect: '/mars-colonization-project/App'});
+            this.setState({redirect: '/App'});
         } else {
             alert('Wrong Option Chosen');
         }
@@ -129,17 +233,24 @@ class Home extends Component {
     render() {
         if (this.state.redirect !== null) {
             return <Redirect to='/mars-colonization-project/App'/>;
+
         }
         return (
 
             <div id = "home" style={{background: 'url(' + {Background} + ')', width: '100%', height: '100%', backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}}>
-                <Button variant="primary" onClick={this.handleShow} style={{
+
+                <Child />
+
+                <Button variant="primary" size="lg" onClick={this.handleShow} style={{
                     backgroundColor: '#b8f2e6',
                     color: '#242423',
                     position: 'relative',
-                    margin: '25%',
+                    marginLeft:'60%',
+                    marginRight:"10%",
+                    float:"right"
+
                 }}>
-                    LAUNCH TO MARS
+                    <strong>LAUNCH TO MARS</strong>
                 </Button>
                 <Welcome question = {this.state.question} answer = {this.state.answer} handleClose={this.handleClose} show={this.state.show} handleShow={this.handleShow} onSubmit={this.onSubmit.bind(this)}/>
             </div>

@@ -4,6 +4,7 @@ import Navbar from "./Navbar"
 import Modal from  "react-bootstrap/Modal"
 import Button from "react-bootstrap/Button"
 import PriorityQueue from "./priorityq";
+import Flloyd from "./Flloyd";
 const D = ({ handleClose, show}) => {
     return (
         <>
@@ -40,12 +41,15 @@ class App extends Component {
         width: 20, // width of the grid
         start: [10, 2], // start position
         end: [10, 15], // end position
-        grid: Array(20).fill(undefined, undefined, undefined).map(() => Array(30).fill(0)),
+        grid: Array(20).fill(undefined, undefined, undefined).map(() => Array(20).fill(0)),
         speed: 50, // speed for animation
         pointer: null, // store the pointer for visualization
         modalshow: false,
         heuristics:Array(20).fill(undefined, undefined, undefined).map(() => Array(30).fill(1000000000)),
         path: [],
+        map:[],  //map from index 0 to 399 => grid value
+        SPD:Array(20).fill(undefined, undefined, undefined).map(() => Array(20).fill(0)), //shortest distance between all pairs matrix
+        graph:Array(20).fill(undefined, undefined, undefined).map(() => Array(20).fill(0)),
         changeSource:false,
         changeDestination:false,
     };
@@ -69,6 +73,7 @@ class App extends Component {
     toggleDestination = ()=>this.setState({changeDestination: !this.state.changeDestination});
     showModal = () => this.setState({ modalshow: true });
     hideModal = () => this.setState({ modalshow: false });
+
 
     randomizeMatrix = () => {
         this.clearGrid();
@@ -426,7 +431,7 @@ class App extends Component {
                           width={this.state.width} grid={this.state.grid} changeState={this.changeState}
                           pointer={this.state.pointer} changeGrid = {this.changeGrid} changeSource = {this.state.changeSource} changeDestination = {this.state.changeDestination} />
                 </div>
-
+                <Flloyd  {...this.state}/>
                 <D show={this.state.modalshow} handleClose={this.hideModal} />
 
             </div>
