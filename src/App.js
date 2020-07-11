@@ -4,7 +4,8 @@ import Navbar from "./Navbar"
 import Modal from  "react-bootstrap/Modal"
 import Button from "react-bootstrap/Button"
 import PriorityQueue from "./priorityq";
-import Flloyd from "./Flloyd";
+
+import Graph from "./Algo/Graph"
 const D = ({ handleClose, show}) => {
     return (
         <>
@@ -49,7 +50,7 @@ class App extends Component {
         path: [],
         map:[],  //map from index 0 to 399 => grid value
         SPD:Array(20).fill(undefined, undefined, undefined).map(() => Array(20).fill(0)), //shortest distance between all pairs matrix
-        graph:Array(20).fill(undefined, undefined, undefined).map(() => Array(20).fill(0)),
+        graph:null,
         changeSource:false,
         changeDestination:false,
     };
@@ -68,6 +69,7 @@ class App extends Component {
         this.setState({heuristics});
 
     }
+
     changeGrid=(grid)=>this.setState(grid);
     toggleSource=()=>this.setState({changeSource: !this.state.changeSource});
     toggleDestination = ()=>this.setState({changeDestination: !this.state.changeDestination});
@@ -444,7 +446,7 @@ class App extends Component {
                           width={this.state.width} grid={this.state.grid} changeState={this.changeState} changesourcefunc={this.changedSource} changedestfunc = {this.changedDestination}
                           pointer={this.state.pointer} changeGrid = {this.changeGrid} changeSource = {this.state.changeSource} changeDestination = {this.state.changeDestination} />
                 </div>
-                <Flloyd  {...this.state}/>
+
                 <D show={this.state.modalshow} handleClose={this.hideModal} />
 
             </div>
