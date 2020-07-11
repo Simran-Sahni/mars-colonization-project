@@ -43,7 +43,7 @@ class App extends Component {
         end: [10, 15], // end position
         grid: Array(20).fill(undefined, undefined, undefined).map(() => Array(20).fill(0)),
         speed: 50, // speed for animation
-        pointer: null, // store the pointer for visualization
+        pointer: [], // store the pointer for visualization
         modalshow: false,
         heuristics:Array(20).fill(undefined, undefined, undefined).map(() => Array(30).fill(1000000000)),
         path: [],
@@ -138,7 +138,13 @@ class App extends Component {
 
     selectAlgo = (name) => this.setState({currentAlgo: name});
     visualize = async () => {
-
+        let pointer = this.state.pointer;
+        pointer[0] = this.state.start[0];
+        pointer[1] = this.state.start[1];
+        this.setState({pointer});
+        if(this.state.start[0] === this.state.end[0] && this.state.start[1] === this.state.end[1]){
+            return;
+        }
         if (this.state.currentAlgo === "dfs") {
             this.setState({path:[]});
             let stack = [this.state.start];
@@ -201,7 +207,7 @@ class App extends Component {
         }
 
         if (this.state.currentAlgo === "dijkstra" || this.state.currentAlgo === "bfs") {
-            this.setState({path:[]});
+            this.setState({path:[],pointer:this.state.start});
             let queue = [this.state.start];
             let grid = this.state.grid;
             let dist = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(1000000000));
@@ -286,7 +292,7 @@ class App extends Component {
         if(this.state.currentAlgo === "bestfs")
         {
             this.computeHeuristics();
-            this.setState({path:[]});
+            this.setState({path:[],pointer:this.state.start});
             let pq = new PriorityQueue();
             pq.enqueue(this.state.start,this.state.heuristics[this.state.start[0]][this.state.start[1]]);
             let path = Array(30)
@@ -356,7 +362,7 @@ class App extends Component {
         if(this.state.currentAlgo === "a-star")
         {
             this.computeHeuristics();
-            this.setState({path:[]});
+            this.setState({path:[],pointer:this.state.start});
             let pq = new PriorityQueue();
             pq.enqueue(this.state.start,this.state.heuristics[this.state.start[0]][this.state.start[1]]);
             let dp = Array(30)
