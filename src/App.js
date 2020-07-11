@@ -4,7 +4,6 @@ import Navbar from "./Navbar"
 import Modal from  "react-bootstrap/Modal"
 import Button from "react-bootstrap/Button"
 import PriorityQueue from "./priorityq";
-import Flloyd from "./Flloyd";
 import Graph from "./Algo/Graph"
 const D = ({ handleClose, show}) => {
     return (
@@ -458,7 +457,6 @@ class App extends Component {
                           width={this.state.width} grid={this.state.grid} changeState={this.changeState} changesourcefunc={this.changedSource} changedestfunc = {this.changedDestination}
                           pointer={this.state.pointer} changeGrid = {this.changeGrid} changeSource = {this.state.changeSource} changeDestination = {this.state.changeDestination} />
                 </div>
-                <Flloyd  {...this.state}/>
                 <D show={this.state.modalshow} handleClose={this.hideModal} />
 
             </div>
