@@ -72,16 +72,24 @@ class App extends Component {
     toggleSource=()=>this.setState({changeSource: !this.state.changeSource});
     toggleDestination = ()=>this.setState({changeDestination: !this.state.changeDestination});
     changedSource=(i,j)=> {
+        let grid = this.state.grid;
+        grid[this.state.start[0]][this.state.start[1]] = 0;
+        grid[i][j] = 3; // special point : end point
         this.setState({
             changeSource: !this.state.changeSource,
-            start: [i, j]
+            start: [i, j],
         });
     }
     changedDestination = (i,j)=> {
+        let grid = this.state.grid;
+        grid[this.state.end[0]][this.state.end[1]] = 0;
+        grid[i][j] = 4; // special point : end point
         this.setState({
             changeDestination: !this.state.changeDestination,
-            end: [i, j]
+            end: [i, j],
+            grid,
         });
+        this.setState({grid});
     }
 
     showModal = () => this.setState({ modalshow: true });
