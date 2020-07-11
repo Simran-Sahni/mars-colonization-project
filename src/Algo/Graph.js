@@ -1,17 +1,16 @@
 import PropTypes from 'prop-types';
-import Navbar from '../Navbar';
 /**
  *
  */
 class Graph {
   /**
-     *
-     * @param props
-     */
-  constructor(props) {
+   *
+   * @param props
+   */
+  constructor(grid) {
     this.adjacencyList = {};
-    this.allPairShortest = [];
-    const grid = props.grid;
+    this.allPairShortest = Array(20).fill(undefined, undefined, undefined).map(() => Array(20).fill(1000000000));
+    this.grid = grid;
     this.map1 = new Map();
     this.map2 = new Map();
     for (let i = 0; i <= 400; i++) {
@@ -23,10 +22,9 @@ class Graph {
         this.map1[counter] = [[i, j]];
         this.map2[[i, j]] = counter;
         counter++;
-        this.allPairShortest[i][j] = 1000000000;
       }
     }
-    this.constructGraph(grid);
+    this.constructGraph();
     this.floydWarshall();
   }
 
@@ -47,13 +45,30 @@ class Graph {
     this.adjacencyList[destination].push(source);
   }
 
-  constructGraph(grid) {
+  /**
+   *
+   * @param {number} i
+   * @param {number} j
+   * @return {boolean}
+   */
+  isNotWall(i, j) {
+    if (i < 0 || i >= 20 || j < 0 || j >= 20 ) {
+      return false;
+    } else {
+      return this.grid[i][j] !== 1;
+    }
+  }
+
+  /**
+   *
+   */
+  constructGraph() {
     for (let i = 0; i < 20; i++) {
       for (let j = 0; j < 20; j++) {
-        if (isNotWall(i, j, grid)) {
+        if (this.isNotWall(i, j)) {
           for (const direction of directions) {
             const neighbor = [i + direction[0], j + direction[1]];
-            if (isNotWall(neighbor[0], neighbor[1], grid)) {
+            if (this.isNotWall(neighbor[0], neighbor[1])) {
               this.addEdge(this.map2[[i, j]], this.map2[neighbor[0]]);
             }
           }
@@ -63,8 +78,8 @@ class Graph {
   }
 
   /**
-     *Floyd Warshal Algo to store distances betwenn all pairs of vertices
-     */
+   *Floyd Warshal Algo to store distances betwenn all pairs of vertices
+   */
   floydWarshall() {
     for (let k = 0; k < 20; k++) {
       for (let i = 0; i < 20; i++) {
@@ -83,20 +98,3 @@ export default Graph;
 
 
 const directions = [[0, 1], [1, 0], [0, -1], [-1, 0]];
-
-/**
- *
- * @param {number }i
- * @param {number }j
- * @param {array }grid
- * @return {boolean}
- */
-function isNotWall(i, j, grid) {
-  if (i < 0 || i >= 20 || j < 0 || j >= 20 ) {
-    return false;
-  } else {
-    return grid[i][j] !== 1;
-  }
-}
-
-

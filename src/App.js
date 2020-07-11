@@ -429,7 +429,7 @@ class App extends Component {
             await this.pathdisplay(this.state.path);
         }
         if (this.state.currentAlgo === "tsp") {
-            
+            this.state.graph = new Graph();
         }
 
     }
