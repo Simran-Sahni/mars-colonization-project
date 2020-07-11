@@ -5,14 +5,14 @@ export default function Flloyd (props) {
     var cnt = 0;
 
     for (let i = 0; i < props.height; i++) {
-        for (let j = 0; j < props.weight; j++) {
+        for (let j = 0; j < props.width; j++) {
             if (props.grid[i][j] === 1)
                 props.graph[i][j] = 500000;
         }
     }
     console.log(props.graph);
     for (let i = 0; i < props.height; i++) {
-        for (let j = 0; j < props.weight; j++) {
+        for (let j = 0; j < props.width; j++) {
             var ele = [cnt, props.grid[i][j]];
             props.map.push(ele);
             props.SPD[i][j] = props.graph[i][j];
