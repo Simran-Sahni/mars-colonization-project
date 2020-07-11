@@ -102,6 +102,10 @@ class Navbar extends React.Component {
                     onMouseDown={(event) => this.handleChange(event)}>
                                         Greedy best-first search
                   </li>
+                  <li id="tsp"
+                      onMouseDown={(event) => this.handleChange(event)}>
+                    Multiple Destinations
+                  </li>
                 </ul>
               </li>
               <li>

@@ -4,7 +4,6 @@ import Navbar from "./Navbar"
 import Modal from  "react-bootstrap/Modal"
 import Button from "react-bootstrap/Button"
 import PriorityQueue from "./priorityq";
-
 import Graph from "./Algo/Graph"
 const D = ({ handleClose, show}) => {
     return (
@@ -41,10 +40,12 @@ class App extends Component {
         height: 20, // height of the grid
         width: 20, // width of the grid
         start: [10, 2], // start position
-        end: [10, 15], // end position
+        end: [10, 15],// end position
+        end2:[5,4],
+        end3:[18,3],
         grid: Array(20).fill(undefined, undefined, undefined).map(() => Array(20).fill(0)),
         speed: 50, // speed for animation
-        pointer: null, // store the pointer for visualization
+        pointer: [], // store the pointer for visualization
         modalshow: false,
         heuristics:Array(20).fill(undefined, undefined, undefined).map(() => Array(30).fill(1000000000)),
         path: [],
@@ -58,18 +59,10 @@ class App extends Component {
         super();
         this.state.grid[this.state.start[0]][this.state.start[1]] = 3; // special point : start point
         this.state.grid[this.state.end[0]][this.state.end[1]] = 4; // special point : end point
-        let heuristics = this.state.heuristics;
-        for(let i = 0; i < this.state.height; i++)
-        {
-            for(let j = 0; j < this.state.width; j++)
-            {
-                heuristics[i][j] = Math.abs(this.state.end[0]-i) + Math.abs(this.state.end[1]-j);
-            }
-        }
-        this.setState({heuristics});
+        this.state.grid[this.state.end2[0]][this.state.end2[1]] = 4; // special point : end point
+        this.state.grid[this.state.end3[0]][this.state.end3[1]] = 4; // special point : end point
 
     }
-
     changeGrid=(grid)=>this.setState(grid);
     toggleSource=()=>this.setState({changeSource: !this.state.changeSource});
     toggleDestination = ()=>this.setState({changeDestination: !this.state.changeDestination});
@@ -80,6 +73,7 @@ class App extends Component {
         this.setState({
             changeSource: !this.state.changeSource,
             start: [i, j],
+            grid,
         });
     }
     changedDestination = (i,j)=> {
@@ -97,7 +91,17 @@ class App extends Component {
     showModal = () => this.setState({ modalshow: true });
     hideModal = () => this.setState({ modalshow: false });
 
-
+    computeHeuristics= ()=>{
+        let heuristics = this.state.heuristics;
+        for(let i = 0; i < this.state.height; i++)
+        {
+            for(let j = 0; j < this.state.width; j++)
+            {
+                heuristics[i][j] = Math.abs(this.state.end[0]-i) + Math.abs(this.state.end[1]-j);
+            }
+        }
+        this.setState({heuristics});
+    }
     randomizeMatrix = () => {
         this.clearGrid();
         const newGrid = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
@@ -138,6 +142,13 @@ class App extends Component {
 
     selectAlgo = (name) => this.setState({currentAlgo: name});
     visualize = async () => {
+        let pointer = this.state.pointer;
+        pointer[0] = this.state.start[0];
+        pointer[1] = this.state.start[1];
+        this.setState({pointer});
+        if(this.state.start[0] === this.state.end[0] && this.state.start[1] === this.state.end[1]){
+            return;
+        }
         if (this.state.currentAlgo === "dfs") {
             this.setState({path:[]});
             let stack = [this.state.start];
@@ -200,7 +211,7 @@ class App extends Component {
         }
 
         if (this.state.currentAlgo === "dijkstra" || this.state.currentAlgo === "bfs") {
-            this.setState({path:[]});
+            this.setState({path:[],pointer:this.state.start});
             let queue = [this.state.start];
             let grid = this.state.grid;
             let dist = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(1000000000));
@@ -284,7 +295,8 @@ class App extends Component {
         }
         if(this.state.currentAlgo === "bestfs")
         {
-            this.setState({path:[]});
+            this.computeHeuristics();
+            this.setState({path:[],pointer:this.state.start});
             let pq = new PriorityQueue();
             pq.enqueue(this.state.start,this.state.heuristics[this.state.start[0]][this.state.start[1]]);
             let path = Array(30)
@@ -353,7 +365,8 @@ class App extends Component {
 
         if(this.state.currentAlgo === "a-star")
         {
-            this.setState({path:[]});
+            this.computeHeuristics();
+            this.setState({path:[],pointer:this.state.start});
             let pq = new PriorityQueue();
             pq.enqueue(this.state.start,this.state.heuristics[this.state.start[0]][this.state.start[1]]);
             let dp = Array(30)
@@ -415,7 +428,9 @@ class App extends Component {
             this.state.path = dp[this.state.end[0]][this.state.end[1]];
             await this.pathdisplay(this.state.path);
         }
-
+        if (this.state.currentAlgo === "tsp") {
+            
+        }
 
     }
     pathdisplay = async (path) => {
@@ -454,7 +469,6 @@ class App extends Component {
                           width={this.state.width} grid={this.state.grid} changeState={this.changeState} changesourcefunc={this.changedSource} changedestfunc = {this.changedDestination}
                           pointer={this.state.pointer} changeGrid = {this.changeGrid} changeSource = {this.state.changeSource} changeDestination = {this.state.changeDestination} />
                 </div>
-
                 <D show={this.state.modalshow} handleClose={this.hideModal} />
 
             </div>
