@@ -58,6 +58,37 @@ class App extends Component {
         super();
         this.state.grid[this.state.start[0]][this.state.start[1]] = 3; // special point : start point
         this.state.grid[this.state.end[0]][this.state.end[1]] = 4; // special point : end point
+
+    }
+    changeGrid=(grid)=>this.setState(grid);
+    toggleSource=()=>this.setState({changeSource: !this.state.changeSource});
+    toggleDestination = ()=>this.setState({changeDestination: !this.state.changeDestination});
+    changedSource=(i,j)=> {
+        let grid = this.state.grid;
+        grid[this.state.start[0]][this.state.start[1]] = 0;
+        grid[i][j] = 3; // special point : end point
+        this.setState({
+            changeSource: !this.state.changeSource,
+            start: [i, j],
+            grid,
+        });
+    }
+    changedDestination = (i,j)=> {
+        let grid = this.state.grid;
+        grid[this.state.end[0]][this.state.end[1]] = 0;
+        grid[i][j] = 4; // special point : end point
+        this.setState({
+            changeDestination: !this.state.changeDestination,
+            end: [i, j],
+            grid,
+        });
+        this.setState({grid});
+    }
+
+    showModal = () => this.setState({ modalshow: true });
+    hideModal = () => this.setState({ modalshow: false });
+
+    computeHeuristics= ()=>{
         let heuristics = this.state.heuristics;
         for(let i = 0; i < this.state.height; i++)
         {
@@ -67,16 +98,7 @@ class App extends Component {
             }
         }
         this.setState({heuristics});
-
     }
-
-    changeGrid=(grid)=>this.setState(grid);
-    toggleSource=()=>this.setState({changeSource: !this.state.changeSource});
-    toggleDestination = ()=>this.setState({changeDestination: !this.state.changeDestination});
-    showModal = () => this.setState({ modalshow: true });
-    hideModal = () => this.setState({ modalshow: false });
-
-
     randomizeMatrix = () => {
         this.clearGrid();
         const newGrid = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
@@ -117,6 +139,7 @@ class App extends Component {
 
     selectAlgo = (name) => this.setState({currentAlgo: name});
     visualize = async () => {
+
         if (this.state.currentAlgo === "dfs") {
             this.setState({path:[]});
             let stack = [this.state.start];
@@ -190,13 +213,13 @@ class App extends Component {
             while (queue.length !== 0) {
                 const current = queue[0];
                 queue.shift(); // pop the queue
-                if (grid[current[0]][current[1]] === 1 || grid[current[0]][current[1]] === 2)
+                if (grid[current[0]][current[1]] === 1 || grid[current[0]][current[1]] === 2) //if its a wall or visited cell continue
                     continue;
                 if (grid[current[0]][current[1]] === 3) {
                     if (ok) ok = false;
-                    else continue;
+                    else continue; //if you are again pushing the source point, its !ok
                 }
-                if (grid[current[0]][current[1]] === 4) {
+                if (grid[current[0]][current[1]] === 4) {  //reached the destination, so break.
                     this.setState({grid: grid, pointer: current});
                     await new Promise((done) => setTimeout(() => done(), this.state.speed));//To slow down the speed of Animation
                     break;
@@ -263,6 +286,7 @@ class App extends Component {
         }
         if(this.state.currentAlgo === "bestfs")
         {
+            this.computeHeuristics();
             this.setState({path:[]});
             let pq = new PriorityQueue();
             pq.enqueue(this.state.start,this.state.heuristics[this.state.start[0]][this.state.start[1]]);
@@ -332,6 +356,7 @@ class App extends Component {
 
         if(this.state.currentAlgo === "a-star")
         {
+            this.computeHeuristics();
             this.setState({path:[]});
             let pq = new PriorityQueue();
             pq.enqueue(this.state.start,this.state.heuristics[this.state.start[0]][this.state.start[1]]);
@@ -357,7 +382,7 @@ class App extends Component {
                         dp[current[0]][current[1] + 1] = [...dp[current[0]][current[1]], current,];
                     }
                 }
-                if (current[0] !== this.state.height - 1 && (grid[current[0] + 1][current[1]] === 0) || grid[current[0] + 1][current[1]] === 4)
+                if (current[0] !== this.state.height - 1 && ((grid[current[0] + 1][current[1]] === 0) || grid[current[0] + 1][current[1]] === 4))
                 {
                     if (dp[current[0] + 1][current[1]].length === 0 || dp[current[0] + 1][current[1]].length > [...dp[current[0]][current[1]], current])
                     {
@@ -411,14 +436,14 @@ class App extends Component {
 
     }
     clearPath = () => {
-        let grid = this.state.grid;
+        let g = this.state.grid;
         let path = this.state.path;
         for(let i = 0; i < path.length; i++)
         {
-            grid[path[i][0]][path[i][1]] = 2;
+            g[path[i][0]][path[i][1]] = 2;
         }
         this.setState({path:[]});
-        this.setState({grid});
+        this.setState({grid: g});
     }
     render() {
         return (
@@ -430,7 +455,7 @@ class App extends Component {
                 </div>
                 <div>
                     <Grid start={this.state.start} end={this.state.end} height={this.state.height}
-                          width={this.state.width} grid={this.state.grid} changeState={this.changeState}
+                          width={this.state.width} grid={this.state.grid} changeState={this.changeState} changesourcefunc={this.changedSource} changedestfunc = {this.changedDestination}
                           pointer={this.state.pointer} changeGrid = {this.changeGrid} changeSource = {this.state.changeSource} changeDestination = {this.state.changeDestination} />
                 </div>
                 <Flloyd  {...this.state}/>

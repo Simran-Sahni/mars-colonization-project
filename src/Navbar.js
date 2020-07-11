@@ -44,7 +44,7 @@ class Navbar extends React.Component {
         <nav className="navbar navbar-expand-lg">
           <div className="container-fluid">
             <div className="navbar-header">
-              <a id="refreshButton" className="navbar-brand" href="/App">
+              <a id="refreshButton" className="navbar-brand" href="/mars-colonization-project/App">
                 {/* eslint-disable-next-line max-len */}
                                 Conquer Mars! <i className="fa fa-rocket"/> <span className="icon" /></a
               >
@@ -115,7 +115,7 @@ class Navbar extends React.Component {
                 </button>
               </li>
               <li>
-                <button className="btn">
+                <button onClick = {this.props.clearPath} className="btn">
                                     Clear Path
                 </button>
               </li>
@@ -145,6 +145,7 @@ class Navbar extends React.Component {
 }
 Navbar.propTypes = {
   clearWalls: PropTypes.func,
+  clearPath:PropTypes.func,
   randomize: PropTypes.func,
   newSpeed: PropTypes.func,
   currentAlgo: PropTypes.string,

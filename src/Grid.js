@@ -20,8 +20,6 @@ function Grid(props) {
       5:Cells in Final Shortest Path
       */
 
-  props.grid[props.start[0]][props.start[1]] = 3;
-  props.grid[props.end[0]][props.end[1]] = 4;
 
   for (let i = 0; i < height; i++) {
     const rowList = [];
@@ -39,6 +37,12 @@ function Grid(props) {
                 backgroundColor: '#69fff1',
                 WebkitUserSelect: 'none',
               }}
+              onClick={() => {
+                  if(props.changeSource){
+                      props.toggleSource(i,j); }
+                  else
+                  {props.changeState(i, j);}
+              }}
             >
             </div>,
         );
@@ -53,6 +57,14 @@ function Grid(props) {
                 backgroundColor: '#fee440',
                 WebkitUserSelect: 'none',
               }}
+              onClick={() => {
+                  if(props.changeSource){
+                      props.changesourcefunc(i,j); }
+                  else if(props.changeDestination){
+                      props.changedestfunc(i,j);
+                  }                  else
+                  {props.changeState(i, j);}
+              }}
             >
             </div>,
         );
@@ -66,6 +78,15 @@ function Grid(props) {
                 border: '1.5px solid black',
                 backgroundColor: '#00ee00',
                 WebkitUserSelect: 'none',
+              }}
+              onClick={() => {
+                  if(props.changeSource){
+                      props.changesourcefunc(i,j); }
+                  else if(props.changeDestination){
+                      props.changedestfunc(i,j);
+                  }
+                  else
+                  {props.changeState(i, j);}
               }}
             >
             </div>,
@@ -95,7 +116,28 @@ function Grid(props) {
                 backgroundColor: '#540b0e',
                 WebkitUserSelect: 'none',
               }}
-              onClick={() => props.changeState(i, j)}
+
+              onClick={() => {
+                  if(props.changeSource){
+                      props.changesourcefunc(i,j); }
+                  else if(props.changeDestination){
+                      props.changedestfunc(i,j);
+                  }
+                  else
+                  {props.changeState(i, j);}
+              }}
+              onTouchStart={(e) => {
+                  if (window.event.buttons === 1) {
+                      props.changeState(i, j);
+                  }
+              }
+              }
+              onMouseEnter={(e) => {
+                  if (window.event.buttons === 1) {
+                      props.changeState(i, j);
+                  }
+              }
+              }
             >
             </div>,
         );
@@ -107,10 +149,19 @@ function Grid(props) {
                 width: '35px',
                 height: '35px',
                 border: '1.5px solid black',
-                backgroundColor: '#fff3b0',
+                backgroundColor: '#e09891',
                 WebkitUserSelect: 'none',
               }}
-              onClick={() => props.changeState(i, j)}
+              onClick={() => {
+                  if(props.changeSource){
+                      props.changesourcefunc(i,j); }
+                  else if(props.changeDestination){
+                      props.changedestfunc(i,j);
+                  }
+                  else
+                  {props.changeState(i, j);}
+              }}
+
             >
             </div>,
         );
@@ -124,7 +175,27 @@ function Grid(props) {
                 border: '1.5px solid black',
                 WebkitUserSelect: 'none',
               }}
-              onClick={() => props.changeState(i, j)}
+              onClick={() => {
+                  if(props.changeSource){
+                      props.changesourcefunc(i,j); }
+                  else if(props.changeDestination){
+                      props.changedestfunc(i,j);
+                  }
+                  else
+                  {props.changeState(i, j);}
+              }}
+              onTouchStart={(e) => {
+                  if (window.event.buttons === 1) {
+                      props.changeState(i, j);
+                  }
+              }
+              }
+              onMouseEnter={(e) => {
+                  if (window.event.buttons === 1) {
+                      props.changeState(i, j);
+                  }
+              }
+              }
             >
             </div>,
         );
@@ -153,6 +224,9 @@ Grid.propTypes = {
   end: PropTypes.array,
   pointer: PropTypes.array,
   changeSource: PropTypes.bool,
+    changeDestination: PropTypes.bool,
+    changesourcefunc:PropTypes.func,
+    changedestfunc:PropTypes.func,
 
 };
 
