@@ -50,10 +50,10 @@ class Graph {
   constructGraph(grid) {
     for (let i = 0; i < 20; i++) {
       for (let j = 0; j < 20; j++) {
-        if (isValidEmptyCell(i, j, grid)) {
+        if (isNotWall(i, j, grid)) {
           for (const direction of directions) {
             const neighbor = [i + direction[0], j + direction[1]];
-            if (isValidEmptyCell(neighbor[0], neighbor[1], grid)) {
+            if (isNotWall(neighbor[0], neighbor[1], grid)) {
               this.addEdge(this.map2[[i, j]], this.map2[neighbor[0]]);
             }
           }
@@ -91,11 +91,11 @@ const directions = [[0, 1], [1, 0], [0, -1], [-1, 0]];
  * @param {array }grid
  * @return {boolean}
  */
-function isValidEmptyCell(i, j, grid) {
+function isNotWall(i, j, grid) {
   if (i < 0 || i >= 20 || j < 0 || j >= 20 ) {
     return false;
   } else {
-    return grid[i][j] === 0;
+    return grid[i][j] !== 1;
   }
 }
 
