@@ -17,14 +17,24 @@ class Navbar extends React.Component {
     super(props);
     this.state={
       selectedAlgo: props.currentAlgo,
-      checkedA: true,
+      checkedA: false,
+      multipledestinations:props.multipledestinations,
     };
   }
 
   hc() {
+    if(!this.state.checkedA)
+      this.editButtons();
     this.setState({checkedA: !this.state.checkedA});
+
   }
 
+  editButtons()
+  {
+    document.getElementById('chngDestBtn').innerHTML = '<button id="chngDestBtn" class="btn" type="button" style=background-color:#ee0000>'+ 'Add Destination'+'</ button>';
+    this.props.multiDestination();
+
+  }
   /**
    *
    * @param {event} event
@@ -62,7 +72,7 @@ class Navbar extends React.Component {
               <FormGroup>
                 <FormControlLabel
                   control={<Switch color = "primary" checked={this.state.checkedA} onChange={()=>this.hc()} />}
-                  label="Change Destination"
+                  label="Multiple Destinations"
 
                 />
               </FormGroup>
@@ -74,6 +84,7 @@ class Navbar extends React.Component {
               </button>
 
               <button onClick={this.props.toggleDestination} className="btn"
+                      id="chngDestBtn"
                 style={{
                   backgroundColor: '#ee0000',
                 }}
@@ -175,7 +186,8 @@ Navbar.propTypes = {
   toggleSource: PropTypes.func,
   toggleDestination: PropTypes.func,
   changeGrid: PropTypes.func,
-
+  multiDestination:PropTypes.func,
+  multipledestinations: PropTypes.bool,
 
 };
 export default Navbar;

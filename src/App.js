@@ -54,6 +54,8 @@ class App extends Component {
         graph:null,
         changeSource:false,
         changeDestination:false,
+        multipledestinations:false,
+
     };
     constructor() {
         super();
@@ -65,7 +67,12 @@ class App extends Component {
     }
     changeGrid=(grid)=>this.setState(grid);
     toggleSource=()=>this.setState({changeSource: !this.state.changeSource});
-    toggleDestination = ()=>this.setState({changeDestination: !this.state.changeDestination});
+    toggleDestination = ()=>{
+        if(this.state.multipledestinations)
+            this.setState({changeDestination: true});
+        else {
+        this.setState({changeDestination: !this.state.changeDestination});}
+    }
     changedSource=(i,j)=> {
         let grid = this.state.grid;
         grid[this.state.start[0]][this.state.start[1]] = 0;
@@ -87,6 +94,13 @@ class App extends Component {
         });
         this.setState({grid});
     }
+
+    multiDestination()
+    {
+        if(!this.state.multipledestinations)
+            this.setState({multipledestinations: true});
+    }
+
 
     showModal = () => this.setState({ modalshow: true });
     hideModal = () => this.setState({ modalshow: false });
@@ -574,8 +588,9 @@ class App extends Component {
         return (
             <div>
                 <div>
-                    <Navbar randomize={this.randomizeMatrix} clearWalls={this.clearGrid} newSpeed={this.changeSpeed}
+                    <Navbar randomize={this.randomizeMatrix} clearWalls={this.clearGrid} newSpeed={this.changeSpeed} multiDestination={this.multiDestination}
                             handle={this.selectAlgo} selectedAlgo={this.currentAlgo} visual={this.visualize} clearPath = {this.clearPath}
+                            multipledestinations = {this.state.multipledestinations}
                             toggleSource= {this.toggleSource} toggleDestination= {this.toggleDestination}/>
                 </div>
                 <div>
