@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Switch from '@material-ui/core/Switch';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 /**
  *
  * @param {props} props
@@ -14,13 +17,29 @@ class Navbar extends React.Component {
     super(props);
     this.state={
       selectedAlgo: props.currentAlgo,
+      checkedA: false,
+      multipledestinations:props.multipledestinations,
     };
   }
 
+  hc() {
+    if(!this.state.checkedA)
+      this.editButtons();
+    this.setState({checkedA: !this.state.checkedA});
+
+  }
+
+  editButtons()
+  {
+    document.getElementById('chngDestBtn').innerHTML = '<button id="chngDestBtn" class="btn" type="button" style=background-color:#ee0000>'+ 'Add Destination'+'</ button>';
+    this.props.multiDestination();
+
+  }
   /**
    *
    * @param {event} event
    */
+
   handleChange(event) {
     const algo = (event.target.getAttribute('id')).toString();
     const setString = 'Visualize  ' + algo + '!';
@@ -50,6 +69,13 @@ class Navbar extends React.Component {
               >
             </div>
             <ul className="nav navbar-nav">
+              <FormGroup>
+                <FormControlLabel
+                  control={<Switch color = "primary" checked={this.state.checkedA} onChange={()=>this.hc()} />}
+                  label="Multiple Destinations"
+
+                />
+              </FormGroup>
               <button onClick={this.props.toggleSource} className="btn"
                 style={{
                   backgroundColor: '#00ee00',
@@ -58,6 +84,7 @@ class Navbar extends React.Component {
               </button>
 
               <button onClick={this.props.toggleDestination} className="btn"
+                      id="chngDestBtn"
                 style={{
                   backgroundColor: '#ee0000',
                 }}
@@ -102,6 +129,10 @@ class Navbar extends React.Component {
                     onMouseDown={(event) => this.handleChange(event)}>
                                         Greedy best-first search
                   </li>
+                  <li id="tsp"
+                    onMouseDown={(event) => this.handleChange(event)}>
+                    Multiple Destinations
+                  </li>
                 </ul>
               </li>
               <li>
@@ -145,7 +176,7 @@ class Navbar extends React.Component {
 }
 Navbar.propTypes = {
   clearWalls: PropTypes.func,
-  clearPath:PropTypes.func,
+  clearPath: PropTypes.func,
   randomize: PropTypes.func,
   newSpeed: PropTypes.func,
   currentAlgo: PropTypes.string,
@@ -155,7 +186,8 @@ Navbar.propTypes = {
   toggleSource: PropTypes.func,
   toggleDestination: PropTypes.func,
   changeGrid: PropTypes.func,
-
+  multiDestination:PropTypes.func,
+  multipledestinations: PropTypes.bool,
 
 };
 export default Navbar;
