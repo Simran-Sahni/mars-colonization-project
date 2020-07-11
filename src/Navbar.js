@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Switch from '@material-ui/core/Switch';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 /**
  *
  * @param {props} props
@@ -14,13 +17,19 @@ class Navbar extends React.Component {
     super(props);
     this.state={
       selectedAlgo: props.currentAlgo,
+      checkedA: true,
     };
+  }
+
+  hc() {
+    this.setState({checkedA: !this.state.checkedA});
   }
 
   /**
    *
    * @param {event} event
    */
+
   handleChange(event) {
     const algo = (event.target.getAttribute('id')).toString();
     const setString = 'Visualize  ' + algo + '!';
@@ -50,6 +59,13 @@ class Navbar extends React.Component {
               >
             </div>
             <ul className="nav navbar-nav">
+              <FormGroup>
+                <FormControlLabel
+                  control={<Switch color = "primary" checked={this.state.checkedA} onChange={()=>this.hc()} />}
+                  label="Change Destination"
+
+                />
+              </FormGroup>
               <button onClick={this.props.toggleSource} className="btn"
                 style={{
                   backgroundColor: '#00ee00',
@@ -103,7 +119,7 @@ class Navbar extends React.Component {
                                         Greedy best-first search
                   </li>
                   <li id="tsp"
-                      onMouseDown={(event) => this.handleChange(event)}>
+                    onMouseDown={(event) => this.handleChange(event)}>
                     Multiple Destinations
                   </li>
                 </ul>
@@ -149,7 +165,7 @@ class Navbar extends React.Component {
 }
 Navbar.propTypes = {
   clearWalls: PropTypes.func,
-  clearPath:PropTypes.func,
+  clearPath: PropTypes.func,
   randomize: PropTypes.func,
   newSpeed: PropTypes.func,
   currentAlgo: PropTypes.string,

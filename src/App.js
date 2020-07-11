@@ -551,11 +551,11 @@ class App extends Component {
         let grid = this.state.grid;
         for (let i = 1; i < path.length; i++) {
             grid[path[i][0]][path[i][1]] = 5;
-            await new Promise((done) => setTimeout(() => done(), 25));
+            await new Promise((done) => setTimeout(() => done(), this.state.speed));
             this.setState({grid: grid});
         }
         grid[this.state.end[0]][this.state.end[1]] = 5;
-        await new Promise((done) => setTimeout(() => done(), 25));
+        await new Promise((done) => setTimeout(() => done(), this.state.speed));
         this.setState({grid: grid});
         //To slow down the speed of Animation
 
