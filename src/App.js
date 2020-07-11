@@ -47,17 +47,16 @@ class App extends Component {
         modalshow: false,
         heuristics:Array(20).fill(undefined, undefined, undefined).map(() => Array(30).fill(1000000000)),
         path: [],
-        map:[],  //map from index 0 to 399 => grid value
-        SPD:Array(20).fill(undefined, undefined, undefined).map(() => Array(20).fill(0)), //shortest distance between all pairs matrix
         graph:null,
         changeSource:false,
         changeDestination:false,
     };
     constructor() {
         super();
+
         this.state.grid[this.state.start[0]][this.state.start[1]] = 3; // special point : start point
         this.state.grid[this.state.end[0]][this.state.end[1]] = 4; // special point : end point
-
+        this.state.graph = new Graph(this.state.grid);
     }
     changeGrid=(grid)=>this.setState(grid);
     toggleSource=()=>this.setState({changeSource: !this.state.changeSource});
@@ -423,6 +422,11 @@ class App extends Component {
             }
             this.state.path = dp[this.state.end[0]][this.state.end[1]];
             await this.pathdisplay(this.state.path);
+        }
+
+        if(this.state.currentAlgo === "TSP")
+        {
+            this.state.graph = new Graph(this.state.grid);
         }
 
 
