@@ -33,7 +33,6 @@ class Navbar extends React.Component {
 
 
     console.log(this.state.selectedAlgo);
-
   }
   /**
    *
@@ -52,16 +51,16 @@ class Navbar extends React.Component {
             </div>
             <ul className="nav navbar-nav">
               <button onClick={this.props.toggleSource} className="btn"
-              style={{
-                backgroundColor:"#00ee00"
-              }}>
+                style={{
+                  backgroundColor: '#00ee00',
+                }}>
                 Change Source
               </button>
 
               <button onClick={this.props.toggleDestination} className="btn"
-                      style={{
-                        backgroundColor:"#ee0000"
-                      }}
+                style={{
+                  backgroundColor: '#ee0000',
+                }}
               >
                 Change Destination
               </button>

@@ -5,6 +5,7 @@ import Modal from  "react-bootstrap/Modal"
 import Button from "react-bootstrap/Button"
 import PriorityQueue from "./priorityq";
 import Flloyd from "./Flloyd";
+import Graph from "./Algo/Graph"
 const D = ({ handleClose, show}) => {
     return (
         <>
@@ -49,7 +50,7 @@ class App extends Component {
         path: [],
         map:[],  //map from index 0 to 399 => grid value
         SPD:Array(20).fill(undefined, undefined, undefined).map(() => Array(20).fill(0)), //shortest distance between all pairs matrix
-        graph:Array(20).fill(undefined, undefined, undefined).map(() => Array(20).fill(0)),
+        graph:null,
         changeSource:false,
         changeDestination:false,
     };
@@ -68,6 +69,7 @@ class App extends Component {
         this.setState({heuristics});
 
     }
+
     changeGrid=(grid)=>this.setState(grid);
     toggleSource=()=>this.setState({changeSource: !this.state.changeSource});
     toggleDestination = ()=>this.setState({changeDestination: !this.state.changeDestination});
