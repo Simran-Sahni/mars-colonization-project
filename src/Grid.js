@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import rover from './media/mars-rover.svg';
 /**
  *
  * @param {props} props
@@ -38,12 +38,18 @@ function Grid(props) {
                 WebkitUserSelect: 'none',
               }}
               onClick={() => {
-                  if(props.changeSource){
-                      props.toggleSource(i,j); }
-                  else
-                  {props.changeState(i, j);}
+                if (props.changeSource) {
+                  props.toggleSource(i, j);
+                } else {
+                  props.changeState(i, j);
+                }
               }}
             >
+              <img
+                src={rover}
+                alt="start"
+                style={{width: '25px', height: '25px'}}
+              />
             </div>,
         );
       } else if (props.grid[i][j] === 5) { // cell in final shortest path
@@ -58,14 +64,16 @@ function Grid(props) {
                 WebkitUserSelect: 'none',
               }}
               onClick={() => {
-                  if(props.changeSource){
-                      props.changesourcefunc(i,j); }
-                  else if(props.changeDestination){
-                      props.changedestfunc(i,j);
-                  }                  else
-                  {props.changeState(i, j);}
+                if (props.changeSource) {
+                  props.changesourcefunc(i, j);
+                } else if (props.changeDestination) {
+                  props.changedestfunc(i, j);
+                } else {
+                  props.changeState(i, j);
+                }
               }}
             >
+
             </div>,
         );
       } else if (props.grid[i][j] === 3) {// start point
@@ -80,15 +88,16 @@ function Grid(props) {
                 WebkitUserSelect: 'none',
               }}
               onClick={() => {
-                  if(props.changeSource){
-                      props.changesourcefunc(i,j); }
-                  else if(props.changeDestination){
-                      props.changedestfunc(i,j);
-                  }
-                  else
-                  {props.changeState(i, j);}
+                if (props.changeSource) {
+                  props.changesourcefunc(i, j);
+                } else if (props.changeDestination) {
+                  props.changedestfunc(i, j);
+                } else {
+                  props.changeState(i, j);
+                }
               }}
             >
+
             </div>,
         );
       } else if (props.grid[i][j] === 4) { // end point
@@ -118,24 +127,24 @@ function Grid(props) {
               }}
 
               onClick={() => {
-                  if(props.changeSource){
-                      props.changesourcefunc(i,j); }
-                  else if(props.changeDestination){
-                      props.changedestfunc(i,j);
-                  }
-                  else
-                  {props.changeState(i, j);}
+                if (props.changeSource) {
+                  props.changesourcefunc(i, j);
+                } else if (props.changeDestination) {
+                  props.changedestfunc(i, j);
+                } else {
+                  props.changeState(i, j);
+                }
               }}
               onTouchStart={(e) => {
-                  if (window.event.buttons === 1) {
-                      props.changeState(i, j);
-                  }
+                if (window.event.buttons === 1) {
+                  props.changeState(i, j);
+                }
               }
               }
               onMouseEnter={(e) => {
-                  if (window.event.buttons === 1) {
-                      props.changeState(i, j);
-                  }
+                if (window.event.buttons === 1) {
+                  props.changeState(i, j);
+                }
               }
               }
             >
@@ -153,13 +162,13 @@ function Grid(props) {
                 WebkitUserSelect: 'none',
               }}
               onClick={() => {
-                  if(props.changeSource){
-                      props.changesourcefunc(i,j); }
-                  else if(props.changeDestination){
-                      props.changedestfunc(i,j);
-                  }
-                  else
-                  {props.changeState(i, j);}
+                if (props.changeSource) {
+                  props.changesourcefunc(i, j);
+                } else if (props.changeDestination) {
+                  props.changedestfunc(i, j);
+                } else {
+                  props.changeState(i, j);
+                }
               }}
 
             >
@@ -176,24 +185,24 @@ function Grid(props) {
                 WebkitUserSelect: 'none',
               }}
               onClick={() => {
-                  if(props.changeSource){
-                      props.changesourcefunc(i,j); }
-                  else if(props.changeDestination){
-                      props.changedestfunc(i,j);
-                  }
-                  else
-                  {props.changeState(i, j);}
+                if (props.changeSource) {
+                  props.changesourcefunc(i, j);
+                } else if (props.changeDestination) {
+                  props.changedestfunc(i, j);
+                } else {
+                  props.changeState(i, j);
+                }
               }}
               onTouchStart={(e) => {
-                  if (window.event.buttons === 1) {
-                      props.changeState(i, j);
-                  }
+                if (window.event.buttons === 1) {
+                  props.changeState(i, j);
+                }
               }
               }
               onMouseEnter={(e) => {
-                  if (window.event.buttons === 1) {
-                      props.changeState(i, j);
-                  }
+                if (window.event.buttons === 1) {
+                  props.changeState(i, j);
+                }
               }
               }
             >
@@ -224,9 +233,9 @@ Grid.propTypes = {
   end: PropTypes.array,
   pointer: PropTypes.array,
   changeSource: PropTypes.bool,
-    changeDestination: PropTypes.bool,
-    changesourcefunc:PropTypes.func,
-    changedestfunc:PropTypes.func,
+  changeDestination: PropTypes.bool,
+  changesourcefunc: PropTypes.func,
+  changedestfunc: PropTypes.func,
 
 };
 

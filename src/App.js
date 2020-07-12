@@ -5,6 +5,7 @@ import Modal from  "react-bootstrap/Modal"
 import Button from "react-bootstrap/Button"
 import PriorityQueue from "./priorityq";
 import Graph from "./Algo/Graph"
+import Grid2 from "./Algo/Grid2";
 const D = ({ handleClose, show}) => {
     return (
         <>
@@ -53,6 +54,7 @@ class App extends Component {
         changeSource:false,
         changeDestination:false,
         multipledestinations:false,
+        grid2:null ,
 
     };
     constructor() {
@@ -61,8 +63,8 @@ class App extends Component {
         this.state.grid[this.state.end[0]][this.state.end[1]] = 4; // special point : end point
         this.state.grid[this.state.end2[0]][this.state.end2[1]] = 4; // special point : end point
         this.state.grid[this.state.end3[0]][this.state.end3[1]] = 4; // special point : end point
+        this.state.grid2 = new Grid2(this.state.grid,this.state.height,this.state.width,this.state.start,this.state.end,this.state.pointer);
     }
-    changeGrid=(grid)=>this.setState(grid);
     toggleSource=()=>this.setState({changeSource: !this.state.changeSource});
     toggleDestination = ()=>{
         if(this.state.multipledestinations)
@@ -582,6 +584,7 @@ class App extends Component {
         this.setState({grid: g});
     }
     render() {
+        this.state.grid2 = new Grid2(this.state.grid,this.state.height,this.state.width,this.state.start,this.state.end,this.state.pointer);
         return (
             <div>
                 <div>
@@ -593,7 +596,8 @@ class App extends Component {
                 <div>
                     <Grid start={this.state.start} end={this.state.end} height={this.state.height}
                           width={this.state.width} grid={this.state.grid} changeState={this.changeState} changesourcefunc={this.changedSource} changedestfunc = {this.changedDestination}
-                          pointer={this.state.pointer} changeGrid = {this.changeGrid} changeSource = {this.state.changeSource} changeDestination = {this.state.changeDestination} />
+                          pointer={this.state.pointer} changeSource = {this.state.changeSource} changeDestination = {this.state.changeDestination} />
+                    {/*<Grid2 {...this.state.grid2}></Grid2>*/}
                 </div>
                 <D show={this.state.modalshow} handleClose={this.hideModal} />
 
