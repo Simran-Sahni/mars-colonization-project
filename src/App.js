@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button"
 import PriorityQueue from "./priorityq";
 import Graph from "./Algo/Graph"
 import Grid2 from "./Algo/Grid2";
+import VisualiseGrid from "./media/VisualizeGrid";
 const D = ({ handleClose, show}) => {
     return (
         <>
@@ -594,10 +595,10 @@ class App extends Component {
                             toggleSource= {this.toggleSource} toggleDestination= {this.toggleDestination}/>
                 </div>
                 <div>
-                    <Grid start={this.state.start} end={this.state.end} height={this.state.height}
-                          width={this.state.width} grid={this.state.grid} changeState={this.changeState} changesourcefunc={this.changedSource} changedestfunc = {this.changedDestination}
-                          pointer={this.state.pointer} changeSource = {this.state.changeSource} changeDestination = {this.state.changeDestination} />
-                    {/*<Grid2 {...this.state.grid2}></Grid2>*/}
+                    {/*<Grid start={this.state.start} end={this.state.end} height={this.state.height}*/}
+                    {/*      width={this.state.width} grid={this.state.grid} changeState={this.changeState} changesourcefunc={this.changedSource} changedestfunc = {this.changedDestination}*/}
+                    {/*      pointer={this.state.pointer} changeSource = {this.state.changeSource} changeDestination = {this.state.changeDestination} />*/}
+                    <VisualiseGrid {...this.state.grid2}></VisualiseGrid>
                 </div>
                 <D show={this.state.modalshow} handleClose={this.hideModal} />
 
