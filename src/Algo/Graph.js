@@ -4,10 +4,6 @@ import PropTypes from 'prop-types';
  */
 class Graph {
   /**
-<<<<<<< HEAD
-=======
-
->>>>>>> a98728f33c130dbd6fdbed00735207efec59591f
    *
    * @param {array} grid
    */
@@ -28,10 +24,6 @@ class Graph {
         counter++;
       }
     }
-
-    console.log(this.map1);
-    console.log(this.map2);
-
 
     this.constructGraph();
     this.floydWarshall();

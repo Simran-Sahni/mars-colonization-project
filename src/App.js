@@ -5,10 +5,12 @@ import Modal from  "react-bootstrap/Modal"
 import Button from "react-bootstrap/Button"
 import PriorityQueue from "./priorityq";
 import Graph from "./Algo/Graph"
-import Grid2 from "./Algo/Grid2";
-import VisualiseGrid from "./media/VisualizeGrid";
-
-
+import {bestfs} from "./Algo/Bestfs";
+import {dfs} from "./Algo/dfs";
+import {Dijkstra} from "./Algo/Dijkstra";
+import {AStar} from "./Algo/AStar";
+import {TSP} from "./Algo/TSP";
+import {aStarForTSP} from "./Algo/TSP";
 //This is the modal to display path not found
 const D = ({ handleClose, show}) => {
     return (
@@ -46,12 +48,11 @@ class App extends Component {
         width: 20, // width of the grid
         start: [10, 2], // start position
         end: [10, 15],// end position
-
         grid: Array(20).fill(undefined, undefined, undefined).map(() => Array(20).fill(0)),
         speed: 50, // speed for animation
         pointer: [], // store the pointer for visualization
         modalshow: false,
-        heuristics:Array(20).fill(undefined, undefined, undefined).map(() => Array(30).fill(1000000000)),
+        heuristics:Array(20).fill(undefined, undefined, undefined).map(() => Array(30).fill(0)),
         path: [],
         graph:null,
         changeSource:false,
@@ -62,17 +63,17 @@ class App extends Component {
     };
     constructor() {
         super();
-
         this.state.grid[this.state.start[0]][this.state.start[1]] = 3; // special point : start point
         this.state.grid[this.state.end[0]][this.state.end[1]] = 4; // special point : end point
-        //this.state.grid[this.state.end2[0]][this.state.end2[1]] = 4; // special point : end point
-        //this.state.grid[this.state.end3[0]][this.state.end3[1]] = 4; // special point : end point
-
-        this.state.grid2 = new Grid2(this.state.grid,this.state.height,this.state.width,this.state.start,this.state.end,this.state.pointer);
-
         this.state.graph = new Graph(this.state.grid);
-
+        this.computeHeuristics();
     }
+    bestfs = bestfs.bind(this);
+    dfs = dfs.bind(this);
+    Dijkstra = Dijkstra.bind(this);
+    AStar = AStar.bind(this);
+    TSP = TSP.bind(this);
+    aStarForTSP = aStarForTSP.bind(this);
     toggleSource=()=>this.setState({changeSource: !this.state.changeSource});
     toggleDestination = ()=>{
         if(this.state.multipledestinations)
@@ -102,17 +103,13 @@ class App extends Component {
         this.setState({grid});
     }
 
-
     multiDestination = () => {
         if (this.state.multipledestinations === false) {
             this.setState({multipledestinations: true});
         }
     }
-
-
     showModal = () => this.setState({ modalshow: true });
     hideModal = () => this.setState({ modalshow: false });
-
     computeHeuristics= ()=>{
         let heuristics = this.state.heuristics;
         for(let i = 0; i < this.state.height; i++)
@@ -140,7 +137,7 @@ class App extends Component {
         const newGrid = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
         newGrid[this.state.start[0]][this.state.start[1]] = 3; // special point : start
         newGrid[this.state.end[0]][this.state.end[1]] = 4; // special point : end
-        this.setState({grid: newGrid, pointer: null});
+        this.setState({grid: newGrid, pointer: []});
     }
     changeState = (x, y) => {
         if (this.state.grid[x][y] === 3) return; // check if the current point is a special point (start or end)
@@ -161,515 +158,26 @@ class App extends Component {
             this.setState({speed: newSpeed});
         }
     }
-
     selectAlgo = (name) => this.setState({currentAlgo: name});
     visualize = async () => {
         let pointer = this.state.pointer;
         pointer[0] = this.state.start[0];
         pointer[1] = this.state.start[1];
-        this.setState({pointer,visual: true});
-        if(this.state.start[0] === this.state.end[0] && this.state.start[1] === this.state.end[1]){
-            return;
-        }
-        if (this.state.currentAlgo === "dfs") {
-            this.setState({path:[]});
-            let stack = [this.state.start];
-            let grid = this.state.grid;
-            let flag = 1;
-            let par = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
-            par[this.state.start[0]][this.state.start[1]] = [this.state.start[0], this.state.start[1]];
-            let ok = true;
-            while (stack.length !== 0) {
-                const current = stack[stack.length - 1];
-                stack.pop();
-                if (current[0] < 0 || current[0] >= this.state.height){
-                    continue;
-                }
-                if (current[1] < 0 || current[1] >= this.state.width) {
-                    continue;
-                }
-                if (this.state.grid[current[0]][current[1]] === 2 || this.state.grid[current[0]][current[1]] === 1) {
-                    continue; // already visited or wall
-                }
-                if(this.state.grid[current[0]][current[1]] === 3)
-                {
-                    if(ok) {
-                        ok = false;
-                    }
-                    else {
-                        continue;
-                    }
-                }
-
-                this.state.path = [...this.state.path, [current[0], current[1]]];
-                if (grid[current[0]][current[1]] === 4) {
-                    this.setState({grid: grid, pointer: current});
-                    await new Promise((done) => setTimeout(() => done(), this.state.speed));//To slow down the speed of Animation
-                    break;
-                } else {
-                    let list = [];  //temporary array to store next points
-                    list.push([current[0] + 1, current[1]]);  //Go right
-                    list.push([current[0], current[1] + 1]);  //Go Above
-                    list.push([current[0] - 1, current[1]]);   //Go Left
-                    list.push([current[0], current[1] - 1]);   //Go below
-
-                    if (grid[current[0]][current[1]] !== 3) {
-                        this.state.grid[current[0]][current[1]] = 2; // mark it as visited
-                    }
-                    stack = stack.concat(list);
-                }
-                this.setState({grid: grid, pointer: current});
-                await new Promise((done) => setTimeout(() => done(), this.state.speed));//To slow down the speed of Animation
-            }
-            if (flag === 0) this.setState({grid: grid});
-            if (this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1])
-            {
-                this.showModal(); // return if path not found
-                return;
-            }
-
-            await this.pathdisplay(this.state.path);
-
-        }
-
-        if (this.state.currentAlgo === "dijkstra" || this.state.currentAlgo === "bfs") {
-            this.setState({path:[],pointer:this.state.start});
-            let queue = [this.state.start];
-            let grid = this.state.grid;
-            let dist = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(1000000000));
-            let par = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
-            dist[this.state.start[0]][this.state.start[1]] = 0;
-            par[this.state.start[0]][this.state.start[1]] = [this.state.start[0], this.state.start[1]];
-            let ok = true;
-            while (queue.length !== 0) {
-                const current = queue[0];
-                queue.shift(); // pop the queue
-                if (grid[current[0]][current[1]] === 1 || grid[current[0]][current[1]] === 2) //if its a wall or visited cell continue
-                    continue;
-                if (grid[current[0]][current[1]] === 3) {
-                    if (ok) ok = false;
-                    else continue; //if you are again pushing the source point, its !ok
-                }
-                if (grid[current[0]][current[1]] === 4) {  //reached the destination, so break.
-                    this.setState({grid: grid, pointer: current});
-                    await new Promise((done) => setTimeout(() => done(), this.state.speed));//To slow down the speed of Animation
-                    break;
-                } else {
-                    let list = [];
-                    if (current[0] !== this.state.height - 1 && grid[current[0] + 1][current[1]] !== 2) {
-                        if (dist[current[0] + 1][current[1]] > dist[current[0]][current[1]] + 1) {
-                            dist[current[0] + 1][current[1]] = dist[current[0]][current[1]] + 1;
-                            par[current[0] + 1][current[1]] = [current[0], current[1]];
-                        }
-                        list.push([current[0] + 1, current[1]]);
-                    }
-                    if (current[1] !== this.state.width - 1 && grid[current[0]][current[1] + 1] !== 2) {
-                        if (dist[current[0]][current[1] + 1] > dist[current[0]][current[1]] + 1) {
-                            dist[current[0]][current[1] + 1] = dist[current[0]][current[1]] + 1;
-                            par[current[0]][current[1] + 1] = [current[0], current[1]];
-                        }
-
-                        list.push([current[0], current[1] + 1]);
-                    }
-                    if (current[0] !== 0 && grid[current[0] - 1][current[1]] !== 2) {
-                        if (dist[current[0] - 1][current[1]] > dist[current[0]][current[1]] + 1) {
-                            dist[current[0] - 1][current[1]] = dist[current[0]][current[1]] + 1;
-                            par[current[0] - 1][current[1]] = [current[0], current[1]];
-                        }
-                        list.push([current[0] - 1, current[1]]);
-                    }
-                    if (current[1] !== 0 && grid[current[0]][current[1] - 1] !== 2) {
-                        if (dist[current[0]][current[1] - 1] > dist[current[0]][current[1]] + 1) {
-                            dist[current[0]][current[1] - 1] = dist[current[0]][current[1]] + 1;
-                            par[current[0]][current[1] - 1] = [current[0], current[1]];
-                        }
-                        list.push([current[0], current[1] - 1]);
-                    }
-                    if (grid[current[0]][current[1]] !== 3) {
-                        grid[current[0]][current[1]] = 2; // mark it as visited
-                    }
-                    this.setState({grid: grid, pointer: current});
-                    await new Promise((done) => setTimeout(() => done(), this.state.speed));//To slow down the speed of Animation
-                    queue = queue.concat(list);
-                }
-            }
-            if (this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1])
-            {
-                this.showModal(); // return if path not found
-                return;
-            }
-            let ptr = [this.state.end[0],this.state.end[1]];
-            while(true)
-            {
-
-                this.state.path = [...this.state.path,ptr];
-                if(ptr[0] === this.state.start[0] && ptr[1] === this.state.start[1])
-                {
-                    break;
-                }
-                else
-                {
-                    ptr = par[ptr[0]][ptr[1]];
-                }
-            }
-            this.state.path = this.state.path.reverse();
-            await this.pathdisplay(this.state.path);
-        }
-
-        
-        if(this.state.currentAlgo === "bestfs")
-        {
-            this.computeHeuristics();
-            this.setState({path:[],pointer:this.state.start});
-            let pq = new PriorityQueue();
-            pq.enqueue(this.state.start,this.state.heuristics[this.state.start[0]][this.state.start[1]]);
-            let path = Array(30)
-                .fill()
-                .map(() => Array(40).fill([]));
-            while(!pq.isEmpty())
-            {
-
-                let grid = this.state.grid;
-                let current = pq.front().element;
-                pq.dequeue();
-                this.setState({current});
-                if(grid[current[0]][current[1]] === 4)
-                {
-                    this.setState({ grid,pointer:current });
-                    break;
-                }
-                if (current[1] !== this.state.width - 1 && (grid[current[0]][current[1] + 1] === 0 || grid[current[0]][current[1] + 1] === 4))
-                {
-                    if (path[current[0]][current[1] + 1].length === 0 || path[current[0]][current[1] + 1].length > [...path[current[0]][current[1]], current].length) {
-                        pq.enqueue([current[0], current[1] + 1], this.state.heuristics[current[0]][current[1] + 1]);
-                        path[current[0]][current[1] + 1] = [...path[current[0]][current[1]], current,];
-                    }
-                }
-                if (current[0] !== this.state.height - 1 && (grid[current[0] + 1][current[1]] === 0) || grid[current[0] + 1][current[1]] === 4)
-                {
-                    if (path[current[0] + 1][current[1]].length === 0 || path[current[0] + 1][current[1]].length > [...path[current[0]][current[1]], current])
-                    {
-                        pq.enqueue([current[0] + 1, current[1]], this.state.heuristics[current[0] + 1][current[1]]);
-                        path[current[0] + 1][current[1]] = [...path[current[0]][current[1]], current,];
-                    }
-                }
-                if (current[0] !== 0 && (grid[current[0] - 1][current[1]] === 0 || (grid[current[0] - 1][current[1]] === 4)))
-                {
-                    if (path[current[0] - 1][current[1]].length === 0 || path[current[0] - 1][current[1]].length > [...path[current[0]][current[1]], current])
-                    {
-                        pq.enqueue([current[0] - 1, current[1]], this.state.heuristics[current[0] - 1][current[1]]);
-                        path[current[0] - 1][current[1]] = [...path[current[0]][current[1]], current,];
-                    }
-                }
-                if (current[1] !== 0 && (grid[current[0]][current[1] - 1] === 0 || (grid[current[0]][current[1]-1] === 4)))
-                {
-                    if (path[current[0]][current[1] - 1].length === 0 || path[current[0]][current[1] - 1].length > [...path[current[0]][current[1]], current].length)
-                    {
-                        pq.enqueue([current[0], current[1] - 1], this.state.heuristics[current[0]][current[1] - 1]);
-                        path[current[0]][current[1] - 1] = [...path[current[0]][current[1]],current,];
-                    }
-                }
-                grid[current[0]][current[1]] = 2;
-                this.setState({ grid,pointer:current });
-                await new Promise((done) => setTimeout(() => done(), 25)); //To slow down the animation
-            }
-
-            if (this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1])
-            {
-                this.showModal(); // return if path not found
-                return;
-            }
-
-            this.state.path = path[this.state.end[0]][this.state.end[1]];
-
-            await this.pathdisplay(this.state.path);
-
-
-        }
-
-        if(this.state.currentAlgo === "a-star")
-        {
-
-            this.computeHeuristics();
-            this.setState({path:[],pointer:this.state.start});
-            let pq = new PriorityQueue();
-            pq.enqueue(this.state.start,this.state.heuristics[this.state.start[0]][this.state.start[1]]);
-            let dp = Array(30)
-                .fill()
-                .map(() => Array(40).fill([]));
-            while(!pq.isEmpty())
-            {
-
-                let grid = this.state.grid;
-                let current = pq.front().element;
-                pq.dequeue();
-                this.setState({current});
-                if(grid[current[0]][current[1]] === 4)
-                {
-                    this.setState({ grid,pointer:current });
-                    break;
-                }
-                if (current[1] !== this.state.width - 1 && (grid[current[0]][current[1] + 1] === 0 || grid[current[0]][current[1] + 1] === 4))
-                {
-                    if (dp[current[0]][current[1] + 1].length === 0 || dp[current[0]][current[1] + 1].length > [...dp[current[0]][current[1]], current].length) {
-                        pq.enqueue([current[0], current[1] + 1], dp[current[0]][current[1]].length+this.state.heuristics[current[0]][current[1] + 1]);
-                        dp[current[0]][current[1] + 1] = [...dp[current[0]][current[1]], current,];
-                    }
-                }
-                if (current[0] !== this.state.height - 1 && ((grid[current[0] + 1][current[1]] === 0) || grid[current[0] + 1][current[1]] === 4))
-                {
-                    if (dp[current[0] + 1][current[1]].length === 0 || dp[current[0] + 1][current[1]].length > [...dp[current[0]][current[1]], current])
-                    {
-                        pq.enqueue([current[0] + 1, current[1]], dp[current[0]][current[1]].length+this.state.heuristics[current[0] + 1][current[1]]);
-                        dp[current[0] + 1][current[1]] = [...dp[current[0]][current[1]], current,];
-                    }
-                }
-                if (current[0] !== 0 && (grid[current[0] - 1][current[1]] === 0 || (grid[current[0] - 1][current[1]] === 4)))
-                {
-                    if (dp[current[0] - 1][current[1]].length === 0 || dp[current[0] - 1][current[1]].length > [...dp[current[0]][current[1]], current])
-                    {
-                        pq.enqueue([current[0] - 1, current[1]], dp[current[0]][current[1]].length+this.state.heuristics[current[0] - 1][current[1]]);
-                        dp[current[0] - 1][current[1]] = [...dp[current[0]][current[1]], current,];
-                    }
-                }
-                if (current[1] !== 0 && (grid[current[0]][current[1] - 1] === 0 || (grid[current[0]][current[1]-1] === 4)))
-                {
-                    if (dp[current[0]][current[1] - 1].length === 0 || dp[current[0]][current[1] - 1].length > [...dp[current[0]][current[1]], current].length)
-                    {
-                        pq.enqueue([current[0], current[1] - 1], dp[current[0]][current[1]].length+this.state.heuristics[current[0]][current[1] - 1]);
-                        dp[current[0]][current[1] - 1] = [...dp[current[0]][current[1]],current,];
-                    }
-                }
-                grid[current[0]][current[1]] = 2; // this node as visited
-                this.setState({ grid,pointer:current });
-                await new Promise((done) => setTimeout(() => done(), 25)); //To slow down the animation
-
-            }
-            if (this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1])
-            {
-                this.showModal(); // return if path not found
-                return;
-            }
-            this.state.path = dp[this.state.end[0]][this.state.end[1]];
-            await this.pathdisplay(this.state.path);
-        }
-        if (this.state.currentAlgo === "tsp") {
-            this.state.graph = new Graph(this.state.grid);
-            let unvisited = new Set();
-            unvisited.add(this.state.end);
-            unvisited.add(this.state.end2);
-            unvisited.add(this.state.end3);
-             let now = this.state.start;
-             let totalpath = [];
-             while(unvisited.size)
-             {
-                 let togo = this.findOptimalVertex(unvisited,now);
-                 unvisited.delete(togo);
-                 let newpath = await this.aStar(now, togo);
-                 totalpath = totalpath.concat(newpath);
-                 now = togo;
-             }
-            await this.pathdisplay(totalpath);
-        }
-
-        }
-
-
-
-
-    aStar = async (start,end) => {
-        let heuristics = this.state.heuristics;
-        for(let i = 0; i < this.state.height; i++)
-        {
-            for(let j = 0; j < this.state.width; j++)
-            {
-                heuristics[i][j] = Math.abs(end[0]-i) + Math.abs(end[1]-j);
-            }
-        }
-        this.setState({heuristics});
-
-
-            this.setState({path:[],pointer:start});
-            let pq = new PriorityQueue();
-            pq.enqueue(start,this.state.heuristics[start[0]][start[1]]);
-            let dp = Array(30)
-                .fill()
-                .map(() => Array(40).fill([]));
-            while(!pq.isEmpty())
-        {
-
-            let grid = this.state.grid;
-            let current = pq.front().element;
-            pq.dequeue();
-            this.setState({current});
-            if(grid[current[0]][current[1]] === 4)
-        {
-            this.setState({ grid,pointer:current });
-            break;
-        }
-        if (current[1] !== this.state.width - 1 && (grid[current[0]][current[1] + 1] === 0 || grid[current[0]][current[1] + 1] === 4))
-        {
-            if (dp[current[0]][current[1] + 1].length === 0 || dp[current[0]][current[1] + 1].length > [...dp[current[0]][current[1]], current].length) {
-                pq.enqueue([current[0], current[1] + 1], dp[current[0]][current[1]].length+this.state.heuristics[current[0]][current[1] + 1]);
-                dp[current[0]][current[1] + 1] = [...dp[current[0]][current[1]], current,];
-            }
-        }
-        if (current[0] !== this.state.height - 1 && ((grid[current[0] + 1][current[1]] === 0) || grid[current[0] + 1][current[1]] === 4))
-        {
-            if (dp[current[0] + 1][current[1]].length === 0 || dp[current[0] + 1][current[1]].length > [...dp[current[0]][current[1]], current])
-            {
-                pq.enqueue([current[0] + 1, current[1]], dp[current[0]][current[1]].length+this.state.heuristics[current[0] + 1][current[1]]);
-                dp[current[0] + 1][current[1]] = [...dp[current[0]][current[1]], current,];
-            }
-        }
-        if (current[0] !== 0 && (grid[current[0] - 1][current[1]] === 0 || (grid[current[0] - 1][current[1]] === 4)))
-        {
-            if (dp[current[0] - 1][current[1]].length === 0 || dp[current[0] - 1][current[1]].length > [...dp[current[0]][current[1]], current])
-            {
-                pq.enqueue([current[0] - 1, current[1]], dp[current[0]][current[1]].length+this.state.heuristics[current[0] - 1][current[1]]);
-                dp[current[0] - 1][current[1]] = [...dp[current[0]][current[1]], current,];
-            }
-        }
-        if (current[1] !== 0 && (grid[current[0]][current[1] - 1] === 0 || (grid[current[0]][current[1]-1] === 4)))
-        {
-            if (dp[current[0]][current[1] - 1].length === 0 || dp[current[0]][current[1] - 1].length > [...dp[current[0]][current[1]], current].length)
-            {
-                pq.enqueue([current[0], current[1] - 1], dp[current[0]][current[1]].length+this.state.heuristics[current[0]][current[1] - 1]);
-                dp[current[0]][current[1] - 1] = [...dp[current[0]][current[1]],current,];
-            }
-        }
-        grid[current[0]][current[1]] = 2; // this node as visited
-        this.setState({ grid,pointer:current });
-        await new Promise((done) => setTimeout(() => done(), 25)); //To slow down the animation
-
-        }
-
-
-
-        let grid = this.state.grid;
-            for(let i = 0; i < this.state.height; i++){
-                for(let j = 0; j < this.state.width; j++){
-                    if(grid[i][j] ===2){
-                        grid[i][j] = 0;
-                    }
-                }
-            }
-            grid[start[0]][start[1]] = 0;
-             grid[end[0]][end[1]] = 3;
-            await this.setState({grid});
-      //  this.state.path = dp[end[0]][end[1]];
-        return dp[end[0]][end[1]];
+        this.setState({pointer, visual: true});
+        if (this.state.start[0] === this.state.end[0] && this.state.start[1] === this.state.end[1]) return;
+        else if (this.state.currentAlgo === "dfs") await this.dfs();
+        else if (this.state.currentAlgo === "dijkstra" || this.state.currentAlgo === "bfs") await this.Dijkstra();
+        else if (this.state.currentAlgo === "bestfs") await this.bestfs();
+        else if (this.state.currentAlgo === "a-star") await this.AStar();
+        else if (this.state.currentAlgo === "tsp") await this.TSP();
     }
-
     findOptimalVertex = (unvisited,source) =>{
         let pq = new PriorityQueue();
         let sourceMapped = this.state.graph.map2[source];
-        // console.log(source,sourceMapped);
         for (let item of unvisited){
-
-            let destinationMapped = this.state.graph.map2[item];
-            //  console.log(item,destinationMapped);
-            pq.enqueue(item,this.state.graph.allPairShortest[sourceMapped][destinationMapped]);
-        }
-        // console.log(pq);
-        return pq.front().element;
-    }
-
-
-
-    aStar = async (start,end) => {
-        let heuristics = this.state.heuristics;
-        for(let i = 0; i < this.state.height; i++)
-        {
-            for(let j = 0; j < this.state.width; j++)
-            {
-                heuristics[i][j] = Math.abs(end[0]-i) + Math.abs(end[1]-j);
-            }
-        }
-        this.setState({heuristics});
-
-
-            this.setState({path:[],pointer:start});
-            let pq = new PriorityQueue();
-            pq.enqueue(start,this.state.heuristics[start[0]][start[1]]);
-            let dp = Array(30)
-                .fill()
-                .map(() => Array(40).fill([]));
-            while(!pq.isEmpty())
-        {
-
-            let grid = this.state.grid;
-            let current = pq.front().element;
-            pq.dequeue();
-            this.setState({current});
-            if(grid[current[0]][current[1]] === 4)
-        {
-            this.setState({ grid,pointer:current });
-            break;
-        }
-        if (current[1] !== this.state.width - 1 && (grid[current[0]][current[1] + 1] === 0 || grid[current[0]][current[1] + 1] === 4))
-        {
-            if (dp[current[0]][current[1] + 1].length === 0 || dp[current[0]][current[1] + 1].length > [...dp[current[0]][current[1]], current].length) {
-                pq.enqueue([current[0], current[1] + 1], dp[current[0]][current[1]].length+this.state.heuristics[current[0]][current[1] + 1]);
-                dp[current[0]][current[1] + 1] = [...dp[current[0]][current[1]], current,];
-            }
-        }
-        if (current[0] !== this.state.height - 1 && ((grid[current[0] + 1][current[1]] === 0) || grid[current[0] + 1][current[1]] === 4))
-        {
-            if (dp[current[0] + 1][current[1]].length === 0 || dp[current[0] + 1][current[1]].length > [...dp[current[0]][current[1]], current])
-            {
-                pq.enqueue([current[0] + 1, current[1]], dp[current[0]][current[1]].length+this.state.heuristics[current[0] + 1][current[1]]);
-                dp[current[0] + 1][current[1]] = [...dp[current[0]][current[1]], current,];
-            }
-        }
-        if (current[0] !== 0 && (grid[current[0] - 1][current[1]] === 0 || (grid[current[0] - 1][current[1]] === 4)))
-        {
-            if (dp[current[0] - 1][current[1]].length === 0 || dp[current[0] - 1][current[1]].length > [...dp[current[0]][current[1]], current])
-            {
-                pq.enqueue([current[0] - 1, current[1]], dp[current[0]][current[1]].length+this.state.heuristics[current[0] - 1][current[1]]);
-                dp[current[0] - 1][current[1]] = [...dp[current[0]][current[1]], current,];
-            }
-        }
-        if (current[1] !== 0 && (grid[current[0]][current[1] - 1] === 0 || (grid[current[0]][current[1]-1] === 4)))
-        {
-            if (dp[current[0]][current[1] - 1].length === 0 || dp[current[0]][current[1] - 1].length > [...dp[current[0]][current[1]], current].length)
-            {
-                pq.enqueue([current[0], current[1] - 1], dp[current[0]][current[1]].length+this.state.heuristics[current[0]][current[1] - 1]);
-                dp[current[0]][current[1] - 1] = [...dp[current[0]][current[1]],current,];
-            }
-        }
-        grid[current[0]][current[1]] = 2; // this node as visited
-        this.setState({ grid,pointer:current });
-        await new Promise((done) => setTimeout(() => done(), 25)); //To slow down the animation
-
-        }
-
-        let grid = this.state.grid;
-            for(let i = 0; i < this.state.height; i++){
-                for(let j = 0; j < this.state.width; j++){
-                    if(grid[i][j] ===2){
-                        grid[i][j] = 0;
-                    }
-                }
-            }
-            grid[start[0]][start[1]] = 0;
-             grid[end[0]][end[1]] = 3;
-            await this.setState({grid});
-      //  this.state.path = dp[end[0]][end[1]];
-        return dp[end[0]][end[1]];
-    }
-
-    findOptimalVertex = (unvisited,source) =>{
-        let pq = new PriorityQueue();
-        let sourceMapped = this.state.graph.map2[source];
-       // console.log(source,sourceMapped);
-        for (let item of unvisited){
-
              let destinationMapped = this.state.graph.map2[item];
-          //  console.log(item,destinationMapped);
             pq.enqueue(item,this.state.graph.allPairShortest[sourceMapped][destinationMapped]);
         }
-       // console.log(pq);
         return pq.front().element;
     }
     pathdisplay = async (path) => {
@@ -684,20 +192,15 @@ class App extends Component {
         this.setState({grid: grid});
         //To slow down the speed of Animation
         this.setState({visual: false});
-
     }
     clearPath = () => {
         let g = this.state.grid;
         let path = this.state.path;
-        for(let i = 0; i < path.length; i++)
-        {
-            g[path[i][0]][path[i][1]] = 2;
-        }
+        for(let i = 0; i < path.length; i++)g[path[i][0]][path[i][1]] = 2;
         this.setState({path:[]});
         this.setState({grid: g});
     }
     render() {
-        this.state.grid2 = new Grid2(this.state.grid,this.state.height,this.state.width,this.state.start,this.state.end,this.state.pointer);
         return (
             <div>
                 <div>
@@ -710,7 +213,6 @@ class App extends Component {
                     <Grid start={this.state.start} end={this.state.end} height={this.state.height}
                           width={this.state.width} grid={this.state.grid} changeState={this.changeState} changesourcefunc={this.changedSource} changedestfunc = {this.changedDestination}
                           pointer={this.state.pointer} changeSource = {this.state.changeSource} changeDestination = {this.state.changeDestination} />
-                    {/* <VisualiseGrid {...this.state.grid2}></VisualiseGrid> */}
                 </div>
                 <D show={this.state.modalshow} handleClose={this.hideModal} />
 

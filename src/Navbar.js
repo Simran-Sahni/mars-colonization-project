@@ -19,27 +19,23 @@ class Navbar extends React.Component {
       selectedAlgo: props.currentAlgo,
       checkedA: false,
 
-      multipledestinations:props.multipledestinations,
+      multipledestinations: props.multipledestinations,
     };
   }
 
   hc() {
-    if(!this.state.checkedA)
+    if (!this.state.checkedA) {
       this.editButtons();
-    else {
+    } else {
       document.getElementById('chngDestBtn').innerHTML = '<button id="chngDestBtn" class="btn" type="button" style=background-color:#ee0000>'+ 'Change Destination'+'</ button>';
     }
     this.setState({checkedA: !this.state.checkedA});
-
   }
 
 
-
-  editButtons()
-  {
+  editButtons() {
     document.getElementById('chngDestBtn').innerHTML = '<button id="chngDestBtn" class="btn" type="button" style=background-color:#ee0000>'+ 'Add Destination'+'</ button>';
     this.props.multiDestination();
-
   }
   /**
    *
@@ -55,9 +51,6 @@ class Navbar extends React.Component {
 
     this.props.handle(algo);
     this.setState({selectedAlgo: algo});
-
-
-
   }
   /**
    *
@@ -86,17 +79,16 @@ class Navbar extends React.Component {
                 style={{
                   backgroundColor: '#00ee00',
                 }}
-                      disabled={this.props.visual}
+                disabled={this.props.visual}
               >
                 Change Source
               </button>
-              {console.log(this.props.visual)}
               <button onClick={this.props.toggleDestination} className="btn"
-                      id="chngDestBtn"
+                id="chngDestBtn"
                 style={{
                   backgroundColor: '#ee0000',
                 }}
-                      disabled={this.props.visual}
+                disabled={this.props.visual}
               >
                 Change Destination
               </button>
@@ -195,12 +187,12 @@ Navbar.propTypes = {
   currentAlgo: PropTypes.string,
   selectAlgo: PropTypes.func,
   visualize: PropTypes.func,
-  visual:PropTypes.bool,
+  visual: PropTypes.bool,
   handle: PropTypes.func,
   toggleSource: PropTypes.func,
   toggleDestination: PropTypes.func,
   changeGrid: PropTypes.func,
-  multiDestination:PropTypes.func,
+  multiDestination: PropTypes.func,
   multipledestinations: PropTypes.bool,
 
 };
