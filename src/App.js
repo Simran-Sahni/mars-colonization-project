@@ -7,6 +7,9 @@ import PriorityQueue from "./priorityq";
 import Graph from "./Algo/Graph"
 import Grid2 from "./Algo/Grid2";
 import VisualiseGrid from "./media/VisualizeGrid";
+
+
+//This is the modal to display path not found
 const D = ({ handleClose, show}) => {
     return (
         <>
@@ -43,8 +46,7 @@ class App extends Component {
         width: 20, // width of the grid
         start: [10, 2], // start position
         end: [10, 15],// end position
-        end2:[5,4],
-        end3:[18,3],
+
         grid: Array(20).fill(undefined, undefined, undefined).map(() => Array(20).fill(0)),
         speed: 50, // speed for animation
         pointer: [], // store the pointer for visualization
@@ -55,16 +57,21 @@ class App extends Component {
         changeSource:false,
         changeDestination:false,
         multipledestinations:false,
+        visual:false,
         grid2:null ,
-
     };
     constructor() {
         super();
+
         this.state.grid[this.state.start[0]][this.state.start[1]] = 3; // special point : start point
         this.state.grid[this.state.end[0]][this.state.end[1]] = 4; // special point : end point
-        this.state.grid[this.state.end2[0]][this.state.end2[1]] = 4; // special point : end point
-        this.state.grid[this.state.end3[0]][this.state.end3[1]] = 4; // special point : end point
+        //this.state.grid[this.state.end2[0]][this.state.end2[1]] = 4; // special point : end point
+        //this.state.grid[this.state.end3[0]][this.state.end3[1]] = 4; // special point : end point
+
         this.state.grid2 = new Grid2(this.state.grid,this.state.height,this.state.width,this.state.start,this.state.end,this.state.pointer);
+
+        this.state.graph = new Graph(this.state.grid);
+
     }
     toggleSource=()=>this.setState({changeSource: !this.state.changeSource});
     toggleDestination = ()=>{
@@ -95,8 +102,9 @@ class App extends Component {
         this.setState({grid});
     }
 
-    multiDestination = () =>{
-        if(this.state.multipledestinations === false) {
+
+    multiDestination = () => {
+        if (this.state.multipledestinations === false) {
             this.setState({multipledestinations: true});
         }
     }
@@ -159,7 +167,7 @@ class App extends Component {
         let pointer = this.state.pointer;
         pointer[0] = this.state.start[0];
         pointer[1] = this.state.start[1];
-        this.setState({pointer});
+        this.setState({pointer,visual: true});
         if(this.state.start[0] === this.state.end[0] && this.state.start[1] === this.state.end[1]){
             return;
         }
@@ -307,6 +315,8 @@ class App extends Component {
             this.state.path = this.state.path.reverse();
             await this.pathdisplay(this.state.path);
         }
+
+        
         if(this.state.currentAlgo === "bestfs")
         {
             this.computeHeuristics();
@@ -466,6 +476,107 @@ class App extends Component {
 
 
 
+
+    aStar = async (start,end) => {
+        let heuristics = this.state.heuristics;
+        for(let i = 0; i < this.state.height; i++)
+        {
+            for(let j = 0; j < this.state.width; j++)
+            {
+                heuristics[i][j] = Math.abs(end[0]-i) + Math.abs(end[1]-j);
+            }
+        }
+        this.setState({heuristics});
+
+
+            this.setState({path:[],pointer:start});
+            let pq = new PriorityQueue();
+            pq.enqueue(start,this.state.heuristics[start[0]][start[1]]);
+            let dp = Array(30)
+                .fill()
+                .map(() => Array(40).fill([]));
+            while(!pq.isEmpty())
+        {
+
+            let grid = this.state.grid;
+            let current = pq.front().element;
+            pq.dequeue();
+            this.setState({current});
+            if(grid[current[0]][current[1]] === 4)
+        {
+            this.setState({ grid,pointer:current });
+            break;
+        }
+        if (current[1] !== this.state.width - 1 && (grid[current[0]][current[1] + 1] === 0 || grid[current[0]][current[1] + 1] === 4))
+        {
+            if (dp[current[0]][current[1] + 1].length === 0 || dp[current[0]][current[1] + 1].length > [...dp[current[0]][current[1]], current].length) {
+                pq.enqueue([current[0], current[1] + 1], dp[current[0]][current[1]].length+this.state.heuristics[current[0]][current[1] + 1]);
+                dp[current[0]][current[1] + 1] = [...dp[current[0]][current[1]], current,];
+            }
+        }
+        if (current[0] !== this.state.height - 1 && ((grid[current[0] + 1][current[1]] === 0) || grid[current[0] + 1][current[1]] === 4))
+        {
+            if (dp[current[0] + 1][current[1]].length === 0 || dp[current[0] + 1][current[1]].length > [...dp[current[0]][current[1]], current])
+            {
+                pq.enqueue([current[0] + 1, current[1]], dp[current[0]][current[1]].length+this.state.heuristics[current[0] + 1][current[1]]);
+                dp[current[0] + 1][current[1]] = [...dp[current[0]][current[1]], current,];
+            }
+        }
+        if (current[0] !== 0 && (grid[current[0] - 1][current[1]] === 0 || (grid[current[0] - 1][current[1]] === 4)))
+        {
+            if (dp[current[0] - 1][current[1]].length === 0 || dp[current[0] - 1][current[1]].length > [...dp[current[0]][current[1]], current])
+            {
+                pq.enqueue([current[0] - 1, current[1]], dp[current[0]][current[1]].length+this.state.heuristics[current[0] - 1][current[1]]);
+                dp[current[0] - 1][current[1]] = [...dp[current[0]][current[1]], current,];
+            }
+        }
+        if (current[1] !== 0 && (grid[current[0]][current[1] - 1] === 0 || (grid[current[0]][current[1]-1] === 4)))
+        {
+            if (dp[current[0]][current[1] - 1].length === 0 || dp[current[0]][current[1] - 1].length > [...dp[current[0]][current[1]], current].length)
+            {
+                pq.enqueue([current[0], current[1] - 1], dp[current[0]][current[1]].length+this.state.heuristics[current[0]][current[1] - 1]);
+                dp[current[0]][current[1] - 1] = [...dp[current[0]][current[1]],current,];
+            }
+        }
+        grid[current[0]][current[1]] = 2; // this node as visited
+        this.setState({ grid,pointer:current });
+        await new Promise((done) => setTimeout(() => done(), 25)); //To slow down the animation
+
+        }
+
+
+
+        let grid = this.state.grid;
+            for(let i = 0; i < this.state.height; i++){
+                for(let j = 0; j < this.state.width; j++){
+                    if(grid[i][j] ===2){
+                        grid[i][j] = 0;
+                    }
+                }
+            }
+            grid[start[0]][start[1]] = 0;
+             grid[end[0]][end[1]] = 3;
+            await this.setState({grid});
+      //  this.state.path = dp[end[0]][end[1]];
+        return dp[end[0]][end[1]];
+    }
+
+    findOptimalVertex = (unvisited,source) =>{
+        let pq = new PriorityQueue();
+        let sourceMapped = this.state.graph.map2[source];
+        // console.log(source,sourceMapped);
+        for (let item of unvisited){
+
+            let destinationMapped = this.state.graph.map2[item];
+            //  console.log(item,destinationMapped);
+            pq.enqueue(item,this.state.graph.allPairShortest[sourceMapped][destinationMapped]);
+        }
+        // console.log(pq);
+        return pq.front().element;
+    }
+
+
+
     aStar = async (start,end) => {
         let heuristics = this.state.heuristics;
         for(let i = 0; i < this.state.height; i++)
@@ -572,6 +683,7 @@ class App extends Component {
         await new Promise((done) => setTimeout(() => done(), this.state.speed));
         this.setState({grid: grid});
         //To slow down the speed of Animation
+        this.setState({visual: false});
 
     }
     clearPath = () => {
@@ -590,15 +702,15 @@ class App extends Component {
             <div>
                 <div>
                     <Navbar randomize={this.randomizeMatrix} clearWalls={this.clearGrid} newSpeed={this.changeSpeed} multiDestination={this.multiDestination}
-                            handle={this.selectAlgo} selectedAlgo={this.currentAlgo} visual={this.visualize} clearPath = {this.clearPath}
-                            multipledestinations = {this.state.multipledestinations}
+                            handle={this.selectAlgo} selectedAlgo={this.currentAlgo} visualize={this.visualize} clearPath = {this.clearPath}
+                            multipledestinations = {this.state.multipledestinations} visual={this.state.visual}
                             toggleSource= {this.toggleSource} toggleDestination= {this.toggleDestination}/>
                 </div>
                 <div>
-                    {/*<Grid start={this.state.start} end={this.state.end} height={this.state.height}*/}
-                    {/*      width={this.state.width} grid={this.state.grid} changeState={this.changeState} changesourcefunc={this.changedSource} changedestfunc = {this.changedDestination}*/}
-                    {/*      pointer={this.state.pointer} changeSource = {this.state.changeSource} changeDestination = {this.state.changeDestination} />*/}
-                    <VisualiseGrid {...this.state.grid2}></VisualiseGrid>
+                    <Grid start={this.state.start} end={this.state.end} height={this.state.height}
+                          width={this.state.width} grid={this.state.grid} changeState={this.changeState} changesourcefunc={this.changedSource} changedestfunc = {this.changedDestination}
+                          pointer={this.state.pointer} changeSource = {this.state.changeSource} changeDestination = {this.state.changeDestination} />
+                    {/* <VisualiseGrid {...this.state.grid2}></VisualiseGrid> */}
                 </div>
                 <D show={this.state.modalshow} handleClose={this.hideModal} />
 

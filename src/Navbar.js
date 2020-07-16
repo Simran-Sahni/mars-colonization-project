@@ -18,6 +18,7 @@ class Navbar extends React.Component {
     this.state={
       selectedAlgo: props.currentAlgo,
       checkedA: false,
+
       multipledestinations:props.multipledestinations,
     };
   }
@@ -25,9 +26,14 @@ class Navbar extends React.Component {
   hc() {
     if(!this.state.checkedA)
       this.editButtons();
+    else {
+      document.getElementById('chngDestBtn').innerHTML = '<button id="chngDestBtn" class="btn" type="button" style=background-color:#ee0000>'+ 'Change Destination'+'</ button>';
+    }
     this.setState({checkedA: !this.state.checkedA});
 
   }
+
+
 
   editButtons()
   {
@@ -51,7 +57,7 @@ class Navbar extends React.Component {
     this.setState({selectedAlgo: algo});
 
 
-    console.log(this.state.selectedAlgo);
+
   }
   /**
    *
@@ -79,15 +85,18 @@ class Navbar extends React.Component {
               <button onClick={this.props.toggleSource} className="btn"
                 style={{
                   backgroundColor: '#00ee00',
-                }}>
+                }}
+                      disabled={this.props.visual}
+              >
                 Change Source
               </button>
-
+              {console.log(this.props.visual)}
               <button onClick={this.props.toggleDestination} className="btn"
                       id="chngDestBtn"
                 style={{
                   backgroundColor: '#ee0000',
                 }}
+                      disabled={this.props.visual}
               >
                 Change Destination
               </button>
@@ -96,15 +105,18 @@ class Navbar extends React.Component {
                 id="visualizebtn"
                 className="btn"
                 type="button"
-                onClick={this.props.visual}
+                onClick={this.props.visualize}
+                disabled={this.props.visual}
               >
                                 Visualize
               </button>
+
               <li className="dropdown">
                 <button
                   className="btn dropdown-toggle"
                   type="button"
                   data-toggle="dropdown"
+                  disabled={this.props.visual}
                 >
                                     Algorithms <span className="caret"/>
                 </button>
@@ -136,17 +148,17 @@ class Navbar extends React.Component {
                 </ul>
               </li>
               <li>
-                <button onClick={this.props.randomize} className="btn">
+                <button onClick={this.props.randomize} className="btn" disabled={this.props.visual}>
                                     Randomize
                 </button>
               </li>
               <li>
-                <button onClick = {this.props.clearWalls} className="btn">
+                <button onClick = {this.props.clearWalls} className="btn" disabled={this.props.visual}>
                                     Clear Walls
                 </button>
               </li>
               <li>
-                <button onClick = {this.props.clearPath} className="btn">
+                <button onClick = {this.props.clearPath} className="btn" disabled={this.props.visual}>
                                     Clear Path
                 </button>
               </li>
@@ -155,6 +167,7 @@ class Navbar extends React.Component {
                   className="btn dropdown-toggle"
                   type="button"
                   data-toggle="dropdown"
+                  disabled={this.props.visual}
                 >
                                     Speed <span className="caret"/>
                 </button>
@@ -181,7 +194,8 @@ Navbar.propTypes = {
   newSpeed: PropTypes.func,
   currentAlgo: PropTypes.string,
   selectAlgo: PropTypes.func,
-  visual: PropTypes.func,
+  visualize: PropTypes.func,
+  visual:PropTypes.bool,
   handle: PropTypes.func,
   toggleSource: PropTypes.func,
   toggleDestination: PropTypes.func,
