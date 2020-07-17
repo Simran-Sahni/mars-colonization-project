@@ -96,15 +96,12 @@ class App extends Component {
         else{
 
             this.setState({end: this.state.end.push([i,j])});
-            console.log(this.state.end);
         }
         grid[i][j] = 4; // special point : end point
         this.setState({
             changeDestination: !this.state.changeDestination,
-            end: [[i, j]],
             grid,
         });
-        this.setState({grid});
     }
     multiDestination = () => {
         if (this.state.multipledestinations === false) {
