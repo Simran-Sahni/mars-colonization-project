@@ -2,10 +2,12 @@ import PriorityQueue from '../priorityq';
 import Graph from './Graph';
 
 export const TSP = async function() {
-  this.state.graph = new Graph(this.state.grid);
+  // this.setState({graph: new Graph(this.state.grid)});
   const unvisited = new Set();
-  unvisited.add(this.state.end);
-  let now = this.state.start;
+  for (const item of this.state.end) {
+    unvisited.add(item);
+  }
+  let now = this.state.start[0];
   let totalpath = [];
   while (unvisited.size) {
     const togo = this.findOptimalVertex(unvisited, now);
@@ -84,6 +86,8 @@ export const aStarForTSP = async function(start, end) {
 
 export const findOptimalVertex = (unvisited, source) =>{
   const pq = new PriorityQueue();
+  console.log(unvisited);
+  console.log(source);
   const sourceMapped = this.state.graph.map2[source];
   for (const item of unvisited) {
     const destinationMapped = this.state.graph.map2[item];

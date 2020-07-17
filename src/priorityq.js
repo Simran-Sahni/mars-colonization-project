@@ -27,7 +27,7 @@ export default class PriorityQueue {
   // enqueue function to add element
   // to the queue as per priority
   /**
-   * @param {number} element
+   * @param {*[]} element
    * @param {number} priority
    */
   enqueue(element, priority) {

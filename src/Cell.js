@@ -58,7 +58,8 @@ export const endPoint = function(i, j) {
     </div>
   );
 };
-export const wall = function(props, i, j) {
+
+const wall = function(props, i, j) {
   return (
     <div
       key={i + j}
@@ -123,3 +124,52 @@ export const empty = function(props, i, j) {
   >
   </div>);
 };
+wall.propTypes = {
+  changeState: PropTypes.func,
+  changeSource: PropTypes.bool,
+  changeDestination: PropTypes.bool,
+  changesourcefunc: PropTypes.func,
+  changedestfunc: PropTypes.func,
+};
+
+empty.propTypes = {
+  changeState: PropTypes.func,
+  changeSource: PropTypes.bool,
+  changeDestination: PropTypes.bool,
+  changesourcefunc: PropTypes.func,
+  changedestfunc: PropTypes.func,
+
+};
+
+visited.propTypes = {
+  changeState: PropTypes.func,
+  changeSource: PropTypes.bool,
+  changeDestination: PropTypes.bool,
+  changesourcefunc: PropTypes.func,
+  changedestfunc: PropTypes.func,
+
+};
+
+finalShortestPath.propTypes = {
+  changeState: PropTypes.func,
+  changeSource: PropTypes.bool,
+  changeDestination: PropTypes.bool,
+  changesourcefunc: PropTypes.func,
+  changedestfunc: PropTypes.func,
+};
+
+startPoint.propTypes = {
+  changeState: PropTypes.func,
+  changeSource: PropTypes.bool,
+  changeDestination: PropTypes.bool,
+  changesourcefunc: PropTypes.func,
+  changedestfunc: PropTypes.func,
+};
+
+currentPointer.propTypes = {
+  changeSource: PropTypes.bool,
+  toggleSource: PropTypes.func,
+  changeState: PropTypes.func,
+};
+
+export default wall;

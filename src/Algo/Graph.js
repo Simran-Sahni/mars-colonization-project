@@ -72,7 +72,6 @@ class Graph {
             if (this.isNotWall(neighbor[0], neighbor[1])) {
               const x = this.map2[[i, j]];
               const y = this.map2[[neighbor[0], neighbor[1]]];
-              //  console.log(i, j, neighbor[0], neighbor[1], x, y);
               this.addEdge(x, y);
               this.allPairShortest[x][y] = 1;
               this.allPairShortest[y][x] = 1;

@@ -1,11 +1,11 @@
 
 export const dfs = async function() {
   this.setState({path: []});
-  let stack = [this.state.start];
+  let stack = [this.state.start[0]];
   const grid = this.state.grid;
   const flag = 1;
   const par = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
-  par[this.state.start[0]][this.state.start[1]] = [this.state.start[0], this.state.start[1]];
+  par[this.state.start[0][0]][this.state.start[0][1]] = [this.state.start[0][0], this.state.start[0][1]];
   let ok = true;
   while (stack.length !== 0) {
     const current = stack[stack.length - 1];
@@ -35,7 +35,7 @@ export const dfs = async function() {
     await new Promise((done) => setTimeout(() => done(), this.state.speed));// To slow down the speed of Animation
   }
   if (flag === 0) this.setState({grid: grid});
-  if (this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1]) {
+  if (this.state.pointer[0] !== this.state.end[0][0] || this.state.pointer[1] !== this.state.end[0][1]) {
     this.showModal(); // return if path not found
     return;
   }

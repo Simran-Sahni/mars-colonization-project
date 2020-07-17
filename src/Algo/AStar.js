@@ -2,9 +2,9 @@ import PriorityQueue from '../priorityq';
 
 export const AStar = async function() {
   this.computeHeuristics();
-  this.setState({path: [], pointer: this.state.start});
+  this.setState({path: [], pointer: this.state.start[0]});
   const pq = new PriorityQueue();
-  pq.enqueue(this.state.start, this.state.heuristics[this.state.start[0]][this.state.start[1]]);
+  pq.enqueue(this.state.start[0], this.state.heuristics[this.state.start[0][0]][this.state.start[0][1]]);
   const dp = Array(30)
       .fill()
       .map(() => Array(40).fill([]));
@@ -45,10 +45,10 @@ export const AStar = async function() {
     this.setState({grid, pointer: current});
     await new Promise((done) => setTimeout(() => done(), 25)); // To slow down the animation
   }
-  if (this.state.pointer[0] !== this.state.end[0] || this.state.pointer[1] !== this.state.end[1]) {
+  if (this.state.pointer[0] !== this.state.end[0][0] || this.state.pointer[1] !== this.state.end[0][1]) {
     this.showModal(); // return if path not found
     return;
   }
-  this.state.path = dp[this.state.end[0]][this.state.end[1]];
+  this.state.path = dp[this.state.end[0][0]][this.state.end[0][1]];
   await this.pathdisplay(this.state.path);
 };
