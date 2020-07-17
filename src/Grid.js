@@ -35,15 +35,15 @@ function Grid(props) {
     gridList.push(rowList);
   }
   return (
-    <div className="p-4">
-      {gridList.map((object, index) => {
-        return (
-          <div className="row justify-content-center flex-nowrap" key = {index}>
-            {object}
-          </div>
-        );
-      })}
-    </div>
+      <div className="p-4">
+        {gridList.map((object, index) => {
+          return (
+              <div className="row justify-content-center flex-nowrap" key = {index}>
+                {object}
+              </div>
+          );
+        })}
+      </div>
   );
 }
 Grid.propTypes = {

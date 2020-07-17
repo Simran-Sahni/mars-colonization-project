@@ -47,7 +47,7 @@ class App extends Component {
         height: 20, // height of the grid
         width: 20, // width of the grid
         start: [10, 2], // start position
-        end: [10, 15],// end position
+        end: [ [10, 15] ],// end position
         grid: Array(20).fill(undefined, undefined, undefined).map(() => Array(20).fill(0)),
         speed: 50, // speed for animation
         pointer: [], // store the pointer for visualization
@@ -65,7 +65,8 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state.grid[this.state.start[0]][this.state.start[1]] = 3; // special point : start point
-        this.state.grid[this.state.end[0]][this.state.end[1]] = 4; // special point : end point
+        this.state.grid[this.state.end[0][0]][this.state.end[0][1]] = 4; // special point : end point
+
     }
     bestfs = bestfs.bind(this);
     dfs = dfs.bind(this);
@@ -91,7 +92,13 @@ class App extends Component {
     }
     changedDestination = (i,j)=> {
         let grid = this.state.grid;
-        grid[this.state.end[0]][this.state.end[1]] = 0;
+        if(!this.state.multipledestinations)
+        {grid[this.state.end[0][0]][this.state.end[0][1]] = 0;}
+        else{
+
+            this.setState({end: this.state.end.push([i,j])});
+            console.log(this.state.end);
+        }
         grid[i][j] = 4; // special point : end point
         this.setState({
             changeDestination: !this.state.changeDestination,
@@ -129,7 +136,7 @@ class App extends Component {
     clearGrid = () => {
         const newGrid = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
         newGrid[this.state.start[0]][this.state.start[1]] = 3; // special point : start
-        newGrid[this.state.end[0]][this.state.end[1]] = 4; // special point : end
+        newGrid[this.state.end[0][0]][this.state.end[0][1]] = 4; // special point : end
         this.setState({grid: newGrid, pointer: []});
     }
     changeState = (x, y) => {
@@ -141,7 +148,7 @@ class App extends Component {
             grid[x][y] = 0;
         }
         grid[this.state.start[0]][this.state.start[1]] = 3;
-        grid[this.state.end[0]][this.state.end[1]] = 4;
+        grid[this.state.end[0][0]][this.state.end[0][1]] = 4;
         this.setState({grid: grid});
     }
     changeSpeed = (newSpeed) => this.setState({speed:newSpeed});
@@ -152,7 +159,7 @@ class App extends Component {
         pointer[0] = this.state.start[0];
         pointer[1] = this.state.start[1];
         this.setState({pointer, visual: true});
-        if (this.state.start[0] === this.state.end[0] && this.state.start[1] === this.state.end[1]) return;
+        if (this.state.start[0] === this.state.end[0][0] && this.state.start[1] === this.state.end[0][1]) return;
         else if (this.state.currentAlgo === "dfs") await this.dfs();
         else if (this.state.currentAlgo === "dijkstra" || this.state.currentAlgo === "bfs") await this.Dijkstra();
         else if (this.state.currentAlgo === "bestfs") await this.bestfs();
