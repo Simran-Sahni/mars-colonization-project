@@ -11,6 +11,7 @@ import {Dijkstra} from "./Algo/Dijkstra";
 import {AStar} from "./Algo/AStar";
 import {TSP} from "./Algo/TSP";
 import {aStarForTSP} from "./Algo/TSP";
+import {findOptimalVertex} from "./Algo/TSP";
 //This is the modal to display path not found
 const D = ({ handleClose, show}) => {
     return (
@@ -41,7 +42,6 @@ const D = ({ handleClose, show}) => {
         </>
     );
 };
-
 class App extends Component {
     state = {
         height: 20, // height of the grid
@@ -59,14 +59,13 @@ class App extends Component {
         changeDestination:false,
         multipledestinations:false,
         visual:false,
-        grid2:null ,
+        currentAlgo: "Not Selected",
+
     };
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state.grid[this.state.start[0]][this.state.start[1]] = 3; // special point : start point
         this.state.grid[this.state.end[0]][this.state.end[1]] = 4; // special point : end point
-        this.state.graph = new Graph(this.state.grid);
-        this.computeHeuristics();
     }
     bestfs = bestfs.bind(this);
     dfs = dfs.bind(this);
@@ -74,12 +73,11 @@ class App extends Component {
     AStar = AStar.bind(this);
     TSP = TSP.bind(this);
     aStarForTSP = aStarForTSP.bind(this);
+    findOptimalVertex = findOptimalVertex.bind(this);
     toggleSource=()=>this.setState({changeSource: !this.state.changeSource});
     toggleDestination = ()=>{
-        if(this.state.multipledestinations)
-            this.setState({changeDestination: true});
-        else {
-        this.setState({changeDestination: !this.state.changeDestination});}
+        if(this.state.multipledestinations) this.setState({changeDestination: true});
+        else this.setState({changeDestination: !this.state.changeDestination});
     }
     changedSource=(i,j)=> {
         let grid = this.state.grid;
@@ -102,7 +100,6 @@ class App extends Component {
         });
         this.setState({grid});
     }
-
     multiDestination = () => {
         if (this.state.multipledestinations === false) {
             this.setState({multipledestinations: true});
@@ -113,12 +110,8 @@ class App extends Component {
     computeHeuristics= ()=>{
         let heuristics = this.state.heuristics;
         for(let i = 0; i < this.state.height; i++)
-        {
             for(let j = 0; j < this.state.width; j++)
-            {
                 heuristics[i][j] = Math.abs(this.state.end[0]-i) + Math.abs(this.state.end[1]-j);
-            }
-        }
         this.setState({heuristics});
     }
     randomizeMatrix = () => {
@@ -141,25 +134,20 @@ class App extends Component {
     }
     changeState = (x, y) => {
         if (this.state.grid[x][y] === 3) return; // check if the current point is a special point (start or end)
-
         let grid = this.state.grid;
         if (grid[x][y] === 0 || grid[x][y] === 2) { // if it is a visited cell or empty , make it a wall
             grid[x][y] = 1;
         } else {  // convert a wall to empty cell
             grid[x][y] = 0;
         }
-
         grid[this.state.start[0]][this.state.start[1]] = 3;
         grid[this.state.end[0]][this.state.end[1]] = 4;
         this.setState({grid: grid});
     }
-    changeSpeed = (newSpeed) => {
-        if (this.state.speed !== newSpeed){
-            this.setState({speed: newSpeed});
-        }
-    }
+    changeSpeed = (newSpeed) => this.setState({speed:newSpeed});
     selectAlgo = (name) => this.setState({currentAlgo: name});
     visualize = async () => {
+        if(this.state.currentAlgo === "Not Selected")return;
         let pointer = this.state.pointer;
         pointer[0] = this.state.start[0];
         pointer[1] = this.state.start[1];
@@ -171,15 +159,6 @@ class App extends Component {
         else if (this.state.currentAlgo === "a-star") await this.AStar();
         else if (this.state.currentAlgo === "tsp") await this.TSP();
     }
-    findOptimalVertex = (unvisited,source) =>{
-        let pq = new PriorityQueue();
-        let sourceMapped = this.state.graph.map2[source];
-        for (let item of unvisited){
-             let destinationMapped = this.state.graph.map2[item];
-            pq.enqueue(item,this.state.graph.allPairShortest[sourceMapped][destinationMapped]);
-        }
-        return pq.front().element;
-    }
     pathdisplay = async (path) => {
         let grid = this.state.grid;
         for (let i = 1; i < path.length; i++) {
@@ -189,18 +168,15 @@ class App extends Component {
         }
         grid[this.state.end[0]][this.state.end[1]] = 5;
         await new Promise((done) => setTimeout(() => done(), this.state.speed));
-        this.setState({grid: grid});
-        //To slow down the speed of Animation
-        this.setState({visual: false});
+        this.setState({grid: grid,visual: false});
     }
     clearPath = () => {
-        let g = this.state.grid;
-        let path = this.state.path;
+        let g = this.state.grid,path = this.state.path;
         for(let i = 0; i < path.length; i++)g[path[i][0]][path[i][1]] = 2;
-        this.setState({path:[]});
-        this.setState({grid: g});
+        this.setState({path:[],grid: g});
     }
     render() {
+        const NavbarProps = {randomize:this.randomizeMatrix,clearWalls:this.clearGrid};
         return (
             <div>
                 <div>

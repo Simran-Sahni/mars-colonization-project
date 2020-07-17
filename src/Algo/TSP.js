@@ -9,7 +9,6 @@ export const TSP = async function() {
   let totalpath = [];
   while (unvisited.size) {
     const togo = this.findOptimalVertex(unvisited, now);
-    console.log(togo);
     unvisited.delete(togo);
     const newpath = await this.aStarForTSP(now, togo);
     totalpath = totalpath.concat(newpath);
@@ -20,16 +19,12 @@ export const TSP = async function() {
 
 export const aStarForTSP = async function(start, end) {
   const heuristics = this.state.heuristics;
-  console.log(heuristics);
   for (let i = 0; i < this.state.height; i++) {
     for (let j = 0; j < this.state.width; j++) {
       heuristics[i][j] = Math.abs(end[0]-i) + Math.abs(end[1]-j);
     }
   }
-  this.setState({heuristics});
-
-
-  this.setState({path: [], pointer: start});
+  this.setState({heuristics: heuristics, path: [], pointer: start});
   const pq = new PriorityQueue();
   pq.enqueue(start, this.state.heuristics[start[0]][start[1]]);
   const dp = Array(30)
@@ -85,4 +80,14 @@ export const aStarForTSP = async function(start, end) {
   await this.setState({grid});
   //  this.state.path = dp[end[0]][end[1]];
   return dp[end[0]][end[1]];
+};
+
+export const findOptimalVertex = (unvisited, source) =>{
+  const pq = new PriorityQueue();
+  const sourceMapped = this.state.graph.map2[source];
+  for (const item of unvisited) {
+    const destinationMapped = this.state.graph.map2[item];
+    pq.enqueue(item, this.state.graph.allPairShortest[sourceMapped][destinationMapped]);
+  }
+  return pq.front().element;
 };

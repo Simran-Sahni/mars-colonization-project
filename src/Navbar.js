@@ -115,6 +115,7 @@ class Navbar extends React.Component {
                 <ul className="dropdown-menu">
                   <li id="dijkstra"
                     onMouseDown={(event) => this.handleChange(event)}>
+
                                         Dijkstra Algorithm
                   </li>
                   <li id="a-star"
