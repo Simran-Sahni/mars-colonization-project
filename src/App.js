@@ -50,7 +50,7 @@ class App extends Component {
         start: [[10, 2]], // start position
         end: [[10, 15]],// end position
         grid: Array(20).fill(undefined, undefined, undefined).map(() => Array(20).fill(0)),
-        speed: 50, // speed for animation
+        speed: 1, // speed for animation
         pointer: [], // store the pointer for visualization
         modalshow: false,
         heuristics:Array(20).fill(undefined, undefined, undefined).map(() => Array(30).fill(0)),

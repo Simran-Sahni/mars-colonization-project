@@ -66,7 +66,7 @@ export const aStarForTSP = async function(AppState, start, end) {
     }
     grid[current[0]][current[1]] = 2; // AppState node as visited
     AppState.setState({grid, pointer: current});
-    await new Promise((done) => setTimeout(() => done(), 25)); // To slow down the animation
+    await new Promise((done) => setTimeout(() => done(), this.state.speed)); // To slow down the animation
   }
   const grid = AppState.state.grid;
   for (let i = 0; i < AppState.state.height; i++) {
