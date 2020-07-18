@@ -35,7 +35,13 @@ class Navbar extends React.Component {
 
   editButtons() {
     document.getElementById('chngDestBtn').innerHTML = '<button id="chngDestBtn" class="btn" type="button" style=background-color:#ee0000>'+ 'Add Destination'+'</ button>';
-    this.props.multiDestination();
+    document.getElementById('AlgosList').innerHTML = '<button className="btn dropdown-toggle" type="button" data-toggle="dropdown" disabled={this.props.visual}>' +
+                                            'Algorithms'+ '<span className="caret"/>' +
+                        '</button>' +
+                        '<ul className="dropdown-menu">' +
+                          '<li id="tsp" onMouseDown={(event) => this.handleChange(event)}> ' + 'Multiple Destinations' + '</li>' +
+                        '</ul>';
+        this.props.multiDestination();
   }
   /**
    *
@@ -103,7 +109,7 @@ class Navbar extends React.Component {
                                 Visualize
               </button>
 
-              <li className="dropdown">
+              <li className="dropdown" id = "AlgosList">
                 <button
                   className="btn dropdown-toggle"
                   type="button"

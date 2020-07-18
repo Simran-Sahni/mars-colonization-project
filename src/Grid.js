@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {currentPointer, finalShortestPath, startPoint, endPoint, wall, visited, empty} from './Cell';
+import {currentPointer, wall, finalShortestPath, startPoint, endPoint, visited, empty} from './Cell';
 
 /**
  *

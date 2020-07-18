@@ -58,6 +58,7 @@ export const endPoint = function(i, j) {
         </div>
     );
 };
+
 export const wall = function(props, i, j) {
     return (
         <div
@@ -67,7 +68,7 @@ export const wall = function(props, i, j) {
                 backgroundColor: '#540b0e', WebkitUserSelect: 'none',
             }}
             onClick={() => {
-                if (props.changeSource)props.changesourcefunc(i, j);
+                if (props.changeSource) props.changesourcefunc(i, j);
                 else if (props.changeDestination) props.changedestfunc(i, j);
                 else props.changeState(i, j);
             }}
@@ -83,6 +84,7 @@ export const wall = function(props, i, j) {
         </div>
     );
 };
+
 export const visited = function(props, i, j) {
     return (
         <div
@@ -158,6 +160,7 @@ finalShortestPath.propTypes = {
     changeState: PropTypes.func
 };
 
+
 startPoint.propTypes = {
     changeSoure: PropTypes.bool,
     changeDestination:PropTypes.bool,
@@ -171,3 +174,10 @@ currentPointer.propTypes = {
     toggleSource:PropTypes.func,
     changeState: PropTypes.func
 };
+
+
+
+
+
+
+
