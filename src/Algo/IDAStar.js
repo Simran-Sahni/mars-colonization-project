@@ -1,4 +1,3 @@
-import App from '../App';
 let heuristics = [];
 let ok = false;
 let end = [];
@@ -14,7 +13,6 @@ export const IDAstar = async function() {
   const root = [this.state.start[0][0], this.state.start[0][1]];
   let bound = heuristics[root[0]][root[1]];
   path = [...path, root];
-  const i = 0;
   while (true) {
     const t = search(this, root, 0, bound);
     if (ok) {

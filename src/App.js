@@ -3,7 +3,6 @@ import Grid from "./Grid";
 import Navbar from "./Navbar"
 import Modal from  "react-bootstrap/Modal"
 import Button from "react-bootstrap/Button"
-import {bestfs} from "./Algo/Bestfs";
 import {dfs} from "./Algo/dfs";
 import {Dijkstra} from "./Algo/Dijkstra";
 import {AStar} from "./Algo/AStar";
@@ -11,6 +10,7 @@ import {findOptimalVertex} from "./Algo/TSP";
 import {aStarForTSP} from "./Algo/TSP";
 import {TSP} from "./Algo/TSP";
 import {BFS} from "./Algo/BFS";
+import {IDAstar} from "./Algo/IDAStar";
 
 import Graph from "./Algo/Graph";
 //This is the modal to display path not found
@@ -68,9 +68,8 @@ class App extends Component {
 
         this.state.grid[this.state.start[0][0]][this.state.start[0][1]] = 3; // special point : start point
         this.state.grid[this.state.end[0][0]][this.state.end[0][1]] = 4; // special point : end point
-
+        this.computeHeuristics();
     }
-    bestfs = bestfs.bind(this);
     dfs = dfs.bind(this);
     BFS = BFS.bind(this);
     Dijkstra = Dijkstra.bind(this);
@@ -78,6 +77,8 @@ class App extends Component {
     TSP = TSP.bind(this);
     aStarForTSP = aStarForTSP.bind(this);
     findOptimalVertex = findOptimalVertex.bind(this);
+    IDAstar = IDAstar.bind(this);
+
     toggleSource=()=>this.setState({changeSource: !this.state.changeSource});
     toggleDestination = ()=>{
         if(this.state.multipledestinations) this.setState({changeDestination: true});
@@ -140,7 +141,7 @@ class App extends Component {
     clearGrid = () => {
         const newGrid = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
 
-        newGrid[this.state.start[0]][this.state.start[1]] = 3; // special point : start
+        newGrid[this.state.start[0][0]][this.state.start[0][1]] = 3; // special point : start
 
         newGrid[this.state.start[0][0]][this.state.start[0][1]] = 3; // special point : start
 
@@ -179,13 +180,16 @@ class App extends Component {
         else if (this.state.currentAlgo === "dfs") await this.dfs();
         else if (this.state.currentAlgo === "dijkstra")  await this.Dijkstra();
         else if(this.state.currentAlgo === "bfs") await this.BFS();
-        else if (this.state.currentAlgo === "bestfs") await this.bestfs();
-        else if (this.state.currentAlgo === "a-star") await this.AStar();
+        else if (this.state.currentAlgo === "bestfs") await this.AStar(0,1);
+        else if (this.state.currentAlgo === "a-star") await this.AStar(1,1);
+        else if(this.state.currentAlgo === "Weighted-AStar")await this.AStar(1,10);
         else if (this.state.currentAlgo === "tsp")
         {
             this.state.graph = new Graph(this.state.grid);
             await this.TSP();
         }
+        else if(this.state.currentAlgo === "IDAStar")await this.IDAstar();
+
     }
     pathdisplay = async (path) => {
         let grid = this.state.grid;
