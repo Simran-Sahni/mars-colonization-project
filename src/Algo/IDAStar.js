@@ -1,4 +1,12 @@
+<<<<<<< HEAD
 import App from '../App';
+=======
+let heuristics = [];
+let ok = false;
+let end = [];
+let path = [];
+let grid = [];
+>>>>>>> 780663c4c432dac361724ab50181b10fdfd23a6a
 
 export const IDAstar = async function() {
   let ok = false;
@@ -10,7 +18,6 @@ export const IDAstar = async function() {
   const root = [this.state.start[0][0], this.state.start[0][1]];
   let bound = heuristics[root[0]][root[1]];
   path = [...path, root];
-  const i = 0;
   while (true) {
     const t = search(this, root, 0, bound);
     if (ok) {

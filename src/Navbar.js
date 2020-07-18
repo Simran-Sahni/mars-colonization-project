@@ -41,7 +41,7 @@ class Navbar extends React.Component {
                         '<ul className="dropdown-menu">' +
                           '<li id="tsp" onMouseDown={(event) => this.handleChange(event)}> ' + 'Multiple Destinations' + '</li>' +
                         '</ul>';
-        this.props.multiDestination();
+    this.props.multiDestination();
   }
   /**
    *
@@ -147,6 +147,14 @@ class Navbar extends React.Component {
                   <li id="TSP"
                     onMouseDown={(event) => this.handleChange(event)}>
                     Multiple Destinations
+                  </li>
+                  <li id="IDAStar"
+                    onMouseDown={(event) => this.handleChange(event)}>
+                    Iterative Deepening AStar
+                  </li>
+                  <li id="Weighted-AStar"
+                    onMouseDown={(event) => this.handleChange(event)}>
+                    Weighted A*
                   </li>
                 </ul>
               </li>
