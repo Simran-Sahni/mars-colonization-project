@@ -1,8 +1,17 @@
 
+
 export const BFS = async function() {
     this.setState({path: [], pointer: this.state.start[0]});
     let queue = [this.state.start[0]];
     const grid = this.state.grid;
+    const isGoodCell = (i, j) =>{
+        if (i < 0 || i >=20 || j < 0 || j >=20) return false;
+        if (grid[i][j] === 1 || grid[i][j] === 2) return false;
+        return true;
+    };
+
+
+    const directions = [[0, 1], [1, 0], [0, -1], [-1, 0]];
 
     const par = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
 
@@ -25,33 +34,12 @@ export const BFS = async function() {
             break;
         } else {
             const list = [];
-            if (current[0] !== this.state.height - 1 && grid[current[0] + 1][current[1]] !== 2) {
-
-
-                    par[current[0] + 1][current[1]] = [current[0], current[1]];
-
-                list.push([current[0] + 1, current[1]]);
-            }
-            if (current[1] !== this.state.width - 1 && grid[current[0]][current[1] + 1] !== 2) {
-
-
-                    par[current[0]][current[1] + 1] = [current[0], current[1]];
-
-                list.push([current[0], current[1] + 1]);
-            }
-            if (current[0] !== 0 && grid[current[0] - 1][current[1]] !== 2) {
-
-
-                    par[current[0] - 1][current[1]] = [current[0], current[1]];
-
-                list.push([current[0] - 1, current[1]]);
-            }
-            if (current[1] !== 0 && grid[current[0]][current[1] - 1] !== 2) {
-
-
-                    par[current[0]][current[1] - 1] = [current[0], current[1]];
-
-                list.push([current[0], current[1] - 1]);
+            for (const direction of directions) {
+                const neighbor = [current[0] + direction[0], current[1] + direction[1]];
+                if (isGoodCell(neighbor[0], neighbor[1])) {
+                    par[neighbor[0]][neighbor[1]] = [current[0], current[1]];
+                    list.push([neighbor[0], neighbor[1]]);
+                }
             }
             if (grid[current[0]][current[1]] !== 3) {
                 grid[current[0]][current[1]] = 2; // mark it as visited
@@ -73,4 +61,7 @@ export const BFS = async function() {
     }
     this.state.path = this.state.path.reverse();
     await this.pathdisplay(this.state.path);
+
+
 };
+
