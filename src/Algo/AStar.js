@@ -45,7 +45,7 @@ export const AStar = async function() {
     this.setState({grid, pointer: current});
     await new Promise((done) => setTimeout(() => done(), 25)); // To slow down the animation
   }
-  if (this.state.pointer[0] !== this.state.end[0][0] || this.state.pointer[1] !== this.state.end[0][1]) {
+  if(this.state.pointer[0] !== this.state.end[0][0] || this.state.pointer[1] !== this.state.end[0][1]) {
     this.showModal(); // return if path not found
     return;
   }

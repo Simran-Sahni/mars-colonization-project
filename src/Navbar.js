@@ -119,28 +119,32 @@ class Navbar extends React.Component {
                                     Algorithms <span className="caret"/>
                 </button>
                 <ul className="dropdown-menu">
-                  <li id="dijkstra"
+                  <li id="Dijkstra"
                     onMouseDown={(event) => this.handleChange(event)}>
 
                                         Dijkstra Algorithm
                   </li>
-                  <li id="a-star"
+                  <li id="A*"
                     onMouseDown={(event) => this.handleChange(event)}>
                                         A* Search
                   </li>
-                  <li id="dfs"
+                    <li id="IDA*"
+                        onMouseDown={(event) => this.handleChange(event)}>
+                        A* Search
+                    </li>
+                  <li id="DFS"
                     onMouseDown={(event) => this.handleChange(event)}>
                                         DFS
                   </li>
-                  <li id="bfs"
+                  <li id="BFS"
                     onMouseDown={(event) => this.handleChange(event)}>
                                         BFS
                   </li>
-                  <li id="bestfs"
+                  <li id="Best-FS"
                     onMouseDown={(event) => this.handleChange(event)}>
                                         Greedy best-first search
                   </li>
-                  <li id="tsp"
+                  <li id="TSP"
                     onMouseDown={(event) => this.handleChange(event)}>
                     Multiple Destinations
                   </li>

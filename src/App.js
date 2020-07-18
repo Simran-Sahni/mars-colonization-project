@@ -140,9 +140,7 @@ class App extends Component {
     clearGrid = () => {
         const newGrid = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
 
-        newGrid[this.state.start[0]][this.state.start[1]] = 3; // special point : start
-
-        newGrid[this.state.start[0][0]][this.state.start[0][1]] = 3; // special point : start
+               newGrid[this.state.start[0][0]][this.state.start[0][1]] = 3; // special point : start
 
         newGrid[this.state.end[0][0]][this.state.end[0][1]] = 4; // special point : end
         this.setState({grid: newGrid, pointer: []});
@@ -176,12 +174,13 @@ class App extends Component {
 
         if (this.state.start[0][0] === this.state.end[0][0] && this.state.start[0][1] === this.state.end[0][1]) return;
 
-        else if (this.state.currentAlgo === "dfs") await this.dfs();
-        else if (this.state.currentAlgo === "dijkstra")  await this.Dijkstra();
-        else if(this.state.currentAlgo === "bfs") await this.BFS();
-        else if (this.state.currentAlgo === "bestfs") await this.bestfs();
-        else if (this.state.currentAlgo === "a-star") await this.AStar();
-        else if (this.state.currentAlgo === "tsp")
+        else if (this.state.currentAlgo === "DFS") await this.dfs();
+        else if (this.state.currentAlgo === "Dijkstra")  await this.Dijkstra();
+        else if(this.state.currentAlgo === "BFS") await this.BFS();
+        else if (this.state.currentAlgo === "Best-FS") await this.bestfs();
+        else if (this.state.currentAlgo === "A*") await this.AStar();
+        else if (this.state.currentAlgo === "IDA*") await this.AStar();
+        else if (this.state.currentAlgo === "TSP")
         {
             this.state.graph = new Graph(this.state.grid);
             await this.TSP();
