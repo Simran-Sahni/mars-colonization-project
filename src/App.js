@@ -52,6 +52,7 @@ class App extends Component {
         grid: Array(20).fill(undefined, undefined, undefined).map(() => Array(20).fill(0)),
         speed: 1, // speed for animation
         pointer: [], // store the pointer for visualization
+        secondpointer:[],
         modalshow: false,
         heuristics:Array(20).fill(undefined, undefined, undefined).map(() => Array(30).fill(0)),
         path: [],
@@ -61,6 +62,7 @@ class App extends Component {
         multipledestinations:false,
         visual:false,
         currentAlgo: "Not Selected",
+
 
     };
     constructor(props) {
@@ -177,10 +179,10 @@ class App extends Component {
 
         if (this.state.start[0][0] === this.state.end[0][0] && this.state.start[0][1] === this.state.end[0][1]) return;
 
-        else if (this.state.currentAlgo === "dfs") await this.dfs();
-        else if (this.state.currentAlgo === "dijkstra")  await this.Dijkstra();
+        else if (this.state.currentAlgo === "DFS") await this.dfs();
+        else if (this.state.currentAlgo === "Dijkstra")  await this.Dijkstra();
         else if(this.state.currentAlgo === "bfs") await this.BFS();
-        else if (this.state.currentAlgo === "bestfs") await this.AStar(0,1);
+        else if (this.state.currentAlgo === "Best-FS") await this.AStar(0,1);
         else if (this.state.currentAlgo === "a-star") await this.AStar(1,1);
         else if(this.state.currentAlgo === "Weighted-AStar")await this.AStar(1,10);
         else if (this.state.currentAlgo === "tsp")

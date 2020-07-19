@@ -132,7 +132,7 @@ class Navbar extends React.Component {
                     onMouseDown={(event) => this.handleChange(event)}>
                                         DFS
                   </li>
-                  <li id="BFS"
+                  <li id="bfs"
                     onMouseDown={(event) => this.handleChange(event)}>
                                         BFS
                   </li>
