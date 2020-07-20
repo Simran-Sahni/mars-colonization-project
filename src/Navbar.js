@@ -77,41 +77,41 @@ class Navbar extends React.Component {
               <FormGroup>
                 <FormControlLabel
                   control={<Switch color = "primary" checked={this.state.checkedA} onChange={()=>this.hc()} />}
-                  label="Multiple Destinations" style={{color: "peachpuff"}}
+                  label="Multiple Destinations" style={{color: 'peachpuff'}}
 
                 />
               </FormGroup>
               <li className="nav-item">
-              <button onClick={this.props.toggleSource} className="btn"
-                style={{
-                  backgroundColor: '#00ee00',
-                }}
-                disabled={this.props.visual}
-              >
+                <button onClick={this.props.toggleSource} className="btn"
+                  style={{
+                    backgroundColor: '#00ee00',
+                  }}
+                  disabled={this.props.visual}
+                >
                 Change Source
-              </button>
+                </button>
               </li>
               <li className="nav-item">
-              <button onClick={this.props.toggleDestination} className="btn"
-                id="chngDestBtn"
-                style={{
-                  backgroundColor: '#ee0000',
-                }}
-                disabled={this.props.visual}
-              >
+                <button onClick={this.props.toggleDestination} className="btn"
+                  id="chngDestBtn"
+                  style={{
+                    backgroundColor: '#ee0000',
+                  }}
+                  disabled={this.props.visual}
+                >
                 Change Destination
-              </button>
+                </button>
               </li>
               <li className="nav-item">
-              <button
-                id="visualizebtn"
-                className="btn"
-                type="button"
-                onClick={this.props.visualize}
-                disabled={this.props.visual}
-              >
+                <button
+                  id="visualizebtn"
+                  className="btn"
+                  type="button"
+                  onClick={this.props.visualize}
+                  disabled={this.props.visual}
+                >
                                 Visualize
-              </button>
+                </button>
               </li>
               <li className="dropdown" id = "AlgosList">
                 <button
@@ -141,8 +141,12 @@ class Navbar extends React.Component {
                                         BFS
                   </li>
                   <li id="biDijkstra"
-                      onMouseDown={(event) => this.handleChange(event)}>
+                    onMouseDown={(event) => this.handleChange(event)}>
                     Bidirectional Dijkstra
+                  </li>
+                  <li id="biBFS"
+                    onMouseDown={(event) => this.handleChange(event)}>
+                    Bidirectional BFS
                   </li>
                   <li id="Best-FS"
                     onMouseDown={(event) => this.handleChange(event)}>
@@ -159,6 +163,10 @@ class Navbar extends React.Component {
                   <li id="Weighted-AStar"
                     onMouseDown={(event) => this.handleChange(event)}>
                     Weighted A*
+                  </li>
+                  <li id="BiAstar"
+                    onMouseDown={(event) => this.handleChange(event)}>
+                    Bidirectional A*
                   </li>
                 </ul>
               </li>
@@ -201,56 +209,56 @@ class Navbar extends React.Component {
         <div className="d-flex flex-row flex-wrap m-2 justify-content-around" id="Legend">
           <div className="d-flex p-2">Start:
             <div
-                style={{
-                  width: "20px",
-                  height: "20px",
-                  backgroundColor:"#00ee00",
-                  WebkitUserSelect: "none",
-                }}
+              style={{
+                width: '20px',
+                height: '20px',
+                backgroundColor: '#00ee00',
+                WebkitUserSelect: 'none',
+              }}
             >
             </div>
-      </div>
+          </div>
           <div className="d-flex p-2">End:
             <div
-                style={{
-                  width: "20px",
-                  height: "20px",
-                  backgroundColor:"#ee0000",
-                  WebkitUserSelect: "none",
-                }}
+              style={{
+                width: '20px',
+                height: '20px',
+                backgroundColor: '#ee0000',
+                WebkitUserSelect: 'none',
+              }}
             >
             </div>
           </div>
           <div className="d-flex p-2">Wall:
             <div
-                style={{
-                  width: "20px",
-                  height: "20px",
-                  backgroundColor:'#540b0e',
-                  WebkitUserSelect: "none",
-                }}
+              style={{
+                width: '20px',
+                height: '20px',
+                backgroundColor: '#540b0e',
+                WebkitUserSelect: 'none',
+              }}
             >
             </div>
           </div>
           <div className="d-flex p-2">Visited Node:
             <div
-                style={{
-                  width: "20px",
-                  height: "20px",
-                  backgroundColor:'#e09891',
-                  WebkitUserSelect: "none",
-                }}
+              style={{
+                width: '20px',
+                height: '20px',
+                backgroundColor: '#e09891',
+                WebkitUserSelect: 'none',
+              }}
             >
             </div>
           </div>
           <div className="d-flex p-2">Shortest Path Node:
             <div
-                style={{
-                  width: "20px",
-                  height: "20px",
-                  backgroundColor:'#fee440',
-                  WebkitUserSelect: "none",
-                }}
+              style={{
+                width: '20px',
+                height: '20px',
+                backgroundColor: '#fee440',
+                WebkitUserSelect: 'none',
+              }}
             >
             </div>
           </div>

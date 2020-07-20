@@ -3,7 +3,7 @@ import DSU from './DSU';
 import Heap from './Heap';
 
 
-export const BidirectionalDijkstra = async function() {
+export const BiBFS = async function() {
   this.setState({path: [], pointer: this.state.start[0], pointer2: this.state.end[0]});
   let queue1 = [this.state.start[0]];
   let queue2 = [this.state.end[0]];

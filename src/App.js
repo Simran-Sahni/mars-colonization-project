@@ -11,6 +11,8 @@ import {aStarForTSP} from "./Algo/TSP";
 import {TSP} from "./Algo/TSP";
 import {BFS} from "./Algo/BFS";
 import {IDAstar} from "./Algo/IDAStar";
+import {BiBFS} from "./Algo/BiBFS";
+import{BiAstar} from "./Algo/BiAstar";
 import {BidirectionalDijkstra} from "./Algo/BidirectionalDijkstra";
 import Graph from "./Algo/Graph";
 //This is the modal to display path not found
@@ -45,15 +47,14 @@ const D = ({ handleClose, show}) => {
 };
 class App extends Component {
     state = {
-        height: 17, // height of the grid
-        width: 35, // width of the grid
+        height: 20, // height of the grid
+        width: 20, // width of the grid
         start: [[10, 2]], // start position
         end: [[10, 15]],// end position
         grid: Array(20).fill(undefined, undefined, undefined).map(() => Array(20).fill(0)),
         speed: 1, // speed for animation
         pointer: [], // store the pointer for visualization
         pointer2:[],//for bidirectional visualization
-        secondpointer:[],
         modalshow: false,
         heuristics:Array(20).fill(undefined, undefined, undefined).map(() => Array(30).fill(0)),
         path: [],
@@ -63,8 +64,6 @@ class App extends Component {
         multipledestinations:false,
         visual:false,
         currentAlgo: "Not Selected",
-
-
     };
     constructor(props) {
         super(props);
@@ -79,9 +78,12 @@ class App extends Component {
     AStar = AStar.bind(this);
     TSP = TSP.bind(this);
     aStarForTSP = aStarForTSP.bind(this);
-    BidirectionalDijkstra = BidirectionalDijkstra.bind(this);
     findOptimalVertex = findOptimalVertex.bind(this);
     IDAstar = IDAstar.bind(this);
+    BiBFS = BiBFS.bind(this);
+    BiAstar = BiAstar.bind(this);
+    BidirectionalDijkstra = BidirectionalDijkstra.bind(this);
+
 
     toggleSource=()=>this.setState({changeSource: !this.state.changeSource});
     toggleDestination = ()=>{
@@ -194,6 +196,8 @@ class App extends Component {
             await this.TSP();
         }
         else if(this.state.currentAlgo === "IDAStar")await this.IDAstar();
+        else if(this.state.currentAlgo === "biBFS")await this.BiBFS();
+        else if(this.state.currentAlgo === "BiAstar")await  this.BiAstar();
 
     }
     pathdisplay = async (path) => {

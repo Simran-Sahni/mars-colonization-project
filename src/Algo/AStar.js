@@ -10,7 +10,7 @@ export const AStar = async function(w1, w2) {
     const grid = this.state.grid;
     const current = pq.front().element;
     pq.dequeue();
-    this.setState({current});
+    this.setState({pointer: current});
     if (grid[current[0]][current[1]] === 4) {
       this.setState({grid, pointer: current});
       break;
