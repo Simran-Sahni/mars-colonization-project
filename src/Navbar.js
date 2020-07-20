@@ -73,14 +73,15 @@ class Navbar extends React.Component {
                                 Conquer Mars! <i className="fa fa-rocket"/> <span className="icon" /></a
               >
             </div>
-            <ul className="nav navbar-nav">
+            <ul className="navbar-nav">
               <FormGroup>
                 <FormControlLabel
                   control={<Switch color = "primary" checked={this.state.checkedA} onChange={()=>this.hc()} />}
-                  label="Multiple Destinations"
+                  label="Multiple Destinations" style={{color: "peachpuff"}}
 
                 />
               </FormGroup>
+              <li className="nav-item">
               <button onClick={this.props.toggleSource} className="btn"
                 style={{
                   backgroundColor: '#00ee00',
@@ -89,6 +90,8 @@ class Navbar extends React.Component {
               >
                 Change Source
               </button>
+              </li>
+              <li className="nav-item">
               <button onClick={this.props.toggleDestination} className="btn"
                 id="chngDestBtn"
                 style={{
@@ -98,7 +101,8 @@ class Navbar extends React.Component {
               >
                 Change Destination
               </button>
-
+              </li>
+              <li className="nav-item">
               <button
                 id="visualizebtn"
                 className="btn"
@@ -108,7 +112,7 @@ class Navbar extends React.Component {
               >
                                 Visualize
               </button>
-
+              </li>
               <li className="dropdown" id = "AlgosList">
                 <button
                   className="btn dropdown-toggle"
@@ -194,7 +198,66 @@ class Navbar extends React.Component {
             </ul>
           </div>
         </nav>
+        <div className="d-flex flex-row flex-wrap m-2 justify-content-around" id="Legend">
+          <div className="d-flex p-2">Start:
+            <div
+                style={{
+                  width: "20px",
+                  height: "20px",
+                  backgroundColor:"#00ee00",
+                  WebkitUserSelect: "none",
+                }}
+            >
+            </div>
       </div>
+          <div className="d-flex p-2">End:
+            <div
+                style={{
+                  width: "20px",
+                  height: "20px",
+                  backgroundColor:"#ee0000",
+                  WebkitUserSelect: "none",
+                }}
+            >
+            </div>
+          </div>
+          <div className="d-flex p-2">Wall:
+            <div
+                style={{
+                  width: "20px",
+                  height: "20px",
+                  backgroundColor:'#540b0e',
+                  WebkitUserSelect: "none",
+                }}
+            >
+            </div>
+          </div>
+          <div className="d-flex p-2">Visited Node:
+            <div
+                style={{
+                  width: "20px",
+                  height: "20px",
+                  backgroundColor:'#e09891',
+                  WebkitUserSelect: "none",
+                }}
+            >
+            </div>
+          </div>
+          <div className="d-flex p-2">Shortest Path Node:
+            <div
+                style={{
+                  width: "20px",
+                  height: "20px",
+                  backgroundColor:'#fee440',
+                  WebkitUserSelect: "none",
+                }}
+            >
+            </div>
+          </div>
+        </div>
+      </div>
+
+
     );
   }
 }

@@ -45,8 +45,8 @@ const D = ({ handleClose, show}) => {
 };
 class App extends Component {
     state = {
-        height: 20, // height of the grid
-        width: 20, // width of the grid
+        height: 17, // height of the grid
+        width: 35, // width of the grid
         start: [[10, 2]], // start position
         end: [[10, 15]],// end position
         grid: Array(20).fill(undefined, undefined, undefined).map(() => Array(20).fill(0)),
@@ -216,13 +216,13 @@ class App extends Component {
         const NavbarProps = {randomize:this.randomizeMatrix,clearWalls:this.clearGrid};
         return (
             <div>
-                <div>
+                <div id="navigation">
                     <Navbar randomize={this.randomizeMatrix} clearWalls={this.clearGrid} newSpeed={this.changeSpeed} multiDestination={this.multiDestination}
                             handle={this.selectAlgo} selectedAlgo={this.currentAlgo} visualize={this.visualize} clearPath = {this.clearPath}
                             multipledestinations = {this.state.multipledestinations} visual={this.state.visual}
                             toggleSource= {this.toggleSource} toggleDestination= {this.toggleDestination}/>
                 </div>
-                <div>
+                <div id="Board">
                     <Grid start={this.state.start} end={this.state.end} height={this.state.height}
                           width={this.state.width} grid={this.state.grid} changeState={this.changeState} changesourcefunc={this.changedSource} changedestfunc = {this.changedDestination}
                           pointer={this.state.pointer} changeSource = {this.state.changeSource} changeDestination = {this.state.changeDestination} />

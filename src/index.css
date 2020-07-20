@@ -31,7 +31,10 @@ body {
   width: 100%;
   height: 540px;
 }
-
+#Legend{
+  font-family:"Lucida Console", Courier, monospace;
+  font-weight: bold;
+}
 ul li ul li {
   border: 1px solid black;
 }
@@ -89,9 +92,18 @@ button,
 
 #info {
   background: #f7d6e0;
-  border-radius: 50%;
+  border-radius:35%;
   position: fixed;
   right: 0;
+  bottom: 0;
+  box-shadow: #f7d6e0;
+}
+
+#tutorial{
+  background: #f7d6e0;
+  border-radius:35%;
+  position: fixed;
+  left: 0;
   bottom: 0;
   box-shadow: #f7d6e0;
 }
@@ -114,6 +126,30 @@ button,
 }
 
 .modal.right.fade .modal-dialog {
+  -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+  -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+  -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+  transition: opacity 0.3s linear, right 0.3s ease-out;
+}
+
+.modal.left .modal-content {
+  height: 100%;
+  overflow-y: auto;
+  opacity: 80%;
+}
+
+.modal.left .modal-dialog {
+  position: fixed;
+  left: 0;
+  width: 320px;
+  height: 100%;
+  -webkit-transform: translate3d(0%, 0, 0);
+  -ms-transform: translate3d(0%, 0, 0);
+  -o-transform: translate3d(0%, 0, 0);
+  transform: translate3d(0%, 0, 0);
+}
+
+.modal.left.fade .modal-dialog {
   -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
   -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
   -o-transition: opacity 0.3s linear, right 0.3s ease-out;
