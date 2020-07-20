@@ -14,16 +14,15 @@ export const BidirectionalDijkstra = async function() {
 
   const isGoodCell = (i, j) =>{
     if (i < 0 || i >=height || j < 0 || j >=width) return false;
-    console.log(grid);
-    console.log(i, j);
-    return grid[i][j] !== 1;
+    if(grid[i][j]===1 || grid[i][j] === 3 || grid[i][j] === 4) return false;
+    return true;
   };
 
   const dist1 = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(1000000000));
   const par1 = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
   const dist2 = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(1000000000));
   const par2 = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
-  const visited = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(false));
+  const visited = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
   dist1[this.state.start[0][0]][this.state.start[0][1]] = 0;
   par1[this.state.start[0][0]][this.state.start[0][1]] = [this.state.start[0][0], this.state.start[0][1]];
 
@@ -55,15 +54,17 @@ export const BidirectionalDijkstra = async function() {
   while (queue1.length !==0 && queue2.length !== 0) {
     const current = queue1[0]; // current of forward path
     const revcurrent = queue2[0]; // current pointer of reverse path
-    console.log({current, revcurrent});
-    if (visited[current[0]][current[1]]) {
+    let flag1=false;  let flag2=false;
+    //console.log({current, revcurrent});
+
+    if (!visited[current[0]][current[1]] && visited[current[0]][current[1]] === 2) {
       ptr = current; break;
     }
-    if (visited[revcurrent[0]][revcurrent[1]]) {
+    if (!visited[revcurrent[0]][revcurrent[1]] && visited[revcurrent[0]][revcurrent[1]] === 1) {
       ptr = revcurrent; break;
     }
-    visited[current[0]][current[1]] = true;
-    visited[revcurrent[0]][revcurrent[1]] = true;
+    visited[current[0]][current[1]] = 1;
+    visited[revcurrent[0]][revcurrent[1]] = 2;
 
     queue1.shift();
     queue2.shift();
@@ -71,15 +72,18 @@ export const BidirectionalDijkstra = async function() {
     const list2 = [];
     for (const dir of directions) {
       // console.log({dir});
-      console.log(dir);
-      console.log(current);
-      const neighbour1 = [current[0] + dir[0], current[1] + dir[1]];
-      // console.log({neighbour1});
-      console.log(neighbour1);
+       const neighbour1 = [current[0] + dir[0], current[1] + dir[1]];
+
+      //console.log(neighbour1);
       if (isGoodCell(neighbour1[0], neighbour1[1])) {
-        if (visited[neighbour1[0]][neighbour1[1]]) {
-          ptr=neighbour1; break;
+        console.log(visited[neighbour1[0]][neighbour1[1]]);
+        if (visited[neighbour1[0]][neighbour1[1]] === 2 ) {
+          ptr=neighbour1;  flag1=true; break;
         }
+        if (visited[neighbour1[0]][neighbour1[1]] === 1 ) {
+          continue;
+        }
+        if( neighbour1[0]===start[0] && neighbour1[1]===start[1]) continue;
         if (dist1[neighbour1[0]][neighbour1[1]] > dist1[current[0]][current[1]] + 1) {
           dist1[neighbour1[0]][neighbour1[1]] = dist1[current[0]][current[1]] + 1;
           par1[neighbour1[0]][neighbour1[1]] = current;
@@ -92,28 +96,35 @@ export const BidirectionalDijkstra = async function() {
     queue1 = queue1.concat(list1);
 
     for (const dir of directions) {
-      const neighbour2 = [[revcurrent[0] + dir[0]], [revcurrent[1] + dir[1]]];
+      const neighbour2 = [revcurrent[0] + dir[0], revcurrent[1] + dir[1]];
       // console.log({neighbour2});
       if (isGoodCell(neighbour2[0], neighbour2[1])) {
-        if (visited[neighbour2[0]][neighbour2[1]]) {
-          ptr = neighbour2; break;
+        console.log(visited[neighbour2[0]][neighbour2[1]]);
+        if (visited[neighbour2[0]][neighbour2[1]] === 1 )  {
+          ptr = neighbour2;  flag2=true; break;
         }
+        if (visited[neighbour2[0]][neighbour2[1]] === 2 )  {
+          continue;
+        }
+        if(neighbour2[0]===end[0] && neighbour2[1]===end[1]) continue;
         if (dist2[neighbour2[0]][neighbour2[1]] > dist2[revcurrent[0]][revcurrent[1]] + 1) {
           dist2[neighbour2[0]][neighbour2[1]] = dist2[revcurrent[0]][revcurrent[1]] + 1;
           par2[neighbour2[0]][neighbour2[1]] = revcurrent;
         }
         list2.push(neighbour2);
         grid[neighbour2[0]][neighbour2[1]] = 2;
-        // console.log({list2});
+         //console.log({list2});
       }
     }
     queue2 = queue2.concat(list2);
-    // console.log({queue1,queue2});
+    //console.log({queue1,queue2});
     this.setState({grid: grid, pointer: current, pointer2: revcurrent});
     await new Promise((done) => setTimeout(() => done(), this.state.speed));// To slow down the speed of Animation
+    if(flag1 || flag2)
+      break;
   }
 
-  console.log(ptr);
+  console.log({ptr});
   while (true) {
     this.state.path = [...this.state.path, ptr];
     if (ptr[0] === this.state.start[0][0] && ptr[1] === this.state.start[0][1]) break;
