@@ -11,7 +11,7 @@ import {aStarForTSP} from "./Algo/TSP";
 import {TSP} from "./Algo/TSP";
 import {BFS} from "./Algo/BFS";
 import {IDAstar} from "./Algo/IDAStar";
-
+import {BidirectionalDijkstra} from "./Algo/BidirectionalDijkstra";
 import Graph from "./Algo/Graph";
 //This is the modal to display path not found
 const D = ({ handleClose, show}) => {
@@ -52,6 +52,7 @@ class App extends Component {
         grid: Array(20).fill(undefined, undefined, undefined).map(() => Array(20).fill(0)),
         speed: 1, // speed for animation
         pointer: [], // store the pointer for visualization
+        pointer2:[],//for bidirectional visualization
         secondpointer:[],
         modalshow: false,
         heuristics:Array(20).fill(undefined, undefined, undefined).map(() => Array(30).fill(0)),
@@ -78,6 +79,7 @@ class App extends Component {
     AStar = AStar.bind(this);
     TSP = TSP.bind(this);
     aStarForTSP = aStarForTSP.bind(this);
+    BidirectionalDijkstra = BidirectionalDijkstra.bind(this);
     findOptimalVertex = findOptimalVertex.bind(this);
     IDAstar = IDAstar.bind(this);
 
@@ -182,10 +184,11 @@ class App extends Component {
         else if (this.state.currentAlgo === "DFS") await this.dfs();
         else if (this.state.currentAlgo === "Dijkstra")  await this.Dijkstra();
         else if(this.state.currentAlgo === "bfs") await this.BFS();
+        else if(this.state.currentAlgo === "biDijkstra") await this.BidirectionalDijkstra();
         else if (this.state.currentAlgo === "Best-FS") await this.AStar(0,1);
-        else if (this.state.currentAlgo === "a-star") await this.AStar(1,1);
+        else if (this.state.currentAlgo === "A*") await this.AStar(1,1);
         else if(this.state.currentAlgo === "Weighted-AStar")await this.AStar(1,10);
-        else if (this.state.currentAlgo === "tsp")
+        else if (this.state.currentAlgo === "TSP")
         {
             this.state.graph = new Graph(this.state.grid);
             await this.TSP();

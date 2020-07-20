@@ -124,7 +124,7 @@ class Navbar extends React.Component {
 
                                         Dijkstra Algorithm
                   </li>
-                  <li id="a-star"
+                  <li id="A*"
                     onMouseDown={(event) => this.handleChange(event)}>
                                         A* Search
                   </li>
@@ -135,6 +135,10 @@ class Navbar extends React.Component {
                   <li id="bfs"
                     onMouseDown={(event) => this.handleChange(event)}>
                                         BFS
+                  </li>
+                  <li id="biDijkstra"
+                      onMouseDown={(event) => this.handleChange(event)}>
+                    Bidirectional Dijkstra
                   </li>
                   <li id="Best-FS"
                     onMouseDown={(event) => this.handleChange(event)}>
