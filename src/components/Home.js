@@ -1,109 +1,19 @@
 import React, {Component} from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import Carousel from 'react-bootstrap/Carousel';
+import BackgroundSlider from 'react-background-slider'
+import mars1 from '../media/mars1.jpg';
+import mars2 from '../media/mars2.jpg';
+import mars3 from '../media/mars3.jpg';
+//import mars4 from '../media/mars4.jpg';
+import mars5 from '../media/mars5.jpg';
+//import mars6 from '../media/mars6.jpg';
+import mars7 from '../media/mars7.jpg';
+//import mars8 from '../media/mars8.jpg';
+
 import {Redirect} from 'react-router-dom';
 import Background from './LANDING.png';
 
-
-function Child(){
-    return(
-    <Carousel
-        interval = {2000}
-        touch = {false}
-        style={{
-            width:"30%",
-            height:"20%",
-            textAlign:"center",
-            position:"fixed center",
-            marginLeft:"40%",
-            marginTop:"17.5%",
-        }}>
-        <Carousel.Item>
-            <img
-                className="d-block w-100"
-                src={require("../media/mars1.jpg")}
-                alt="First slide"
-                style={{
-                    width:"auto",
-                    height:"auto",
-                    maxWidth:"100%",
-                    maxHeight:"100%",
-                    overflow:"hidden",
-                }}
-
-            />
-
-        </Carousel.Item>
-        <Carousel.Item>
-            <img
-                className="d-block w-100"
-                src={require("../media/mars2.jpg")}
-                alt="Second slide"
-                style={{
-                    width:"auto",
-                    height:"auto",
-                    maxWidth:"100%",
-                    maxHeight:"100%",
-                    overflow:"hidden",
-                }}
-            />
-
-
-        </Carousel.Item>
-        <Carousel.Item>
-            <img
-                className="d-block w-100"
-                src={require("../media/mars3.jpg")}
-                alt="Third slide"
-                style={{
-                    width:"auto",
-                    height:"auto",
-                    maxWidth:"100%",
-                    maxHeight:"100%",
-                    overflow:"hidden",
-
-                }}
-
-            />
-        </Carousel.Item>
-        <Carousel.Item>
-            <img
-                className="d-block w-100"
-                src={require("../media/mars4.jpg")}
-                alt="Third slide"
-                style={{
-                    width:"auto",
-                    height:"auto",
-                    maxWidth:"100%",
-                    maxHeight:"100%",
-                    overflow:"hidden",
-
-                }}
-
-            />
-        </Carousel.Item>
-        <Carousel.Item>
-            <img
-                className="d-block w-100"
-                src={require("../media/mars5.jpg")}
-                alt="Third slide"
-                style={{
-                    width:"auto",
-                    height:"auto",
-                    maxWidth:"100%",
-                    maxHeight:"100%",
-                    overflow:"hidden",
-
-                }}
-
-            />
-        </Carousel.Item>
-
-
-    </Carousel>
-    );
-}
 
 class Welcome extends React.Component {
     constructor(props) {
@@ -238,21 +148,24 @@ class Home extends Component {
         return (
 
             <div id = "home" style={{background: 'url(' + {Background} + ')', width: '100%', height: '100%', backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}}>
+                    <div id="MissionTitle" className="mb-4 p-4" style={{backgroundColor: '#e5e5e5',opacity:'70%', borderRadius:'25%',float:'right', width:'25%', height:'25%',fontSize:'2em',marginTop:'35px'}}>
+                        <p><b>&nbsp;&nbsp;&nbsp;&nbsp;MISSION</b></p>
+                            <p><b> COLONIZE MARS! </b></p>
+                    </div>
 
-                <Child />
+
 
                 <Button variant="primary" size="lg" onClick={this.handleShow} style={{
-                    backgroundColor: '#b8f2e6',
-                    color: '#242423',
+                    backgroundColor: '#283618',
+                    color: '#fefae0',
                     position: 'relative',
-                    marginLeft:'60%',
-                    marginRight:"10%",
-                    float:"right"
-
+                    margin:'20%',
+                    marginLeft:'35%'
                 }}>
                     <strong>LAUNCH TO MARS</strong>
                 </Button>
                 <Welcome question = {this.state.question} answer = {this.state.answer} handleClose={this.handleClose} show={this.state.show} handleShow={this.handleShow} onSubmit={this.onSubmit.bind(this)}/>
+                <BackgroundSlider images={[mars7,mars1,mars2,mars5,mars3]} duration={3} transition={0}/>
             </div>
 
         );
