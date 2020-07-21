@@ -1,6 +1,4 @@
 import PriorityQueue from '../priorityq';
-import Graph from './Graph';
-
 export const TSP = async function() {
   const unvisited = new Set();
   for (const item of this.state.end) {
@@ -40,33 +38,60 @@ export const aStarForTSP = async function(AppState, start, end) {
       AppState.setState({grid, pointer: current});
       break;
     }
-    if (current[1] !== AppState.state.width - 1 && (grid[current[0]][current[1] + 1] === 0 || grid[current[0]][current[1] + 1] === 4)) {
-      if (dp[current[0]][current[1] + 1].length === 0 || dp[current[0]][current[1] + 1].length > [...dp[current[0]][current[1]], current].length) {
-        pq.enqueue([current[0], current[1] + 1], dp[current[0]][current[1]].length+AppState.state.heuristics[current[0]][current[1] + 1]);
-        dp[current[0]][current[1] + 1] = [...dp[current[0]][current[1]], current];
+    if (current[1] !== AppState.state.width - 1 &&
+        (grid[current[0]][current[1] + 1] === 0 ||
+            grid[current[0]][current[1] + 1] === 4)) {
+      if (dp[current[0]][current[1] + 1].length === 0 ||
+          dp[current[0]][current[1] + 1].length >
+          [...dp[current[0]][current[1]], current].length) {
+        pq.enqueue([current[0], current[1] + 1],
+            dp[current[0]][current[1]].length+
+            AppState.state.heuristics[current[0]][current[1] + 1]);
+        dp[current[0]][current[1] + 1] =
+            [...dp[current[0]][current[1]], current];
       }
     }
-    if (current[0] !== AppState.state.height - 1 && ((grid[current[0] + 1][current[1]] === 0) || grid[current[0] + 1][current[1]] === 4)) {
-      if (dp[current[0] + 1][current[1]].length === 0 || dp[current[0] + 1][current[1]].length > [...dp[current[0]][current[1]], current]) {
-        pq.enqueue([current[0] + 1, current[1]], dp[current[0]][current[1]].length+AppState.state.heuristics[current[0] + 1][current[1]]);
-        dp[current[0] + 1][current[1]] = [...dp[current[0]][current[1]], current];
+    if (current[0] !== AppState.state.height - 1 &&
+        ((grid[current[0] + 1][current[1]] === 0) ||
+            grid[current[0] + 1][current[1]] === 4)) {
+      if (dp[current[0] + 1][current[1]].length === 0 ||
+          dp[current[0] + 1][current[1]].length >
+          [...dp[current[0]][current[1]], current]) {
+        pq.enqueue([current[0] + 1, current[1]],
+            dp[current[0]][current[1]].length+
+            AppState.state.heuristics[current[0] + 1][current[1]]);
+        dp[current[0] + 1][current[1]] =
+            [...dp[current[0]][current[1]], current];
       }
     }
-    if (current[0] !== 0 && (grid[current[0] - 1][current[1]] === 0 || (grid[current[0] - 1][current[1]] === 4))) {
-      if (dp[current[0] - 1][current[1]].length === 0 || dp[current[0] - 1][current[1]].length > [...dp[current[0]][current[1]], current]) {
-        pq.enqueue([current[0] - 1, current[1]], dp[current[0]][current[1]].length+AppState.state.heuristics[current[0] - 1][current[1]]);
-        dp[current[0] - 1][current[1]] = [...dp[current[0]][current[1]], current];
+    if (current[0] !== 0 && (grid[current[0] - 1][current[1]] === 0 ||
+        (grid[current[0] - 1][current[1]] === 4))) {
+      if (dp[current[0] - 1][current[1]].length === 0 ||
+          dp[current[0] - 1][current[1]].length >
+          [...dp[current[0]][current[1]], current]) {
+        pq.enqueue([current[0] - 1, current[1]],
+            dp[current[0]][current[1]].length+
+            AppState.state.heuristics[current[0] - 1][current[1]]);
+        dp[current[0] - 1][current[1]] =
+            [...dp[current[0]][current[1]], current];
       }
     }
-    if (current[1] !== 0 && (grid[current[0]][current[1] - 1] === 0 || (grid[current[0]][current[1]-1] === 4))) {
-      if (dp[current[0]][current[1] - 1].length === 0 || dp[current[0]][current[1] - 1].length > [...dp[current[0]][current[1]], current].length) {
-        pq.enqueue([current[0], current[1] - 1], dp[current[0]][current[1]].length+AppState.state.heuristics[current[0]][current[1] - 1]);
-        dp[current[0]][current[1] - 1] = [...dp[current[0]][current[1]], current];
+    if (current[1] !== 0 && (grid[current[0]][current[1] - 1] === 0 ||
+        (grid[current[0]][current[1]-1] === 4))) {
+      if (dp[current[0]][current[1] - 1].length === 0 ||
+          dp[current[0]][current[1] - 1].length >
+          [...dp[current[0]][current[1]], current].length) {
+        pq.enqueue([current[0], current[1] - 1],
+            dp[current[0]][current[1]].length+
+            AppState.state.heuristics[current[0]][current[1] - 1]);
+        dp[current[0]][current[1] - 1] =
+            [...dp[current[0]][current[1]], current];
       }
     }
     grid[current[0]][current[1]] = 2; // AppState node as visited
     AppState.setState({grid, pointer: current});
-    await new Promise((done) => setTimeout(() => done(), this.state.speed)); // To slow down the animation
+    await new Promise((done) =>
+      setTimeout(() => done(), this.state.speed));
   }
   const grid = AppState.state.grid;
   for (let i = 0; i < AppState.state.height; i++) {
@@ -90,7 +115,8 @@ export const findOptimalVertex = (AppState, unvisited, source) =>{
   const sourceMapped = AppState.state.graph.map2[source];
   for (const item of unvisited) {
     const destinationMapped = AppState.state.graph.map2[item];
-    pq.enqueue(item, AppState.state.graph.allPairShortest[sourceMapped][destinationMapped]);
+    pq.enqueue(item,
+        AppState.state.graph.allPairShortest[sourceMapped][destinationMapped]);
   }
   return pq.front().element;
 };

@@ -1,7 +1,3 @@
-import App from '../App';
-import DSU from './DSU';
-import Heap from './Heap';
-
 
 export const BiBFS = async function() {
   this.setState({path: [], pointer: this.state.start[0], pointer2: this.state.end[0]});
@@ -18,16 +14,16 @@ export const BiBFS = async function() {
     return true;
   };
 
-  const dist1 = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(1000000000));
-  const par1 = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
-  const dist2 = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(1000000000));
-  const par2 = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
-  const visited = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
-  dist1[this.state.start[0][0]][this.state.start[0][1]] = 0;
-  par1[this.state.start[0][0]][this.state.start[0][1]] = [this.state.start[0][0], this.state.start[0][1]];
-  dist2[this.state.end[0][0]][this.state.end[0][1]] = 0;
-  par1[this.state.start[0][0]][this.state.start[0][1]] = [this.state.start[0][0], this.state.start[0][1]];
-  par2[this.state.end[0][0]][this.state.end[0][1]] = [this.state.end[0][0], this.state.end[0][1]];
+  const dist1 = Array(height).fill().map(() => Array(width).fill(1000000000));
+  const par1 = Array(height).fill().map(() => Array(width).fill(0));
+  const dist2 = Array(height).fill().map(() => Array(width).fill(1000000000));
+  const par2 = Array(height).fill().map(() => Array(width).fill(0));
+  const visited = Array(height).fill().map(() => Array(width).fill(0));
+  dist1[start[0][0]][start[0][1]] = 0;
+  par1[start[0][0]][start[0][1]] = [start[0][0], start[0][1]];
+  dist2[end[0][0]][this.state.end[0][1]] = 0;
+  par1[start[0][0]][this.state.start[0][1]] = [start[0][0], start[0][1]];
+  par2[end[0][0]][end[0][1]] = [end[0][0], end[0][1]];
   const heuristics = this.state.heuristics;
   const start = this.state.start[0];
   const end = this.state.end[0];
