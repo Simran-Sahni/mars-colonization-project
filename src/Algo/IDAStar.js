@@ -14,7 +14,6 @@ export const IDAstar = async function() {
   const root = [this.state.start[0][0], this.state.start[0][1]];
   let bound = heuristics[root[0]][root[1]];
   path = [...path, root];
-  const i = 0;
   while (true) {
     const t = search(this, root, 0, bound);
     if (ok) {
@@ -32,7 +31,6 @@ export const IDAstar = async function() {
   this.pathdisplay(path);
 };
 // trying to impliment https://en.wikipedia.org/wiki/Iterative_deepening_A*#Pseudocode
-
 function search(AppState, node, g, bound) {
   // console.log(path);
   // AppState.setState({pointer: node});
@@ -77,6 +75,13 @@ function search(AppState, node, g, bound) {
   }
   return min;
 }
+
+/**
+ *
+ * @param {number}i
+ * @param {number} j
+ * @return {[]}
+ */
 function neighbors(i, j) {
   let answer = [];
   for (const direction of directions) {
@@ -90,8 +95,7 @@ function neighbors(i, j) {
 }
 const isGoodCell = (i, j) =>{
   if (i < 0 || i >=20 || j < 0 || j >=20) return false;
-  if (grid[i][j] === 1) return false;
-  return true;
+  return grid[i][j] !== 1;
 };
 
 const directions = [[0, 1], [1, 0], [0, -1], [-1, 0]];

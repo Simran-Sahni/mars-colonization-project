@@ -3,7 +3,7 @@ import Grid from "./Grid";
 import Navbar from "./Navbar"
 import Modal from  "react-bootstrap/Modal"
 import Button from "react-bootstrap/Button"
-import {dfs} from "./Algo/dfs";
+import {DFS} from "./Algo/dfs";
 import {Dijkstra} from "./Algo/Dijkstra";
 import {AStar} from "./Algo/AStar";
 import {findOptimalVertex} from "./Algo/TSP";
@@ -11,6 +11,8 @@ import {aStarForTSP} from "./Algo/TSP";
 import {TSP} from "./Algo/TSP";
 import {BFS} from "./Algo/BFS";
 import {IDAstar} from "./Algo/IDAStar";
+import {BiBFS} from "./Algo/BiBFS";
+import{BiAstar} from "./Algo/BiAstar";
 import {BidirectionalDijkstra} from "./Algo/BidirectionalDijkstra";
 import Graph from "./Algo/Graph";
 //This is the modal to display path not found
@@ -46,16 +48,15 @@ const D = ({ handleClose, show}) => {
 class App extends Component {
     state = {
         height: 17, // height of the grid
-        width: 35, // width of the grid
+        width: 30, // width of the grid
         start: [[10, 2]], // start position
         end: [[10, 15]],// end position
-        grid: Array(20).fill(undefined, undefined, undefined).map(() => Array(20).fill(0)),
+        grid: Array(17).fill(undefined, undefined, undefined).map(() => Array(30).fill(0)),
         speed: 1, // speed for animation
         pointer: [], // store the pointer for visualization
         pointer2:[],//for bidirectional visualization
-        secondpointer:[],
         modalshow: false,
-        heuristics:Array(20).fill(undefined, undefined, undefined).map(() => Array(30).fill(0)),
+        heuristics:Array(17).fill(undefined, undefined, undefined).map(() => Array(30).fill(0)),
         path: [],
         graph:null,
         changeSource:false,
@@ -63,8 +64,6 @@ class App extends Component {
         multipledestinations:false,
         visual:false,
         currentAlgo: "Not Selected",
-
-
     };
     constructor(props) {
         super(props);
@@ -73,15 +72,18 @@ class App extends Component {
         this.state.grid[this.state.end[0][0]][this.state.end[0][1]] = 4; // special point : end point
         this.computeHeuristics();
     }
-    dfs = dfs.bind(this);
+    DFS = DFS.bind(this);
     BFS = BFS.bind(this);
     Dijkstra = Dijkstra.bind(this);
     AStar = AStar.bind(this);
     TSP = TSP.bind(this);
     aStarForTSP = aStarForTSP.bind(this);
-    BidirectionalDijkstra = BidirectionalDijkstra.bind(this);
     findOptimalVertex = findOptimalVertex.bind(this);
     IDAstar = IDAstar.bind(this);
+    BiBFS = BiBFS.bind(this);
+    BiAstar = BiAstar.bind(this);
+    BidirectionalDijkstra = BidirectionalDijkstra.bind(this);
+
 
     toggleSource=()=>this.setState({changeSource: !this.state.changeSource});
     toggleDestination = ()=>{
@@ -100,16 +102,16 @@ class App extends Component {
     }
     changedDestination = (i,j)=> {
         let grid = this.state.grid;
+        grid[i][j] = 4; // special point : end point
         if(!this.state.multipledestinations)
         {grid[this.state.end[0][0]][this.state.end[0][1]] = 0;}
         else{
 
-            this.setState({end: this.state.end.push([i,j])});
-            console.log(this.state.end);
-
+            this.setState({end: [...this.state.end,[i,j]],grid});
+            console.log(this.state.end);return;
 
         }
-        grid[i][j] = 4; // special point : end point
+
         this.setState({
             changeDestination: !this.state.changeDestination,
             end: [[i,j]],
@@ -117,9 +119,9 @@ class App extends Component {
         });
     }
     multiDestination = () => {
-        if (this.state.multipledestinations === false) {
-            this.setState({multipledestinations: true});
-        }
+
+            this.setState({multipledestinations:!this.state.multipledestinations});
+
     }
     showModal = () => this.setState({ modalshow: true });
     hideModal = () => this.setState({ modalshow: false });
@@ -144,11 +146,8 @@ class App extends Component {
     }
     clearGrid = () => {
         const newGrid = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
-
         newGrid[this.state.start[0][0]][this.state.start[0][1]] = 3; // special point : start
-
         newGrid[this.state.start[0][0]][this.state.start[0][1]] = 3; // special point : start
-
         newGrid[this.state.end[0][0]][this.state.end[0][1]] = 4; // special point : end
         this.setState({grid: newGrid, pointer: []});
     }
@@ -160,11 +159,7 @@ class App extends Component {
         } else {  // convert a wall to empty cell
             grid[x][y] = 0;
         }
-
-
-
         grid[this.state.start[0][0]][this.state.start[0][1]] = 3;
-
         grid[this.state.end[0][0]][this.state.end[0][1]] = 4;
         this.setState({grid: grid});
     }
@@ -183,7 +178,7 @@ class App extends Component {
 
         else if (this.state.currentAlgo === "DFS") await this.dfs();
         else if (this.state.currentAlgo === "Dijkstra")  await this.Dijkstra();
-        else if(this.state.currentAlgo === "bfs") await this.BFS();
+        else if(this.state.currentAlgo === "BFS") await this.BFS();
         else if(this.state.currentAlgo === "biDijkstra") await this.BidirectionalDijkstra();
         else if (this.state.currentAlgo === "Best-FS") await this.AStar(0,1);
         else if (this.state.currentAlgo === "A*") await this.AStar(1,1);
@@ -194,6 +189,8 @@ class App extends Component {
             await this.TSP();
         }
         else if(this.state.currentAlgo === "IDAStar")await this.IDAstar();
+        else if(this.state.currentAlgo === "biBFS")await this.BiBFS();
+        else if(this.state.currentAlgo === "BiAstar")await  this.BiAstar();
 
     }
     pathdisplay = async (path) => {
@@ -225,7 +222,7 @@ class App extends Component {
                 <div id="Board">
                     <Grid start={this.state.start} end={this.state.end} height={this.state.height}
                           width={this.state.width} grid={this.state.grid} changeState={this.changeState} changesourcefunc={this.changedSource} changedestfunc = {this.changedDestination}
-                          pointer={this.state.pointer} changeSource = {this.state.changeSource} changeDestination = {this.state.changeDestination} />
+                          pointer={this.state.pointer} changeSource = {this.state.changeSource} changeDestination = {this.state.changeDestination} multipledestinations = {this.state.multipledestinations} />
                 </div>
                 <D show={this.state.modalshow} handleClose={this.hideModal} />
 

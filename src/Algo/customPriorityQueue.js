@@ -1,22 +1,50 @@
+
 const top = 0;
 const parent = (i) => ((i + 1) >>> 1) - 1;
 const left = (i) => (i << 1) + 1;
 const right = (i) => (i + 1) << 1;
-
+/**
+ * from https://stackoverflow.com/a/42919752
+ */
 class PriorityQueue {
+  /**
+   *
+   * @param comparator
+   */
   constructor(comparator = (a, b) => a > b) {
     this._heap = [];
     this._comparator = comparator;
   }
+
+  /**
+   *  size of priority queue
+   * @return {number}
+   */
   size() {
     return this._heap.length;
   }
+
+  /**
+   * returns if priority queue is empty
+   * @return {boolean}
+   */
   isEmpty() {
     return this.size() == 0;
   }
+
+  /**
+   * returns the top element of priority queue
+   * @return {*}
+   */
   peek() {
     return this._heap[top];
   }
+
+  /**
+   * pushes values to the priority queue
+   * @param values
+   * @return {number}
+   */
   push(...values) {
     values.forEach((value) => {
       this._heap.push(value);
@@ -24,6 +52,11 @@ class PriorityQueue {
     });
     return this.size();
   }
+
+  /**
+   *  pop from priority queue
+   * @return {*}
+   */
   pop() {
     const poppedValue = this.peek();
     const bottom = this.size() - 1;
@@ -34,18 +67,44 @@ class PriorityQueue {
     this._siftDown();
     return poppedValue;
   }
+
+  /**
+   *
+   * @param value
+   * @return {*}
+   */
   replace(value) {
     const replacedValue = this.peek();
     this._heap[top] = value;
     this._siftDown();
     return replacedValue;
   }
+
+  /**
+   *
+   * @param i
+   * @param j
+   * @return {boolean}
+   * @private
+   */
   _greater(i, j) {
     return this._comparator(this._heap[i], this._heap[j]);
   }
+
+  /**
+   *
+   * @param i
+   * @param j
+   * @private
+   */
   _swap(i, j) {
     [this._heap[i], this._heap[j]] = [this._heap[j], this._heap[i]];
   }
+
+  /**
+   *
+   * @private
+   */
   _siftUp() {
     let node = this.size() - 1;
     while (node > top && this._greater(node, parent(node))) {
@@ -53,6 +112,11 @@ class PriorityQueue {
       node = parent(node);
     }
   }
+
+  /**
+   *
+   * @private
+   */
   _siftDown() {
     let node = top;
     while (
@@ -64,14 +128,5 @@ class PriorityQueue {
       node = maxChild;
     }
   }
-}
-
-const pairwiseQueue = new PriorityQueue((a, b) => a[1] === b[1] ? a[2] < b[2] : a[1] < b[1]);
-pairwiseQueue.push(['low', 0, 1], ['medium', 10, 456], ['high', 10, 3]);
-console.log(pairwiseQueue.peek());
-console.log('\nContents:');
-
-while (!pairwiseQueue.isEmpty()) {
-  console.log(pairwiseQueue.pop()[0]); // => 'high', 'medium', 'low'
 }
 export default PriorityQueue;

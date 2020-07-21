@@ -19,7 +19,7 @@ class Navbar extends React.Component {
       selectedAlgo: props.currentAlgo,
       checkedA: false,
 
-      multipledestinations: props.multipledestinations,
+
     };
   }
 
@@ -27,21 +27,16 @@ class Navbar extends React.Component {
     if (!this.state.checkedA) {
       this.editButtons();
     } else {
-      document.getElementById('chngDestBtn').innerHTML = '<button id="chngDestBtn" class="btn" type="button" style="background-color:#6a040f">'+ 'Change Destination'+'</ button>';
+      document.getElementById('chngDestBtn').innerHTML = '<button class="btn" type="button"  onClick={this.props.toggleDestination}  style="background-color:#6a040f ;  color:peachpuff">'+ 'Change Destination'+'</ button>';
+      this.props.multiDestination();
     }
     this.setState({checkedA: !this.state.checkedA});
   }
 
 
   editButtons() {
-    document.getElementById('chngDestBtn').innerHTML = '<button id="chngDestBtn" class="btn" type="button" style="background-color:#6a040f">'+ 'Add Destination'+'</ button>';
-    document.getElementById('AlgosList').innerHTML = '<button className="btn dropdown-toggle" type="button" data-toggle="dropdown" disabled={this.props.visual}>' +
-                                            'Algorithms'+ '<span className="caret"/>' +
-                        '</button>' +
-                        '<ul className="dropdown-menu">' +
-                          '<li id="tsp" onMouseDown={(event) => this.handleChange(event)}> ' + 'Multiple Destinations' + '</li>' +
-                        '</ul>';
-    this.props.multiDestination();
+    document.getElementById('chngDestBtn').innerHTML = '<button class="btn" type="button" style="background-color:#6a040f;  color:peachpuff">'+ 'Add Destination'+'</ button>';
+        this.props.multiDestination();
   }
   /**
    *
@@ -77,11 +72,12 @@ class Navbar extends React.Component {
               <FormGroup>
                 <FormControlLabel
                   control={<Switch color = "primary" checked={this.state.checkedA} onChange={()=>this.hc()} />}
-                  label="Multiple Destinations" style={{color: "peachpuff"}}
+                  label="Multiple Destinations" style={{color: 'peachpuff'}}
 
                 />
               </FormGroup>
               <li className="nav-item">
+
               <button onClick={this.props.toggleSource} className="btn"
                 style={{
                   backgroundColor: '#71b340',
@@ -89,11 +85,12 @@ class Navbar extends React.Component {
                 disabled={this.props.visual}
               >
                 Change Source
-              </button>
+                </button>
               </li>
-              <li className="nav-item">
+              <li className="nav-item" id="chngDestBtn">
+
               <button onClick={this.props.toggleDestination} className="btn"
-                id="chngDestBtn"
+
                 style={{
                   backgroundColor: '#6a040f',
                     color:"peachpuff",
@@ -101,9 +98,10 @@ class Navbar extends React.Component {
                 disabled={this.props.visual}
               >
                 Change Destination
-              </button>
+                </button>
               </li>
               <li className="nav-item">
+
               <button
                 id="visualizebtn"
                 className="btn"
@@ -113,9 +111,9 @@ class Navbar extends React.Component {
                 disabled={this.props.visual}
               >
                                 Visualize
-              </button>
+                </button>
               </li>
-              <li className="dropdown" id = "AlgosList">
+              <li className="nav-item dropdown" id = "AlgosList">
                 <button
                   className="btn dropdown-toggle"
                   type="button"
@@ -125,61 +123,80 @@ class Navbar extends React.Component {
                                     Algorithms <span className="caret"/>
                 </button>
                 <ul className="dropdown-menu">
-                  <li id="Dijkstra"
+                  <li >
+                    <button id="Dijkstra" disabled={this.props.multipledestinations}
                     onMouseDown={(event) => this.handleChange(event)}>
-
-                                        Dijkstra Algorithm
+                      Dijkstra Algorithm</button>
                   </li>
-                  <li id="A*"
+                  <li >
+                      <button id="A*" disabled={this.props.multipledestinations}
+                    onClick={(event) => this.handleChange(event)}>
+                        A* Search </button>
+                  </li>
+                  <li >
+                    <button id="DFS"
+                        disabled={this.props.multipledestinations}
+                    onClick={(event) => this.handleChange(event)}>
+                      DFS </button>
+                  </li>
+                  <li >
+                      <button id="BFS"  disabled={this.props.multipledestinations}
                     onMouseDown={(event) => this.handleChange(event)}>
-                                        A* Search
+                        BFS</button>
                   </li>
-                  <li id="DFS"
+                  <li >
+                    <button id="biDijkstra" disabled={this.props.multipledestinations}
                     onMouseDown={(event) => this.handleChange(event)}>
-                                        DFS
+                      Bidirectional Dijkstra</button>
                   </li>
-                  <li id="bfs"
+                  <li >
+                    <button id="biBFS" disabled={this.props.multipledestinations}
                     onMouseDown={(event) => this.handleChange(event)}>
-                                        BFS
+                      Bidirectional BFS </button>
                   </li>
-                  <li id="biDijkstra"
-                      onMouseDown={(event) => this.handleChange(event)}>
-                    Bidirectional Dijkstra
-                  </li>
-                  <li id="Best-FS"
+                  <li>
+                    <button id="Best-FS" disabled={this.props.multipledestinations}
                     onMouseDown={(event) => this.handleChange(event)}>
-                                        Greedy best-first search
+                      Greedy best-first search </button>
                   </li>
-                  <li id="TSP"
+                  <li >
+                    <button id="TSP"
                     onMouseDown={(event) => this.handleChange(event)}>
-                    Multiple Destinations
+                      Travelling Salesman </button>
                   </li>
-                  <li id="IDAStar"
+                  <li >
+                    <button id="IDAStar" disabled={this.props.multipledestinations}
                     onMouseDown={(event) => this.handleChange(event)}>
-                    Iterative Deepening AStar
+                      Iterative Deepening A* </button>
                   </li>
-                  <li id="Weighted-AStar"
+                  <li >
+                    <button id="Weighted-AStar" disabled={this.props.multipledestinations}
                     onMouseDown={(event) => this.handleChange(event)}>
-                    Weighted A*
+                      Weighted A* </button>
+                  </li>
+                  <li >
+                    <button id="BiAstar" disabled={this.props.multipledestinations}
+                    onMouseDown={(event) => this.handleChange(event)}>
+                      Bidirectional A* </button>
                   </li>
                 </ul>
               </li>
-              <li>
+              <li className="nav-item">
                 <button onClick={this.props.randomize} className="btn" disabled={this.props.visual}>
                                     Randomize
                 </button>
               </li>
-              <li>
+              <li className="nav-item">
                 <button onClick = {this.props.clearWalls} className="btn" disabled={this.props.visual}>
-                                    Clear Walls
+                                    Clear Board
                 </button>
               </li>
-              <li>
+              <li className="nav-item">
                 <button onClick = {this.props.clearPath} className="btn" disabled={this.props.visual}>
                                     Clear Path
                 </button>
               </li>
-              <li className="dropdown">
+              <li className="nav-item dropdown">
                 <button
                   className="btn dropdown-toggle"
                   type="button"
@@ -203,56 +220,59 @@ class Navbar extends React.Component {
         <div className="d-flex flex-row flex-wrap m-2 justify-content-around" id="Legend">
           <div className="d-flex p-2">Start:
             <div
+
                 style={{
                   width: "20px",
                   height: "20px",
                   backgroundColor:'#71b340',
                   WebkitUserSelect: "none",
                 }}
+
             >
             </div>
-      </div>
+          </div>
           <div className="d-flex p-2">End:
             <div
+
                 style={{
                   width: "20px",
                   height: "20px",
                   backgroundColor:'#ee0000',
                   WebkitUserSelect: "none",
                 }}
-            >
+              >
             </div>
           </div>
           <div className="d-flex p-2">Wall:
             <div
-                style={{
-                  width: "20px",
-                  height: "20px",
-                  backgroundColor:'#540b0e',
-                  WebkitUserSelect: "none",
-                }}
+              style={{
+                width: '20px',
+                height: '20px',
+                backgroundColor: '#540b0e',
+                WebkitUserSelect: 'none',
+              }}
             >
             </div>
           </div>
           <div className="d-flex p-2">Visited Node:
             <div
-                style={{
-                  width: "20px",
-                  height: "20px",
-                  backgroundColor:'#e09891',
-                  WebkitUserSelect: "none",
-                }}
+              style={{
+                width: '20px',
+                height: '20px',
+                backgroundColor: '#e09891',
+                WebkitUserSelect: 'none',
+              }}
             >
             </div>
           </div>
           <div className="d-flex p-2">Shortest Path Node:
             <div
-                style={{
-                  width: "20px",
-                  height: "20px",
-                  backgroundColor:'#fee440',
-                  WebkitUserSelect: "none",
-                }}
+              style={{
+                width: '20px',
+                height: '20px',
+                backgroundColor: '#fee440',
+                WebkitUserSelect: 'none',
+              }}
             >
             </div>
           </div>
@@ -276,6 +296,7 @@ Navbar.propTypes = {
   toggleSource: PropTypes.func,
   toggleDestination: PropTypes.func,
   changeGrid: PropTypes.func,
+  changeDestination:PropTypes.func,
   multiDestination: PropTypes.func,
   multipledestinations: PropTypes.bool,
 
