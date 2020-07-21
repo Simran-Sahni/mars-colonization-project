@@ -39,9 +39,9 @@ ul li ul li {
   border: 1px solid black;
 }
 
-li:hover {
-  background: #e09f3e;
-}
+/*li:hover {*/
+/*  background: #e09f3e;*/
+/*}*/
 
 ul li ul li a {
   color: black;
@@ -76,6 +76,10 @@ button,
   color: peachpuff;
 }
 
+#navigation>button{
+  font-weight: bolder;
+}
+
 .dropdown-menu {
   text-align: center;
   background: #e09f3e;
@@ -86,8 +90,8 @@ button,
   margin-right: 5px;
 }
 
-.btn:hover {
-  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+button:hover {
+  box-shadow:  0 10px 15px -2px rgba(15,15,15,.25);
 }
 
 #info {

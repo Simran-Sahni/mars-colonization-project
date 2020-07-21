@@ -35,7 +35,7 @@ export const startPoint = function(props, i, j) {
         <div
             key={i + j}
             style={{width: '35px', height: '35px', border: '1.5px solid black',
-                backgroundColor: '#00ee00', WebkitUserSelect: 'none',
+                backgroundColor: '#71b340', WebkitUserSelect: 'none',
             }}
             onClick={() => {
                 if (props.changeSource) props.changesourcefunc(i, j);

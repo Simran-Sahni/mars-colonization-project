@@ -27,14 +27,14 @@ class Navbar extends React.Component {
     if (!this.state.checkedA) {
       this.editButtons();
     } else {
-      document.getElementById('chngDestBtn').innerHTML = '<button id="chngDestBtn" class="btn" type="button" style=background-color:#ee0000>'+ 'Change Destination'+'</ button>';
+      document.getElementById('chngDestBtn').innerHTML = '<button id="chngDestBtn" class="btn" type="button" style="background-color:#6a040f">'+ 'Change Destination'+'</ button>';
     }
     this.setState({checkedA: !this.state.checkedA});
   }
 
 
   editButtons() {
-    document.getElementById('chngDestBtn').innerHTML = '<button id="chngDestBtn" class="btn" type="button" style=background-color:#ee0000>'+ 'Add Destination'+'</ button>';
+    document.getElementById('chngDestBtn').innerHTML = '<button id="chngDestBtn" class="btn" type="button" style="background-color:#6a040f">'+ 'Add Destination'+'</ button>';
     document.getElementById('AlgosList').innerHTML = '<button className="btn dropdown-toggle" type="button" data-toggle="dropdown" disabled={this.props.visual}>' +
                                             'Algorithms'+ '<span className="caret"/>' +
                         '</button>' +
@@ -53,7 +53,7 @@ class Navbar extends React.Component {
     const setString = 'Visualize  ' + algo + '!';
     document.getElementById('visualizebtn').innerHTML =
         // eslint-disable-next-line max-len
-        '<button id="visualizebtn" class="btn" type="button">'+ setString+'</ button>';
+        '<button id="visualizebtn" class="btn" type="button" style="font-weight:bold">'+ setString+'</ button>';
 
     this.props.handle(algo);
     this.setState({selectedAlgo: algo});
@@ -84,7 +84,7 @@ class Navbar extends React.Component {
               <li className="nav-item">
               <button onClick={this.props.toggleSource} className="btn"
                 style={{
-                  backgroundColor: '#00ee00',
+                  backgroundColor: '#71b340',
                 }}
                 disabled={this.props.visual}
               >
@@ -95,7 +95,8 @@ class Navbar extends React.Component {
               <button onClick={this.props.toggleDestination} className="btn"
                 id="chngDestBtn"
                 style={{
-                  backgroundColor: '#ee0000',
+                  backgroundColor: '#6a040f',
+                    color:"peachpuff",
                 }}
                 disabled={this.props.visual}
               >
@@ -107,6 +108,7 @@ class Navbar extends React.Component {
                 id="visualizebtn"
                 className="btn"
                 type="button"
+                style={{fontWeight:"bolder"}}
                 onClick={this.props.visualize}
                 disabled={this.props.visual}
               >
@@ -204,7 +206,7 @@ class Navbar extends React.Component {
                 style={{
                   width: "20px",
                   height: "20px",
-                  backgroundColor:"#00ee00",
+                  backgroundColor:'#71b340',
                   WebkitUserSelect: "none",
                 }}
             >
@@ -215,7 +217,7 @@ class Navbar extends React.Component {
                 style={{
                   width: "20px",
                   height: "20px",
-                  backgroundColor:"#ee0000",
+                  backgroundColor:'#ee0000',
                   WebkitUserSelect: "none",
                 }}
             >
