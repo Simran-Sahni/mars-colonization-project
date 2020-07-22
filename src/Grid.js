@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {currentPointer, wall, finalShortestPath, startPoint, endPoint, visited, empty} from './Cell';
+import {currentPointer, wall, finalShortestPath, startPoint, endPoint, visited, visited2, empty} from './Cell';
 
 /**
  *
@@ -31,6 +31,7 @@ function Grid(props) {
       else if (props.grid[i][j] === 3)rowList.push(startPoint(props, i, j));
       else if (props.grid[i][j] === 4) rowList.push(endPoint(i, j));
       else if (props.grid[i][j] === 5) rowList.push(finalShortestPath(props, i, j));
+      else if (props.grid[i][j] === 6) rowList.push(visited2(props, i, j));
       else rowList.push(empty(props, i, j));
     }
     gridList.push(rowList);
@@ -54,8 +55,6 @@ Grid.propTypes = {
   changeState: PropTypes.func,
   start: PropTypes.array,
   end: PropTypes.array,
-  pointer: PropTypes.array,
-  pointer2: PropTypes.array,
   changeSource: PropTypes.bool,
   changeDestination: PropTypes.bool,
   changesourcefunc: PropTypes.func,

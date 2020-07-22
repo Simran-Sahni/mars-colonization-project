@@ -2,6 +2,7 @@ import PriorityQueue from './customPriorityQueue';
 import {neighbors} from './Utility';
 
 export const AStar = async function(w1, w2) {
+  this.computeHeuristics();
   this.setState({path: [], pointer: this.state.start[0]});
   const height = this.state.height; const width = this.state.width;
   const pq = new PriorityQueue((a, b) => a[1] < b[1]);
@@ -24,7 +25,7 @@ export const AStar = async function(w1, w2) {
           (dp[item[i][0]][item[i][1]].length >
               dp[current[0]][current[1]].length + 1)) {
         pq.push([item[i],
-          w1*(dp[item[i][0]][item[i][1]].length+1) +
+          w1*(dp[current[0]][current[1]].length+1) +
           w2*this.state.heuristics[item[i][0]][item[i][1]]]);
         dp[item[i][0]][item[i][1]] = [...dp[current[0]][current[1]], current];
       }

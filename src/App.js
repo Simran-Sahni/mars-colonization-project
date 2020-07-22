@@ -84,7 +84,6 @@ class App extends Component {
     BiAstar = BiAstar.bind(this);
     BidirectionalDijkstra = BidirectionalDijkstra.bind(this);
 
-
     toggleSource=()=>this.setState({changeSource: !this.state.changeSource});
     toggleDestination = ()=>{
         if(this.state.multipledestinations) this.setState({changeDestination: true});
@@ -102,16 +101,16 @@ class App extends Component {
     }
     changedDestination = (i,j)=> {
         let grid = this.state.grid;
+        grid[i][j] = 4; // special point : end point
         if(!this.state.multipledestinations)
         {grid[this.state.end[0][0]][this.state.end[0][1]] = 0;}
         else{
 
-            this.setState({end: this.state.end.push([i,j])});
-            console.log(this.state.end);
-
+            this.setState({end: [...this.state.end,[i,j]],grid});
+            console.log(this.state.end);return;
 
         }
-        grid[i][j] = 4; // special point : end point
+
         this.setState({
             changeDestination: !this.state.changeDestination,
             end: [[i,j]],
@@ -119,9 +118,9 @@ class App extends Component {
         });
     }
     multiDestination = () => {
-        if (this.state.multipledestinations === false) {
-            this.setState({multipledestinations: true});
-        }
+
+            this.setState({multipledestinations:!this.state.multipledestinations});
+
     }
     showModal = () => this.setState({ modalshow: true });
     hideModal = () => this.setState({ modalshow: false });
@@ -154,11 +153,8 @@ class App extends Component {
     }
     clearGrid = () => {
         const newGrid = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
-
         newGrid[this.state.start[0][0]][this.state.start[0][1]] = 3; // special point : start
-
         newGrid[this.state.start[0][0]][this.state.start[0][1]] = 3; // special point : start
-
         newGrid[this.state.end[0][0]][this.state.end[0][1]] = 4; // special point : end
         this.setState({grid: newGrid, pointer: []});
     }
@@ -170,11 +166,7 @@ class App extends Component {
         } else {  // convert a wall to empty cell
             grid[x][y] = 0;
         }
-
-
-
         grid[this.state.start[0][0]][this.state.start[0][1]] = 3;
-
         grid[this.state.end[0][0]][this.state.end[0][1]] = 4;
         this.setState({grid: grid});
     }
@@ -193,7 +185,7 @@ class App extends Component {
 
         else if (this.state.currentAlgo === "DFS") await this.DFS();
         else if (this.state.currentAlgo === "Dijkstra")  await this.Dijkstra();
-        else if(this.state.currentAlgo === "bfs") await this.BFS();
+        else if(this.state.currentAlgo === "BFS") await this.BFS();
         else if(this.state.currentAlgo === "biDijkstra") await this.BidirectionalDijkstra();
         else if (this.state.currentAlgo === "Best-FS") await this.AStar(0,1);
         else if (this.state.currentAlgo === "A*") await this.AStar(1,1);
@@ -225,7 +217,6 @@ class App extends Component {
         this.setState({path:[],grid: g});
     }
     render() {
-        const NavbarProps = {randomize:this.randomizeMatrix,clearWalls:this.clearGrid};
         return (
             <div>
                 <div id="navigation">

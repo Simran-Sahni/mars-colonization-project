@@ -12,6 +12,7 @@ export const currentPointer = function(props, i, j) {
       else props.changeState(i, j);
     }}
   >
+    <img src={rover} alt="start" style={{width: '25px', height: '25px'}}/>
   </div>);
 };
 
@@ -26,7 +27,6 @@ export const finalShortestPath = function(props, i, j) {
       else if (props.changeDestination) props.changedestfunc(i, j);
       else props.changeState(i, j);
     }}
-
   >
   </div>);
 };
@@ -35,7 +35,7 @@ export const startPoint = function(props, i, j) {
     <div
       key={i + j}
       style={{width: '35px', height: '35px', border: '1.5px solid black',
-        backgroundColor: '#00ee00', WebkitUserSelect: 'none',
+        backgroundColor: '#71b340', WebkitUserSelect: 'none',
       }}
       onClick={() => {
         if (props.changeSource) props.changesourcefunc(i, j);
@@ -46,7 +46,7 @@ export const startPoint = function(props, i, j) {
     >
     </div>);
 };
-export const endPoint = function(i, j) {
+export const endPoint = function(props, i, j) {
   return (
     <div
       key={i + j}
@@ -54,6 +54,15 @@ export const endPoint = function(i, j) {
         width: '35px', height: '35px', border: '1.5px solid black',
         backgroundColor: '#ee0000', WebkitUserSelect: 'none',
       }}
+      onClick={() => {
+        if (props.changeSource) props.changesourcefunc(i, j);
+        else if (props.changeDestination) props.changedestfunc(i, j);
+        else {
+          props.changeState(i, j);
+        }
+      }
+      }
+
     >
     </div>
   );
@@ -102,6 +111,23 @@ export const visited = function(props, i, j) {
     </div>
   );
 };
+export const visited2 = function(props, i, j) {
+  return (
+    <div
+      key={i + j}
+      style={{
+        width: '35px', height: '35px', border: '1.5px solid black',
+        backgroundColor: '#666666', WebkitUserSelect: 'none',
+      }}
+      onClick={() => {
+        if (props.changeSource) props.changesourcefunc(i, j);
+        else if (props.changeDestination) props.changedestfunc(i, j);
+        else props.changeState(i, j);
+      }}
+    >
+    </div>
+  );
+};
 export const empty = function(props, i, j) {
   return ( <div
     key={i + j}
@@ -111,7 +137,7 @@ export const empty = function(props, i, j) {
     }}
     onClick={() => {
       if (props.changeSource) props.changesourcefunc(i, j);
-      else if (props.changeDestination)props.changedestfunc(i, j);
+      else if ((props.changeDestination) || (props.multipledestinations)) props.changedestfunc(i, j);
       else props.changeState(i, j);
     }}
     onTouchStart={(e) => {
@@ -132,6 +158,7 @@ empty.propTypes = {
   changesourcefunc: PropTypes.func,
   changedestfunc: PropTypes.func,
   changeState: PropTypes.func,
+  multipledestinations: PropTypes.bool,
 
 };
 
@@ -143,17 +170,25 @@ visited.propTypes = {
   changeState: PropTypes.func,
 
 };
-
-wall.propTypes ={
+visited2.propTypes = {
   changeSource: PropTypes.bool,
   changeDestination: PropTypes.bool,
   changesourcefunc: PropTypes.func,
   changedestfunc: PropTypes.func,
   changeState: PropTypes.func,
+
+};
+
+wall.propTypes ={
+  changeSoure: PropTypes.bool,
+  changeDestination: PropTypes.bool,
+  changesourcefun: PropTypes.func,
+  changedestfunc: PropTypes.func,
+  changeState: PropTypes.func,
 };
 
 finalShortestPath.propTypes = {
-  changeSource: PropTypes.bool,
+  changeSoure: PropTypes.bool,
   changeDestination: PropTypes.bool,
   changesourcefunc: PropTypes.func,
   changedestfunc: PropTypes.func,
@@ -162,7 +197,15 @@ finalShortestPath.propTypes = {
 
 
 startPoint.propTypes = {
-  changeSource: PropTypes.bool,
+  changeSoure: PropTypes.bool,
+  changeDestination: PropTypes.bool,
+  changesourcefunc: PropTypes.func,
+  changedestfunc: PropTypes.func,
+  changeState: PropTypes.func,
+};
+
+endPoint.propTypes = {
+  changeSoure: PropTypes.bool,
   changeDestination: PropTypes.bool,
   changesourcefunc: PropTypes.func,
   changedestfunc: PropTypes.func,
@@ -171,10 +214,6 @@ startPoint.propTypes = {
 
 currentPointer.propTypes = {
   changeSource: PropTypes.bool,
-  changeDestination: PropTypes.bool,
-  changesourcefunc: PropTypes.func,
-  changedestfunc: PropTypes.func,
+  toggleSource: PropTypes.func,
   changeState: PropTypes.func,
 };
-
-

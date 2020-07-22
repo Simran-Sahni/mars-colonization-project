@@ -4,14 +4,7 @@ body {
     -apple-system,
     BlinkMacSystemFont,
     "Segoe UI",
-    "Roboto",
-    "Oxygen",
-    "Ubuntu",
-    "Cantarell",
-    "Fira Sans",
-    "Droid Sans",
-    "Helvetica Neue",
-    sans-serif;
+      sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: url("bg.png") no-repeat center center fixed;
@@ -36,12 +29,14 @@ body {
   font-weight: bold;
 }
 ul li ul li {
-  border: 1px solid black;
+ padding:0;
+  border-bottom:1px solid #540b0e;
+  margin:0;
 }
 
-li:hover {
-  background: #e09f3e;
-}
+/*li:hover {*/
+/*  background: #e09f3e;*/
+/*}*/
 
 ul li ul li a {
   color: black;
@@ -51,8 +46,9 @@ a:hover {
   color: #e09f3a;
 }
 
-li > a:hover {
+li>ul>li:hover {
   text-decoration: none;
+  background-color: greenyellow;
 }
 
 button,
@@ -76,18 +72,39 @@ button,
   color: peachpuff;
 }
 
+#navigation>button{
+  font-weight: bolder;
+}
+
 .dropdown-menu {
   text-align: center;
   background: #e09f3e;
   color: black;
 }
+#AlgosList>ul>li>button{
+  width:100%;
+  color:black;
+  display:block;
+  margin:0;
+  border:2px darkred solid;
+  border-radius: 1px;
+}
+#AlgosList>ul>li>button[disabled]{
+  background: #b7b7a4;
+}
+#AlgosList>ul>li>button[disabled]:hover{
+  background: #b7b7a4;
+}
 
+#AlgosList>ul>li>button:hover{
+  background-color: greenyellow;
+}
 #visualizebtn {
   margin-right: 5px;
 }
 
-.btn:hover {
-  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+button:hover {
+  box-shadow:  0 10px 15px -2px rgba(15,15,15,.25);
 }
 
 #info {
