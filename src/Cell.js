@@ -155,7 +155,8 @@ empty.propTypes = {
     changeDestination:PropTypes.bool,
     changesourcefunc: PropTypes.func,
     changedestfunc: PropTypes.func,
-    changeState: PropTypes.func
+    changeState: PropTypes.func,
+    multipledestinations:PropTypes.bool,
 
 };
 

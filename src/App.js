@@ -49,7 +49,7 @@ class App extends Component {
     state = {
         height: 17, // height of the grid
         width: 30, // width of the grid
-        start: [[10, 2]], // start position
+        start: [[10, 9]], // start position
         end: [[10, 15]],// end position
         grid: Array(17).fill(undefined, undefined, undefined).map(() => Array(30).fill(0)),
         speed: 1, // speed for animation
