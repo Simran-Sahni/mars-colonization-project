@@ -208,6 +208,8 @@ class App extends Component {
             this.setState({grid: grid});
         }
         grid[this.state.end[0][0]][this.state.end[0][1]] = 5;
+        grid[this.state.start[0][0]][this.state.start[0][1]] = 3;
+
         await new Promise((done) => setTimeout(() => done(), this.state.speed));
         this.setState({grid: grid,visual: false});
     }

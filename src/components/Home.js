@@ -5,11 +5,12 @@ import BackgroundSlider from 'react-background-slider'
 import mars1 from '../media/mars1.jpg';
 import mars2 from '../media/mars2.jpg';
 import mars3 from '../media/mars3.jpg';
-//import mars4 from '../media/mars4.jpg';
+import mars4 from '../media/mars4.png';
 import mars5 from '../media/mars5.jpg';
-//import mars6 from '../media/mars6.jpg';
+import mars6 from '../media/mars6.jpg';
 import mars7 from '../media/mars7.jpg';
-//import mars8 from '../media/mars8.jpg';
+import mars8 from '../media/mars8.jpg';
+import mars9 from '../media/mars9.jpg';
 
 import {Redirect} from 'react-router-dom';
 import Background from './LANDING.png';
@@ -160,12 +161,12 @@ class Home extends Component {
                     color: '#fefae0',
                     position: 'relative',
                     margin:'20%',
-                    marginLeft:'35%'
+                    marginLeft:'38%'
                 }}>
                     <strong>LAUNCH TO MARS</strong>
                 </Button>
                 <Welcome question = {this.state.question} answer = {this.state.answer} handleClose={this.handleClose} show={this.state.show} handleShow={this.handleShow} onSubmit={this.onSubmit.bind(this)}/>
-                <BackgroundSlider images={[mars7,mars1,mars2,mars5,mars3]} duration={3} transition={0}/>
+                <BackgroundSlider images={[mars7,mars1,mars2,mars5,mars7,mars3,mars4,mars8,mars9,mars6]} duration={3} transition={0}/>
             </div>
 
         );
