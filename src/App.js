@@ -192,7 +192,7 @@ class App extends Component {
         else if(this.state.currentAlgo === "Weighted-AStar")await this.AStar(1,10);
         else if (this.state.currentAlgo === "TSP")
         {
-            this.state.graph = new Graph(this.state.grid);
+            this.state.graph = new Graph(this.state.grid,this.state.height,this.state.width);
             await this.TSP();
         }
         else if(this.state.currentAlgo === "IDAStar")await this.IDAstar();

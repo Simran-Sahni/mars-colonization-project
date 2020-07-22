@@ -25,6 +25,8 @@ export const BiBFS = async function() {
   par2[end[0]][end[1]] = end;
 
   let ptr;
+  const mySet = new Set();
+
   while (queue1.length !==0 && queue2.length !== 0) {
     const current = queue1[0]; // current of forward path
     const revcurrent = queue2[0]; // current pointer of reverse path
@@ -43,6 +45,7 @@ export const BiBFS = async function() {
     queue2.shift();
     const list1 = [];
     const list2 = [];
+
     for (const dir of directions) {
       const neighbour1 = [current[0] + dir[0], current[1] + dir[1]];
       if (isGoodCell(neighbour1[0], neighbour1[1])) {
@@ -81,7 +84,7 @@ export const BiBFS = async function() {
     }
     queue2 = queue2.concat(list2);
     this.setState({grid: grid, pointer: current, pointer2: revcurrent});
-    await new Promise((done) => setTimeout(() => done(), 50));// To slow down the speed of Animation
+    await new Promise((done) => setTimeout(() => done(), this.state.speed));// To slow down the speed of Animation
     if (flag1 || flag2) {
       break;
     }
@@ -110,5 +113,6 @@ export const BiBFS = async function() {
   // console.log({pth2});
   this.state.path = this.state.path.concat(pth2);
   // console.log(this.state.path);
+  console.log(mySet);
   await this.pathdisplay(this.state.path);
 };
