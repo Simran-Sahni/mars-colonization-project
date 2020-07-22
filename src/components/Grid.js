@@ -24,8 +24,8 @@ function Grid(props) {
   for (let i = 0; i < height; i++) {
     const rowList = [];
     for (let j = 0; j < width; j++) {
-      if (props.pointer && i === props.pointer[0] && j === props.pointer[1])rowList.push(currentPointer(props, i, j));
-      else if (props.pointer2 && i === props.pointer2[0] && j === props.pointer2[1])rowList.push(currentPointer(props, i, j));
+      if (!props.bi && props.pointer && i === props.pointer[0] && j === props.pointer[1])rowList.push(currentPointer(props, i, j));
+      else if (!props.bi && props.pointer2 && i === props.pointer2[0] && j === props.pointer2[1])rowList.push(currentPointer(props, i, j));
       else if (props.grid[i][j] === 1) rowList.push(wall(props, i, j));
       else if (props.grid[i][j] === 2) rowList.push(visited(props, i, j));
       else if (props.grid[i][j] === 3)rowList.push(startPoint(props, i, j));

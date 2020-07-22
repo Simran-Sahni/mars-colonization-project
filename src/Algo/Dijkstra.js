@@ -82,6 +82,7 @@ export const Dijkstra = async function() {
   if (this.state.pointer[0] !== end[0][0] ||
       this.state.pointer[1] !== end[0][1]) {
     this.showModal(); // return if path not found
+    this.setState({visual: false});
     return;
   }
   let ptr = [end[0][0], end[0][1]];

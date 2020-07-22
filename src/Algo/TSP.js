@@ -23,7 +23,7 @@ export const aStarForTSP = async function(AppState, start, end) {
       heuristics[i][j] = Math.abs(end[0]-i) + Math.abs(end[1]-j);
     }
   }
-  AppState.setState({heuristics: heuristics, path: [], pointer: start});
+  AppState.setState({heuristics: heuristics, path: [], pointer: start , bi:true});
   const pq = new PriorityQueue((a, b) => a[1] < b[1]);
   pq.push([start, AppState.state.heuristics[start[0]][start[1]]]);
   const dp = Array(30)

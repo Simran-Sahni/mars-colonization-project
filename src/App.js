@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Grid from "./Grid";
-import Navbar from "./Navbar"
+import Grid from "./components/Grid";
+import Navbar from "./components/Navbar"
 import Modal from  "react-bootstrap/Modal"
 import Button from "react-bootstrap/Button"
 import {DFS} from "./Algo/dfs";
@@ -65,6 +65,7 @@ class App extends Component {
         multipledestinations:false,
         visual:false,
         currentAlgo: "Not Selected",
+        bi: false, //boolean indicator for bidirectional algos
     };
     constructor(props) {
         super(props);
@@ -154,9 +155,8 @@ class App extends Component {
     clearGrid = () => {
         const newGrid = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
         newGrid[this.state.start[0][0]][this.state.start[0][1]] = 3; // special point : start
-        newGrid[this.state.start[0][0]][this.state.start[0][1]] = 3; // special point : start
         newGrid[this.state.end[0][0]][this.state.end[0][1]] = 4; // special point : end
-        this.setState({grid: newGrid, pointer: []});
+        this.setState({grid: newGrid, pointer: [],pointer2:[]});
     }
     changeState = (x, y) => {
         if (this.state.grid[x][y] === 3) return; // check if the current point is a special point (start or end)
@@ -207,11 +207,12 @@ class App extends Component {
             await new Promise((done) => setTimeout(() => done(), this.state.speed));
             this.setState({grid: grid});
         }
-        grid[this.state.end[0][0]][this.state.end[0][1]] = 5;
+        if(!this.state.bi) grid[this.state.end[0][0]][this.state.end[0][1]] = 5;
+        else  grid[this.state.end[0][0]][this.state.end[0][1]] = 4;
         grid[this.state.start[0][0]][this.state.start[0][1]] = 3;
 
         await new Promise((done) => setTimeout(() => done(), this.state.speed));
-        this.setState({grid: grid,visual: false});
+        this.setState({grid: grid,visual: false,bi:false, pointer:[], pointer2:[]});
     }
     clearPath = () => {
         let g = this.state.grid,path = this.state.path;
@@ -228,7 +229,7 @@ class App extends Component {
                             toggleSource= {this.toggleSource} toggleDestination= {this.toggleDestination}/>
                 </div>
                 <div id="Board">
-                    <Grid start={this.state.start} end={this.state.end} height={this.state.height}  multipledestinations = {this.state.multipledestinations}
+                    <Grid start={this.state.start} end={this.state.end} height={this.state.height}  multipledestinations = {this.state.multipledestinations} bi={this.state.bi}
                           width={this.state.width} grid={this.state.grid} changeState={this.changeState} changesourcefunc={this.changedSource} changedestfunc = {this.changedDestination}
                           pointer={this.state.pointer} pointer2={this.state.pointer2} changeSource = {this.state.changeSource} changeDestination = {this.state.changeDestination} />
                 </div>

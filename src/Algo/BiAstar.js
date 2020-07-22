@@ -20,7 +20,7 @@ export const BiAstar = async function() {
   while (!forwardPQ.isEmpty() && !backwardPQ.isEmpty()) {
     const grid = this.state.grid;
     const current1 = forwardPQ.peek()[0]; const current2 = backwardPQ.peek()[0];
-    this.setState({pointer: current1, pointer2: current2});
+    this.setState({pointer: current1, pointer2: current2,bi:true});
     await new Promise((done) => setTimeout(() => done(), speed));
     visited1[current1[0]][current1[1]] = 1;
     visited2[current2[0]][current2[1]] = 1;

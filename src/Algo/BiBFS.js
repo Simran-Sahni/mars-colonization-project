@@ -16,7 +16,6 @@ export const BiBFS = async function() {
   const end = this.state.end[0];
 
   const par1 = Array(height).fill().map(() => Array(width).fill([]));
-
   const par2 = Array(height).fill().map(() => Array(width).fill([]));
   const visited = Array(height).fill().map(() => Array(width).fill(0));
 
@@ -84,13 +83,13 @@ export const BiBFS = async function() {
       }
     }
     queue2 = queue2.concat(list2);
-    this.setState({grid: grid, pointer: current, pointer2: revcurrent});
+    this.setState({grid: grid, pointer: current, pointer2: revcurrent , bi:true});
     await new Promise((done) => setTimeout(() => done(), this.state.speed));// To slow down the speed of Animation
     if (flag1 || flag2) {
       break;
     }
   }
-  // console.log({ptr});
+  
   const breakpoint = ptr;
   while (true) {
     this.state.path = [...this.state.path, ptr];

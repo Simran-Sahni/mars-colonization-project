@@ -38,6 +38,7 @@ export const AStar = async function(w1, w2) {
   const pointer = this.state.pointer;
   if (pointer[0] !== end[0][0] || pointer[1] !== end[0][1]) {
     this.showModal();
+    this.setState({visual: false});
     return;
   }
   const path = dp[end[0][0]][end[0][1]];

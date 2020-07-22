@@ -47,6 +47,7 @@ export const BFS = async function() {
   const pointer = this.state.pointer;
   if (pointer[0] !== end[0][0] || pointer[1] !== end[0][1]) {  //display path not found
     this.showModal();
+    this.setState({visual: false});
     return;
   }
   let ptr = [end[0][0], end[0][1]];

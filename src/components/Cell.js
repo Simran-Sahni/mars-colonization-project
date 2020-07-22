@@ -1,4 +1,4 @@
-import rover from './media/mars-rover.svg';
+import rover from '../media/mars-rover.svg';
 import React from 'react';
 import PropTypes from 'prop-types';
 export const currentPointer = function(props, i, j) {
