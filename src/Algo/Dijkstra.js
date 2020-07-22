@@ -20,7 +20,7 @@ export const Dijkstra = async function() {
     queue.pop(); // pop the queue
     if (grid[current[0]][current[1]] === 1 ||
         grid[current[0]][current[1]] === 2) {
-      continue;  //if a wall or visited continue
+      continue; // if a wall or visited continue
     }
     if (grid[current[0]][current[1]] === 3) {
       if (ok) ok = false;
@@ -32,7 +32,7 @@ export const Dijkstra = async function() {
         setTimeout(() => done(), this.state.speed));
       break;
     } else {
-      //dijkstra picks the minimum weight path, updates it in its distance array
+      // dijkstra picks the minimum weight path, updates it in its distance array
       if (current[0] !== height - 1 &&
           grid[current[0] + 1][current[1]] !== 2) {
         if (dist[current[0] + 1][current[1]] >

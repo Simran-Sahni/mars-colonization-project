@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Navbar.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Navbar.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react';
+import PropTypes from 'prop-types';
+import Switch from '@material-ui/core/Switch';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+/**
+ *
+ * @param {props} props
+ * @return {*}
+ * @constructor
+ */
+class Navbar extends React.Component {
+  /**
+   *@param {props} props
+   */
+  constructor(props) {
+    super(props);
+    this.state={
+      selectedAlgo: props.currentAlgo,
+      checkedA: false,
+
+
+    };
+  }
+
+  hc() {
+    if (!this.state.checkedA) {
+      this.editButtons();
+    } else {
+      document.getElementById('chngDestBtn').innerHTML = '&lt;button class="btn" type="button"  onClick={this.props.toggleDestination}  style="background-color:#6a040f ;  color:peachpuff">'+ 'Change Destination'+'&lt;/ button>';
+      this.props.multiDestination();
+    }
+    this.setState({checkedA: !this.state.checkedA});
+  }
+
+
+  editButtons() {
+    document.getElementById('chngDestBtn').innerHTML = '&lt;button class="btn" type="button" style="background-color:#6a040f;  color:peachpuff">'+ 'Add Destination'+'&lt;/ button>';
+    this.props.multiDestination();
+  }
+  /**
+   *
+   * @param {event} event
+   */
+
+  handleChange(event) {
+    const algo = (event.target.getAttribute('id')).toString();
+    const setString = 'Visualize  ' + algo + '!';
+    document.getElementById('visualizebtn').innerHTML =
+        // eslint-disable-next-line max-len
+        '&lt;button id="visualizebtn" class="btn" type="button" style="font-weight:bold">'+ setString+'&lt;/ button>';
+
+    this.props.handle(algo);
+    this.setState({selectedAlgo: algo});
+  }
+  /**
+   *
+   * @return {*}
+   */
+  render() {
+    return (
+      &lt;div>
+        &lt;nav className="navbar navbar-expand-lg">
+          &lt;div className="container-fluid">
+            &lt;div className="navbar-header">
+              &lt;a id="refreshButton" className="navbar-brand" href="/mars-colonization-project/App">
+                {/* eslint-disable-next-line max-len */}
+                  Conquer Mars! &lt;i className="fa fa-rocket"/> &lt;span className="icon" />&lt;/a
+              >
+            &lt;/div>
+            &lt;ul className="navbar-nav">
+              &lt;FormGroup>
+                &lt;FormControlLabel
+                  control={&lt;Switch color = "primary" checked={this.state.checkedA} onChange={()=>this.hc()} />}
+                  label="Multiple Destinations" style={{color: 'peachpuff'}}
+
+                />
+              &lt;/FormGroup>
+              &lt;li className="nav-item">
+
+                &lt;button onClick={this.props.toggleSource} className="btn"
+                  style={{
+                    backgroundColor: '#71b340',
+                  }}
+                  disabled={this.props.visual}
+                >
+                    Change Source
+                &lt;/button>
+              &lt;/li>
+              &lt;li className="nav-item" id="chngDestBtn">
+
+                &lt;button onClick={this.props.toggleDestination} className="btn"
+
+                  style={{
+                    backgroundColor: '#6a040f',
+                    color: 'peachpuff',
+                  }}
+                  disabled={this.props.visual}
+                >
+                    Change Destination
+                &lt;/button>
+              &lt;/li>
+              &lt;li className="nav-item">
+
+                &lt;button
+                  id="visualizebtn"
+                  className="btn"
+                  type="button"
+                  style={{fontWeight: 'bolder'}}
+                  onClick={this.props.visualize}
+                  disabled={this.props.visual}
+                >
+                    Visualize
+                &lt;/button>
+              &lt;/li>
+              &lt;li className="nav-item dropdown" id = "AlgosList">
+                &lt;button
+                  className="btn dropdown-toggle"
+                  type="button"
+                  data-toggle="dropdown"
+                  disabled={this.props.visual}
+                >
+                    Algorithms &lt;span className="caret"/>
+                &lt;/button>
+                &lt;ul className="dropdown-menu">
+                  &lt;li >
+                    &lt;button id="Dijkstra" disabled={this.props.multipledestinations}
+                      onMouseDown={(event) => this.handleChange(event)}>
+                        Dijkstra Algorithm&lt;/button>
+                  &lt;/li>
+                  &lt;li >
+                    &lt;button id="A*" disabled={this.props.multipledestinations}
+                      onClick={(event) => this.handleChange(event)}>
+                        A* Search &lt;/button>
+                  &lt;/li>
+                  &lt;li >
+                    &lt;button id="DFS"
+                      disabled={this.props.multipledestinations}
+                      onClick={(event) => this.handleChange(event)}>
+                        DFS &lt;/button>
+                  &lt;/li>
+                  &lt;li >
+                    &lt;button id="BFS" disabled={this.props.multipledestinations}
+                      onMouseDown={(event) => this.handleChange(event)}>
+                        BFS&lt;/button>
+                  &lt;/li>
+                  &lt;li >
+                    &lt;button id="biDijkstra" disabled={this.props.multipledestinations}
+                      onMouseDown={(event) => this.handleChange(event)}>
+                        Bidirectional Dijkstra&lt;/button>
+                  &lt;/li>
+                  &lt;li >
+                    &lt;button id="biBFS" disabled={this.props.multipledestinations}
+                      onMouseDown={(event) => this.handleChange(event)}>
+                        Bidirectional BFS &lt;/button>
+                  &lt;/li>
+                  &lt;li>
+                    &lt;button id="Best-FS" disabled={this.props.multipledestinations}
+                      onMouseDown={(event) => this.handleChange(event)}>
+                        Greedy best-first search &lt;/button>
+                  &lt;/li>
+                  &lt;li >
+                    &lt;button id="TSP"
+                      onMouseDown={(event) => this.handleChange(event)}>
+                        Travelling Salesman &lt;/button>
+                  &lt;/li>
+                  &lt;li >
+                    &lt;button id="IDAStar" disabled={this.props.multipledestinations}
+                      onMouseDown={(event) => this.handleChange(event)}>
+                        Iterative Deepening A* &lt;/button>
+                  &lt;/li>
+                  &lt;li >
+                    &lt;button id="Weighted-AStar" disabled={this.props.multipledestinations}
+                      onMouseDown={(event) => this.handleChange(event)}>
+                        Weighted A* &lt;/button>
+                  &lt;/li>
+                  &lt;li >
+                    &lt;button
+                      id="BiAstar"
+                      disabled={this.props.multipledestinations}
+                      onMouseDown={(event) => this.handleChange(event)}>
+                        Bidirectional A* &lt;/button>
+                  &lt;/li>
+                &lt;/ul>
+              &lt;/li>
+              &lt;li className="nav-item">
+                &lt;button onClick={this.props.randomize}
+                  className="btn"
+                  disabled={this.props.visual}>
+                    Randomize
+                &lt;/button>
+              &lt;/li>
+              &lt;li className="nav-item">
+                &lt;button onClick = {this.props.clearWalls}
+                  className="btn" disabled={this.props.visual}>
+                    Clear Board
+                &lt;/button>
+              &lt;/li>
+              &lt;li className="nav-item">
+                &lt;button onClick = {this.props.clearPath}
+                  className="btn"
+                  disabled={this.props.visual}>
+                    Clear Path
+                &lt;/button>
+              &lt;/li>
+              &lt;li className="nav-item dropdown">
+                &lt;button
+                  className="btn dropdown-toggle"
+                  type="button"
+                  data-toggle="dropdown"
+                  disabled={this.props.visual}
+                >
+                    Speed &lt;span className="caret"/>
+                &lt;/button>
+                &lt;ul className="dropdown-menu">
+                  &lt;li onClick={()=> this.props.newSpeed(1)}>Fast
+                  &lt;/li>
+                  &lt;li onClick={() => this.props.newSpeed(350)}>Medium
+                  &lt;/li>
+                  &lt;li onClick={() => this.props.newSpeed(750)}>Slow
+                  &lt;/li>
+                &lt;/ul>
+              &lt;/li>
+            &lt;/ul>
+          &lt;/div>
+        &lt;/nav>
+        &lt;div className="d-flex flex-row flex-wrap m-2 justify-content-around"
+          id="Legend">
+          &lt;div className="d-flex p-2">Start:
+            &lt;div
+
+              style={{
+                width: '20px',
+                height: '20px',
+                backgroundColor: '#71b340',
+                WebkitUserSelect: 'none',
+              }}
+
+            >
+            &lt;/div>
+          &lt;/div>
+          &lt;div className="d-flex p-2">End:
+            &lt;div
+
+              style={{
+                width: '20px',
+                height: '20px',
+                backgroundColor: '#ee0000',
+                WebkitUserSelect: 'none',
+              }}
+            >
+            &lt;/div>
+          &lt;/div>
+          &lt;div className="d-flex p-2">Wall:
+            &lt;div
+              style={{
+                width: '20px',
+                height: '20px',
+                backgroundColor: '#540b0e',
+                WebkitUserSelect: 'none',
+              }}
+            >
+            &lt;/div>
+          &lt;/div>
+          &lt;div className="d-flex p-2">Visited Node:
+            &lt;div
+              style={{
+                width: '20px',
+                height: '20px',
+                backgroundColor: '#e09891',
+                WebkitUserSelect: 'none',
+              }}
+            >
+            &lt;/div>
+          &lt;/div>
+          &lt;div className="d-flex p-2">Shortest Path Node:
+            &lt;div
+              style={{
+                width: '20px',
+                height: '20px',
+                backgroundColor: '#fee440',
+                WebkitUserSelect: 'none',
+              }}
+            >
+            &lt;/div>
+          &lt;/div>
+        &lt;/div>
+      &lt;/div>
+
+
+    );
+  }
+}
+Navbar.propTypes = {
+  clearWalls: PropTypes.func,
+  clearPath: PropTypes.func,
+  randomize: PropTypes.func,
+  newSpeed: PropTypes.func,
+  currentAlgo: PropTypes.string,
+  selectAlgo: PropTypes.func,
+  visualize: PropTypes.func,
+  visual: PropTypes.bool,
+  handle: PropTypes.func,
+  toggleSource: PropTypes.func,
+  toggleDestination: PropTypes.func,
+  changeGrid: PropTypes.func,
+  changeDestination: PropTypes.func,
+  multiDestination: PropTypes.func,
+  multipledestinations: PropTypes.bool,
+
+};
+export default Navbar;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Graph.html">Graph</a></li><li><a href="Grid.html">Grid</a></li><li><a href="module.exports.html">exports</a></li><li><a href="Navbar.html">Navbar</a></li><li><a href="PriorityQueue.html">PriorityQueue</a></li></ul><h3>Global</h3><ul><li><a href="global.html#neighbors">neighbors</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Thu Jul 23 2020 00:45:19 GMT+0530 (India Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

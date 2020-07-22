@@ -40,7 +40,7 @@ export const BiBFS = async function() {
     } else {
       visited[revcurrent[0]][revcurrent[1]] = 2;
     }
-   
+
     queue1.shift();
     queue2.shift();
     const list1 = [];
@@ -83,13 +83,13 @@ export const BiBFS = async function() {
       }
     }
     queue2 = queue2.concat(list2);
-    this.setState({grid: grid, pointer: current, pointer2: revcurrent , bi:true});
+    this.setState({grid: grid, pointer: current, pointer2: revcurrent, bi: true});
     await new Promise((done) => setTimeout(() => done(), this.state.speed));// To slow down the speed of Animation
     if (flag1 || flag2) {
       break;
     }
   }
-  
+
   const breakpoint = ptr;
   while (true) {
     this.state.path = [...this.state.path, ptr];
@@ -108,11 +108,8 @@ export const BiBFS = async function() {
       ptr = par2[ptr[0]][ptr[1]];
     }
   }
-  // console.log({pth2});
   pth2 = pth2.reverse();
-  // console.log({pth2});
   this.state.path = this.state.path.concat(pth2);
-  // console.log(this.state.path);
   console.log(mySet);
   await this.pathdisplay(this.state.path);
 };

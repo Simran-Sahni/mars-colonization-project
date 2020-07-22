@@ -29,11 +29,11 @@ export const AStar = async function(w1, w2) {
           w2*this.state.heuristics[item[i][0]][item[i][1]]]);
         dp[item[i][0]][item[i][1]] = [...dp[current[0]][current[1]], current];
       }
-      grid[current[0]][current[1]] = 2;
-      this.setState({grid, pointer: current});
-      await new Promise((done) =>
-        setTimeout(() => done(), speed));
     }
+    grid[current[0]][current[1]] = 2;
+    this.setState({grid, pointer: current});
+    await new Promise((done) =>
+      setTimeout(() => done(), speed));
   }
   const pointer = this.state.pointer;
   if (pointer[0] !== end[0][0] || pointer[1] !== end[0][1]) {

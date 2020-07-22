@@ -6,21 +6,21 @@ export const DFS = async function() {
   const speed = this.state.speed;
   const par = Array(height).fill().map(() => Array(width).fill(0));
   par[start[0][0]][start[0][1]] = [start[0][0], start[0][1]];
-  let stack = [start[0]];  //stack for dfs
+  let stack = [start[0]]; // stack for dfs
   let ok = true;
   const path = [];
   while (stack.length !== 0) {
     const current = stack[stack.length - 1];
-    stack.pop();  //pop from stack
-    if (current[0] < 0 || current[0] >= height) {  //for the current to not go out of bounds
-      continue; 
+    stack.pop(); // pop from stack
+    if (current[0] < 0 || current[0] >= height) { // for the current to not go out of bounds
+      continue;
     }
     if (current[1] < 0 || current[1] >= width) {
       continue;
     }
-    if (grid[current[0]][current[1]] === 2 ||    
+    if (grid[current[0]][current[1]] === 2 ||
         grid[current[0]][current[1]] === 1) {
-      continue;         //if its a wall or visited cell, continue
+      continue; // if its a wall or visited cell, continue
     }
     if (grid[current[0]][current[1]] === 3) {
       if (ok) ok = false;
