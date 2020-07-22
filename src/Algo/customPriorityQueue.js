@@ -11,7 +11,7 @@ class PriorityQueue {
    *
    * @param comparator
    */
-  constructor(comparator = (a, b) => a > b) {
+  constructor(comparator = (a, b) => a < b) {
     this._heap = [];
     this._comparator = comparator;
   }
@@ -29,7 +29,7 @@ class PriorityQueue {
    * @return {boolean}
    */
   isEmpty() {
-    return this.size() == 0;
+    return this.size() === 0;
   }
 
   /**
@@ -82,8 +82,8 @@ class PriorityQueue {
 
   /**
    *
-   * @param i
-   * @param j
+   * @param {number} i
+   * @param {number} j
    * @return {boolean}
    * @private
    */

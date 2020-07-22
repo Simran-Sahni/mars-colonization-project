@@ -47,16 +47,17 @@ const D = ({ handleClose, show}) => {
 };
 class App extends Component {
     state = {
-        height: 17, // height of the grid
-        width: 30, // width of the grid
+        height: 20, // height of the grid
+        width: 20, // width of the grid
         start: [[10, 9]], // start position
         end: [[10, 15]],// end position
-        grid: Array(17).fill(undefined, undefined, undefined).map(() => Array(30).fill(0)),
-        speed: 1, // speed for animation
+        grid: Array(20).fill(undefined, undefined, undefined).map(() => Array(20).fill(0)),
+        speed: 0.100, // speed for animation
         pointer: [], // store the pointer for visualization
         pointer2:[],//for bidirectional visualization
         modalshow: false,
-        heuristics:Array(17).fill(undefined, undefined, undefined).map(() => Array(30).fill(0)),
+        heuristics:Array(20).fill(undefined, undefined, undefined).map(() => Array(20).fill(0)),
+        reverseHeuristics:Array(20).fill(undefined, undefined, undefined).map(() => Array(20).fill(0)),
         path: [],
         graph:null,
         changeSource:false,
@@ -67,7 +68,6 @@ class App extends Component {
     };
     constructor(props) {
         super(props);
-
         this.state.grid[this.state.start[0][0]][this.state.start[0][1]] = 3; // special point : start point
         this.state.grid[this.state.end[0][0]][this.state.end[0][1]] = 4; // special point : end point
         this.computeHeuristics();
@@ -83,7 +83,6 @@ class App extends Component {
     BiBFS = BiBFS.bind(this);
     BiAstar = BiAstar.bind(this);
     BidirectionalDijkstra = BidirectionalDijkstra.bind(this);
-
 
     toggleSource=()=>this.setState({changeSource: !this.state.changeSource});
     toggleDestination = ()=>{
@@ -126,11 +125,19 @@ class App extends Component {
     showModal = () => this.setState({ modalshow: true });
     hideModal = () => this.setState({ modalshow: false });
     computeHeuristics= ()=>{
-        let heuristics = this.state.heuristics;
-        for(let i = 0; i < this.state.height; i++)
-            for(let j = 0; j < this.state.width; j++)
-                heuristics[i][j] = Math.abs(this.state.end[0][0]-i) + Math.abs(this.state.end[0][1]-j);
-        this.setState({heuristics});
+        const heuristics = this.state.heuristics;
+        const start = this.state.start; const end = this.state.end;
+        const height = this.state.height; const width = this.state.width;
+        for(let i = 0; i < height; i++)
+            for(let j = 0; j < width; j++)
+                heuristics[i][j] = Math.abs(end[0][0]-i) + Math.abs(end[0][1]-j);
+    
+        const reverseHeuristics = this.state.reverseHeuristics;
+        for(let i = 0; i < height; i++)
+            for(let j = 0; j < width; j++)
+                reverseHeuristics[i][j] = Math.abs(start[0][0]-i) + Math.abs(start[0][1]-j);
+        
+        this.setState({heuristics,reverseHeuristics});
     }
     randomizeMatrix = () => {
         this.clearGrid();
@@ -176,7 +183,7 @@ class App extends Component {
 
         if (this.state.start[0][0] === this.state.end[0][0] && this.state.start[0][1] === this.state.end[0][1]) return;
 
-        else if (this.state.currentAlgo === "DFS") await this.dfs();
+        else if (this.state.currentAlgo === "DFS") await this.DFS();
         else if (this.state.currentAlgo === "Dijkstra")  await this.Dijkstra();
         else if(this.state.currentAlgo === "BFS") await this.BFS();
         else if(this.state.currentAlgo === "biDijkstra") await this.BidirectionalDijkstra();
@@ -185,7 +192,7 @@ class App extends Component {
         else if(this.state.currentAlgo === "Weighted-AStar")await this.AStar(1,10);
         else if (this.state.currentAlgo === "TSP")
         {
-            this.state.graph = new Graph(this.state.grid);
+            this.state.graph = new Graph(this.state.grid,this.state.height,this.state.width);
             await this.TSP();
         }
         else if(this.state.currentAlgo === "IDAStar")await this.IDAstar();
@@ -210,7 +217,6 @@ class App extends Component {
         this.setState({path:[],grid: g});
     }
     render() {
-        const NavbarProps = {randomize:this.randomizeMatrix,clearWalls:this.clearGrid};
         return (
             <div>
                 <div id="navigation">
@@ -220,9 +226,9 @@ class App extends Component {
                             toggleSource= {this.toggleSource} toggleDestination= {this.toggleDestination}/>
                 </div>
                 <div id="Board">
-                    <Grid start={this.state.start} end={this.state.end} height={this.state.height}
+                    <Grid start={this.state.start} end={this.state.end} height={this.state.height}  multipledestinations = {this.state.multipledestinations}
                           width={this.state.width} grid={this.state.grid} changeState={this.changeState} changesourcefunc={this.changedSource} changedestfunc = {this.changedDestination}
-                          pointer={this.state.pointer} changeSource = {this.state.changeSource} changeDestination = {this.state.changeDestination} multipledestinations = {this.state.multipledestinations} />
+                          pointer={this.state.pointer} pointer2={this.state.pointer2} changeSource = {this.state.changeSource} changeDestination = {this.state.changeDestination} />
                 </div>
                 <D show={this.state.modalshow} handleClose={this.hideModal} />
 

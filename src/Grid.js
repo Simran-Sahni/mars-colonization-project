@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {currentPointer, wall, finalShortestPath, startPoint, endPoint, visited, visited2,empty} from './Cell';
+import {currentPointer, wall, finalShortestPath, startPoint, endPoint, visited, visited2, empty} from './Cell';
 
 /**
  *
@@ -25,6 +25,7 @@ function Grid(props) {
     const rowList = [];
     for (let j = 0; j < width; j++) {
       if (props.pointer && i === props.pointer[0] && j === props.pointer[1])rowList.push(currentPointer(props, i, j));
+      else if (props.pointer2 && i === props.pointer2[0] && j === props.pointer2[1])rowList.push(currentPointer(props, i, j));
       else if (props.grid[i][j] === 1) rowList.push(wall(props, i, j));
       else if (props.grid[i][j] === 2) rowList.push(visited(props, i, j));
       else if (props.grid[i][j] === 3)rowList.push(startPoint(props, i, j));
@@ -36,15 +37,15 @@ function Grid(props) {
     gridList.push(rowList);
   }
   return (
-      <div className="p-4">
-        {gridList.map((object, index) => {
-          return (
-              <div className="row justify-content-center flex-nowrap" key = {index}>
-                {object}
-              </div>
-          );
-        })}
-      </div>
+    <div className="p-4">
+      {gridList.map((object, index) => {
+        return (
+          <div className="row justify-content-center flex-nowrap" key = {index}>
+            {object}
+          </div>
+        );
+      })}
+    </div>
   );
 }
 Grid.propTypes = {
@@ -54,7 +55,6 @@ Grid.propTypes = {
   changeState: PropTypes.func,
   start: PropTypes.array,
   end: PropTypes.array,
-  pointer: PropTypes.array,
   changeSource: PropTypes.bool,
   changeDestination: PropTypes.bool,
   changesourcefunc: PropTypes.func,

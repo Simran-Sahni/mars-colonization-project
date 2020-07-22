@@ -1,19 +1,23 @@
+import PriorityQueue from './customPriorityQueue';
 
 export const Dijkstra = async function() {
-  this.setState({path: [], pointer: this.state.start[0]});
-  let queue = [this.state.start[0]];
+  const start = this.state.start; const end = this.state.end;
+  const height = this.state.height; const width = this.state.width;
+  const queue = new PriorityQueue((a, b) => a[1] < b[1]);
+  queue.push([start[0], 0]);
   const grid = this.state.grid;
-  const dist = Array(this.state.height).fill().map(() =>
-    Array(this.state.width).fill(1000000000));
-  const par = Array(this.state.height).fill().map(() =>
-    Array(this.state.width).fill(0));
-  dist[this.state.start[0][0]][this.state.start[0][1]] = 0;
-  par[this.state.start[0][0]][this.state.start[0][1]] =
-      [this.state.start[0][0], this.state.start[0][1]];
+  const dist = Array(height).fill().map(() =>
+    Array(width).fill(1000000000));
+  const par = Array(height).fill().map(() =>
+    Array(width).fill(0));
+  this.setState({path: [], pointer: start[0]});
+  dist[start[0][0]][start[0][1]] = 0;
+  par[start[0][0]][start[0][1]] =
+      [start[0][0], start[0][1]];
   let ok = true;
   while (queue.length !== 0) {
-    const current = queue[0];
-    queue.shift(); // pop the queue
+    const current = queue.peek()[0];
+    queue.pop(); // pop the queue
     if (grid[current[0]][current[1]] === 1 ||
         grid[current[0]][current[1]] === 2) {
       continue;
@@ -28,40 +32,43 @@ export const Dijkstra = async function() {
         setTimeout(() => done(), this.state.speed));
       break;
     } else {
-      const list = [];
-      if (current[0] !== this.state.height - 1 &&
+      if (current[0] !== height - 1 &&
           grid[current[0] + 1][current[1]] !== 2) {
         if (dist[current[0] + 1][current[1]] >
             dist[current[0]][current[1]] + 1) {
           dist[current[0] + 1][current[1]] = dist[current[0]][current[1]] + 1;
           par[current[0] + 1][current[1]] = [current[0], current[1]];
+          queue.push([[current[0] + 1, current[1]],
+            dist[current[0] + 1][current[1]]]);
         }
-        list.push([current[0] + 1, current[1]]);
       }
-      if (current[1] !== this.state.width - 1 &&
+      if (current[1] !== width - 1 &&
           grid[current[0]][current[1] + 1] !== 2) {
         if (dist[current[0]][current[1] + 1] >
             dist[current[0]][current[1]] + 1) {
           dist[current[0]][current[1] + 1] = dist[current[0]][current[1]] + 1;
           par[current[0]][current[1] + 1] = [current[0], current[1]];
+          queue.push([[current[0], current[1] + 1],
+            dist[current[0]][current[1] + 1]]);
         }
-        list.push([current[0], current[1] + 1]);
       }
       if (current[0] !== 0 && grid[current[0] - 1][current[1]] !== 2) {
         if (dist[current[0] - 1][current[1]] >
             dist[current[0]][current[1]] + 1) {
           dist[current[0] - 1][current[1]] = dist[current[0]][current[1]] + 1;
           par[current[0] - 1][current[1]] = [current[0], current[1]];
+          queue.push([[current[0] - 1, current[1]],
+            dist[current[0] - 1][current[1]]]);
         }
-        list.push([current[0] - 1, current[1]]);
       }
       if (current[1] !== 0 && grid[current[0]][current[1] - 1] !== 2) {
         if (dist[current[0]][current[1] - 1] >
             dist[current[0]][current[1]] + 1) {
           dist[current[0]][current[1] - 1] = dist[current[0]][current[1]] + 1;
           par[current[0]][current[1] - 1] = [current[0], current[1]];
+          queue.push([[current[0], current[1] - 1],
+            dist[current[0]][current[1]-1]]);
         }
-        list.push([current[0], current[1] - 1]);
       }
       if (grid[current[0]][current[1]] !== 3) {
         grid[current[0]][current[1]] = 2; // mark it as visited
@@ -69,19 +76,18 @@ export const Dijkstra = async function() {
       this.setState({grid: grid, pointer: current});
       await new Promise((done) =>
         setTimeout(() => done(), this.state.speed));
-      queue = queue.concat(list);
     }
   }
-  if (this.state.pointer[0] !== this.state.end[0][0] ||
-      this.state.pointer[1] !== this.state.end[0][1]) {
+  if (this.state.pointer[0] !== end[0][0] ||
+      this.state.pointer[1] !== end[0][1]) {
     this.showModal(); // return if path not found
     return;
   }
-  let ptr = [this.state.end[0][0], this.state.end[0][1]];
+  let ptr = [end[0][0], end[0][1]];
   while (true) {
     this.state.path = [...this.state.path, ptr];
-    if (ptr[0] === this.state.start[0][0] &&
-        ptr[1] === this.state.start[0][1]) break;
+    if (ptr[0] === start[0][0] &&
+        ptr[1] === start[0][1]) break;
     else ptr = par[ptr[0]][ptr[1]];
   }
   this.state.path = this.state.path.reverse();
