@@ -118,7 +118,7 @@ class Home extends Component {
         res = JSON.parse(res);
         res = res["results"][0];
         res["question"] = res["question"].replace(/&quot;/gi, "\"");
-        res["question"] = res["question"].replace(/&#034;/gi, "/'");
+        res["question"] = res["question"].replace(/&#039;/gi, "/'");
         this.setState({question: res["question"], answer: res["correct_answer"]});
       } catch (e) {
         console.log(e);

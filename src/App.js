@@ -218,13 +218,15 @@ class App extends Component {
       if (!this.state.bi) grid[this.state.end[0][0]][this.state.end[0][1]] = 5;
       else grid[this.state.end[0][0]][this.state.end[0][1]] = 4;
       grid[this.state.start[0][0]][this.state.start[0][1]] = 3;
-
+      
       await new Promise((done) => setTimeout(() => done(), this.state.speed));
       this.setState({grid: grid, visual: false, bi: false, pointer: [], pointer2: []});
     }
     clearPath = () => {
       const g = this.state.grid; const path = this.state.path;
       for (let i = 0; i < path.length; i++)g[path[i][0]][path[i][1]] = 2;
+      g[this.state.start[0][0]][this.state.start[0][1]] = 3;
+      g[this.state.end[0][0]][this.state.end[0][1]] = 4;
       this.setState({path: [], grid: g});
     }
     render() {

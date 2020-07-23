@@ -7,7 +7,7 @@ export const BiBFS = async function() {
   const width = this.state.width;
   const grid = this.state.grid;
   const directions = [[0, 1], [1, 0], [0, -1], [-1, 0]];
-
+  let reached = true;
   const isGoodCell = (i, j) =>{
     if (i < 0 || i >=height || j < 0 || j >=width) return false;
     return !(grid[i][j] === 1 || grid[i][j] === 3 || grid[i][j] === 4);
@@ -94,26 +94,39 @@ export const BiBFS = async function() {
   }
 
   const breakpoint = ptr;
+  console.log({ptr});
   while (true) {
     this.state.path = [...this.state.path, ptr];
-    if (ptr[0] === this.state.start[0][0] &&
-        ptr[1] === this.state.start[0][1]) break;
+    if(ptr === undefined){reached = false; break;}
+       else  if (ptr[0] === this.state.start[0][0] &&
+      ptr[1] === this.state.start[0][1]) break;
     else {
       ptr = par1[ptr[0]][ptr[1]];
     }
+  }
+  if(!reached) {
+    this.showModal();  //return not found
+    this.setState({visual: false});
+    return;
   }
   this.state.path = this.state.path.reverse();
   ptr = breakpoint;
   let pth2= [];
   while (true) {
     pth2 = [...pth2, ptr];
-    if (ptr[0] === end[0] && ptr[1] === end[1]) break;
+    if(ptr === undefined){reached = false; break;}
+    else  if (ptr[0] === this.state.start[0][0] &&
+   ptr[1] === this.state.start[0][1]) break;
     else {
       ptr = par2[ptr[0]][ptr[1]];
     }
   }
+  if(!reached) {
+    this.showModal();  //return not found
+    this.setState({visual: false});
+    return;
+  }
   pth2 = pth2.reverse();
   this.state.path = this.state.path.concat(pth2);
-  console.log(mySet);
   await this.pathdisplay(this.state.path);
 };

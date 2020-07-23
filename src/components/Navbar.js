@@ -28,48 +28,28 @@ class Navbar extends React.Component {
     if (!this.state.checkedA) {
       this.editButtons();
     } else {
-      document.getElementById("chngDestBtn").innerHTML =
-          "<button class=\"btn\" " +
-          "type=\"button\"  " +
-          "onClick={this.props.toggleDestination} " +
-          " style=\"background-color:#6a040f;\"  " +
-          "\"color:peachpuff\">"+
-          "Change Destination"+
-          "</ button>";
+      document.getElementById('chngDestBtn').innerHTML = '<button class="btn" type="button"  onClick={this.props.toggleDestination}  style="background-color:#6a040f ;  color:peachpuff">'+ 'Change Destination'+'</ button>';
       this.props.multiDestination();
     }
     this.setState({checkedA: !this.state.checkedA});
   }
 
-  /**
-   * Changes the buttons when multiple destination toggle is changed
-   */
+
   editButtons() {
-    document.getElementById("chngDestBtn").innerHTML =
-        "<button " +
-        "class=\"btn\" " +
-        "type=\"button\"" +
-        " style=\"background-color:#6a040f;\"" +
-        " color:peachpuff>"+
-        "Add Destination"+"" +
-        "</ button>";
+    document.getElementById('chngDestBtn').innerHTML = '<button class="btn" type="button" style="background-color:#6a040f;  color:peachpuff">'+ 'Add Destination'+'</ button>';
     this.props.multiDestination();
   }
   /**
-   * Changes the Visualize Algo button according to the state
-   * @param {anything} event
+   *
+   * @param {event} event
    */
+
   handleChange(event) {
-    const algo = (event.target.getAttribute("id")).toString();
-    const setString = "Visualize  " + algo + "!";
-    document.getElementById("visualizebtn").innerHTML =
+    const algo = (event.target.getAttribute('id')).toString();
+    const setString = 'Visualize  ' + algo + '!';
+    document.getElementById('visualizebtn').innerHTML =
         // eslint-disable-next-line max-len
-        "<button id=\"visualizebtn\" " +
-        "class=\"btn\" " +
-        "type=\"button\" " +
-        "style=\"font-weight:bold\"/" +
-        setString + "" +
-        "> button>";
+        '<button id="visualizebtn" class="btn" type="button" style="font-weight:bold">'+ setString+'</ button>';
 
     this.props.handle(algo);
     this.setState({selectedAlgo: algo});

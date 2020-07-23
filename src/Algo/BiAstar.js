@@ -16,7 +16,7 @@ export const BiAstar = async function() {
   backwardPQ.push([end[0], 0]);
   const forwardDP = Array(height).fill().map(() => Array(width).fill([]));
   const backwardDP = Array(height).fill().map(() => Array(width).fill([]));
-  let ok = 0;
+   let ok = 0;
   while (!forwardPQ.isEmpty() && !backwardPQ.isEmpty()) {
     const grid = this.state.grid;
     const current1 = forwardPQ.peek()[0]; const current2 = backwardPQ.peek()[0];
@@ -65,7 +65,18 @@ export const BiAstar = async function() {
         this.setState({grid});
       }
     }
+    grid[start[0][0]][start[0][1]] = 3;
+    grid[end[0][0]][end[0][1]] = 4;
+    
     if (ok === 1) break;
+  }
+  if((meetpoint1 === undefined)||(meetpoint2 === undefined))
+  {
+    
+      this.showModal();  //return not found
+      this.setState({visual: false});
+      return;
+    
   }
   const path = [...forwardDP[meetpoint1[0]][meetpoint1[1]],
     ...backwardDP[meetpoint2[0]][meetpoint2[1]].reverse()];
