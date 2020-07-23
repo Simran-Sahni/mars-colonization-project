@@ -32,8 +32,7 @@ class Navbar extends React.Component {
           "<button class=\"btn\" " +
           "type='button'  " +
           "onClick={this.props.toggleDestination} " +
-          " style=\"background-color:#6a040f;\"  " +
-          "'color:peachpuff'>"+
+          " style=\"background-color:#6a040f; color:peachpuff\">"+
           "Change Destination"+
           "</ button>";
       this.props.multiDestination();
@@ -49,8 +48,7 @@ class Navbar extends React.Component {
         "<button " +
         "class=\"btn\" " +
         "type='button' "+
-        " style='background-color:#6a040f;'" +
-        " color:peachpuff>"+
+        " style='background-color:#6a040f;color:peachpuff' >"+
         "Add Destination"+
         "</button>";
     this.props.multiDestination();
