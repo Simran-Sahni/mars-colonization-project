@@ -7,7 +7,7 @@ export const Dijkstra = async function() {
   queue.push([start[0], 0]);
   const grid = this.state.grid;
   const dist = Array(height).fill().map(() =>
-    Array(width).fill(1000000000));
+    Array(width).fill(100000));
   const par = Array(height).fill().map(() =>
     Array(width).fill(0));
   this.setState({path: [], pointer: start[0]});
