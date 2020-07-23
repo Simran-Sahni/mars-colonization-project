@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Home.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Home.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, {Component} from "react";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import BackgroundSlider from "react-background-slider";
+import mars1 from "../media/mars1.jpg";
+import mars2 from "../media/mars2.jpg";
+import mars3 from "../media/mars3.jpg";
+import mars4 from "../media/mars4.png";
+import mars5 from "../media/mars5.jpg";
+import mars6 from "../media/mars6.jpg";
+import mars7 from "../media/mars7.jpg";
+import mars8 from "../media/mars8.jpg";
+import mars9 from "../media/mars9.jpg";
+
+import {Redirect} from "react-router-dom";
+import Background from "./LANDING.png";
+
+/**
+ * Front Landing Page
+ */
+class Welcome extends React.Component {
+  /**
+   *
+   * @param {props} props
+   */
+  constructor(props) {
+    super(props);
+    this.state = {
+      isChecked1: false,
+      isChecked2: false,
+      userAnswer: null,
+    };
+  }
+  toggleChange = (option) => {
+    if (option === 1) {
+      this.setState({isChecked1: true, isChecked2: false, userAnswer: "True"});
+    } else {
+      this.setState({isChecked1: false, isChecked2: true, userAnswer: "False"});
+    }
+  }
+  render() {
+    return (
+      &lt;>
+        &lt;Modal
+          show={this.props.show}
+          onHide={this.props.handleClose}
+          backdrop="static"
+          keyboard={false}
+          style={{
+            backgroundColor: "#3423ae 80%",
+          }}
+
+        >
+          &lt;Modal.Header closeButton style={{
+            backgroundColor: "#89daff",
+            opacity: "100%",
+          }}>
+            &lt;Modal.Title>Get Aboard!&lt;/Modal.Title>
+          &lt;/Modal.Header>
+          &lt;Modal.Body style={{
+            backgroundColor: "#89daff",
+            opacity: "100%",
+          }}>
+            &lt;div>&lt;i>Answer this to move ahead!&lt;/i>&lt;/div>
+            &lt;div>{this.props.question}&lt;/div>
+            &lt;div>
+              &lt;label>
+                &lt;input type="checkbox"
+                  checked={this.state.isChecked1}
+                  onChange={() => this.toggleChange(1)}
+                />
+                  True
+              &lt;/label>
+            &lt;/div>
+            &lt;div>
+              &lt;label>
+                &lt;input type="checkbox"
+                  checked={this.state.isChecked2}
+                  onChange={() => this.toggleChange(2)}
+                />
+                  False
+              &lt;/label>
+            &lt;/div>
+          &lt;/Modal.Body>
+          &lt;Modal.Footer
+            style={{
+              backgroundColor: "#89daff",
+              opacity: "100%",
+            }}>
+            &lt;Button variant="danger" onClick={this.props.handleClose} style={{
+              backgroundColor: "#ff0000",
+            }}>
+                Try Later
+            &lt;/Button>
+            &lt;Button variant="primary" style={{
+              backgroundColor: "#00ff00",
+            }}
+            onClick={() => this.props.onSubmit(this.state.userAnswer)}>
+                LETS GO!
+            &lt;/Button>
+          &lt;/Modal.Footer>
+        &lt;/Modal>
+      &lt;/>
+    );
+  }
+}
+
+/**
+ * Parse the question using get request
+ * @param {string} theUrl
+ * @return {string}
+ */
+function httpGet(theUrl) {
+  const xmlHttp = new XMLHttpRequest();
+  xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+  xmlHttp.send( null );
+  return xmlHttp.responseText;
+}
+
+/**
+ * Stores properties related to user question and page redirection
+ */
+class Home extends Component {
+  state = {
+    show: false,
+    redirect: null,
+    question: null,
+    answer: null,
+  };
+
+  /**
+   * Get questions from API before page loads
+   * @return {Promise&lt;void>}
+   */
+  async componentDidMount() {
+    try {
+      let res = httpGet("https://opentdb.com/api.php?amount=1&amp;category=18&amp;type=boolean");
+      res = JSON.parse(res);
+      res = res["results"][0];
+      res["question"] = res["question"].replace(/&amp;quot;/gi, "\"");
+      res["question"] = res["question"].replace(/&amp;#039;/gi, "/'");
+      this.setState({question: res["question"], answer: res["correct_answer"]});
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  /**
+   * Changes state when user clicks submit
+   * @param {anyObject }option
+   */
+  onSubmit(option) {
+    if (option === this.state.answer) {
+      this.setState({redirect: "/mars-colonization-project/App"});
+      this.setState({redirect: "/App"});
+    } else {
+      alert("Wrong Option Chosen");
+    }
+  }
+  handleShow = () => {
+    this.setState({show: true});
+  };
+
+  handleClose = () => {
+    this.setState({show: false});
+  };
+
+  /**
+   * renders the home screen
+   * @return {*}
+   */
+  render() {
+    if (this.state.redirect !== null) {
+      return &lt;Redirect to='/mars-colonization-project/App'/>;
+    }
+    return (
+
+      &lt;div id = "home"
+        style={{background:
+                 "url(" + {Background} + ")",
+        width: "100%",
+        height: "100%",
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat"}}>
+        &lt;div id="MissionTitle"
+          className="mb-4 p-4"
+          style={{backgroundColor: "#e5e5e5",
+            opacity: "70%",
+            borderRadius: "25%",
+            float: "right",
+            width: "25%",
+            height: "25%",
+            fontSize: "2em",
+            marginTop: "35px"}}>
+          &lt;p>&lt;b>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;MISSION&lt;/b>&lt;/p>
+          &lt;p>&lt;b> COLONIZE MARS! &lt;/b>&lt;/p>
+        &lt;/div>
+
+
+        &lt;Button variant="primary" size="lg" onClick={this.handleShow} style={{
+          backgroundColor: "#283618",
+          color: "#fefae0",
+          position: "relative",
+          margin: "20%",
+          marginLeft: "38%",
+        }}>
+          &lt;strong>LAUNCH TO MARS&lt;/strong>
+        &lt;/Button>
+        &lt;Welcome question = {this.state.question}
+          answer = {this.state.answer}
+          handleClose={this.handleClose}
+          show={this.state.show}
+          handleShow={this.handleShow}
+          onSubmit={this.onSubmit.bind(this)}/>
+        &lt;BackgroundSlider
+          images={[mars7, mars1, mars2, mars5, mars7,
+            mars3, mars4, mars8, mars9, mars6]}
+          duration={3}
+          transition={0}/>
+      &lt;/div>
+
+    );
+  }
+}
+
+
+export default Home;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="App.html">App</a></li><li><a href="Graph.html">Graph</a></li><li><a href="Grid.html">Grid</a></li><li><a href="Home.html">Home</a></li><li><a href="module.exports.html">exports</a></li><li><a href="Navbar.html">Navbar</a></li><li><a href="PriorityQueue.html">PriorityQueue</a></li><li><a href="Welcome.html">Welcome</a></li></ul><h3>Global</h3><ul><li><a href="global.html#httpGet">httpGet</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Thu Jul 23 2020 15:32:37 GMT+0530 (India Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

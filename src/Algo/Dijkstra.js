@@ -15,7 +15,7 @@ export const Dijkstra = async function() {
   par[start[0][0]][start[0][1]] =
       [start[0][0], start[0][1]];
   let ok = true;
-  while (queue.length !== 0) {
+  while (queue.size() !== 0) {
     const current = queue.peek()[0];
     queue.pop(); // pop the queue
     if (grid[current[0]][current[1]] === 1 ||

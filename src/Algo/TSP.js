@@ -6,14 +6,26 @@ export const TSP = async function() {
   }
   let now = this.state.start[0];
   let totalpath = [];
+  let pathfound = true;
   while (unvisited.size) {
     const togo = this.findOptimalVertex(this, unvisited, now);
     unvisited.delete(togo);
+    const sourceMapped = this.state.graph.map2[now];
+    const destinationMapped = this.state.graph.map2[togo];
+    if (this.state.graph.allPairShortest[sourceMapped][destinationMapped] === 1000000) {
+      pathfound = false;
+      break;
+    }
     const newpath = await this.aStarForTSP(this, now, togo);
     totalpath = totalpath.concat(newpath);
     now = togo;
   }
-  await this.pathdisplay(totalpath);
+  if (pathfound) {
+    await this.pathdisplay(totalpath);
+  } else {
+    this.showModal();
+    this.setState({visual: false});
+  }
 };
 
 export const aStarForTSP = async function(AppState, start, end) {
@@ -46,9 +58,6 @@ export const aStarForTSP = async function(AppState, start, end) {
       if (dp[current[0]][current[1] + 1].length === 0 ||
           dp[current[0]][current[1] + 1].length >
           [...dp[current[0]][current[1]], current].length) {
-        // pq.enqueue([current[0], current[1] + 1],
-        //     dp[current[0]][current[1]].length+
-        //     AppState.state.heuristics[current[0]][current[1] + 1]);
         pq.push([[current[0], current[1] + 1],
           dp[current[0]][current[1]].length+
         AppState.state.heuristics[current[0]][current[1] + 1]]);
@@ -62,10 +71,6 @@ export const aStarForTSP = async function(AppState, start, end) {
       if (dp[current[0] + 1][current[1]].length === 0 ||
           dp[current[0] + 1][current[1]].length >
           [...dp[current[0]][current[1]], current]) {
-        // pq.enqueue([current[0] + 1, current[1]],
-        //     dp[current[0]][current[1]].length+
-        //     AppState.state.heuristics[current[0] + 1][current[1]]);
-
         pq.push([[current[0] + 1, current[1]],
           dp[current[0]][current[1]].length+
         AppState.state.heuristics[current[0] + 1][current[1]]]);
@@ -78,10 +83,6 @@ export const aStarForTSP = async function(AppState, start, end) {
       if (dp[current[0] - 1][current[1]].length === 0 ||
           dp[current[0] - 1][current[1]].length >
           [...dp[current[0]][current[1]], current]) {
-        // pq.enqueue([current[0] - 1, current[1]],
-        //     dp[current[0]][current[1]].length+
-        //     AppState.state.heuristics[current[0] - 1][current[1]]);
-
         pq.push([[current[0] - 1,
           current[1]], dp[current[0]][current[1]].length+
         AppState.state.heuristics[current[0] - 1][current[1]]]);
@@ -94,9 +95,6 @@ export const aStarForTSP = async function(AppState, start, end) {
       if (dp[current[0]][current[1] - 1].length === 0 ||
           dp[current[0]][current[1] - 1].length >
           [...dp[current[0]][current[1]], current].length) {
-        // pq.enqueue([current[0], current[1] - 1],
-        //     dp[current[0]][current[1]].length+
-        //     AppState.state.heuristics[current[0]][current[1] - 1]);
         pq.push([[current[0], current[1] - 1],
           dp[current[0]][current[1]].length+
         AppState.state.heuristics[current[0]][current[1] - 1]]);

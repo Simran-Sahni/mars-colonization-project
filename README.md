@@ -1,71 +1,29 @@
-# Mars-Colonization-Project
-Official Repository of team CodeRedPlanet as a part of Microsoft Mars Colonization Program 2020
+# Path Finder-Project
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/5bba8934a9114a82961c687a30986d83)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Radhesh-Sarma/mars-colonization-project&amp;utm_campaign=Badge_Grade)
+####Official Repository of team CodeRedPlanet as a part of Microsoft Engage Program 2020
 
-This project was bootstrapped with [Create React App](<https://github.com/facebook/create-react-app>).
+This project is a _*"Path Visualizer"*_ between the entered points. This Web Application consists of two pages,
+the first page welcomes you with an easy question, answering which takes you to the main playground of visualizing paths on the surface of Mars!
 
-## Available Scripts
+You can go and check it out yourself at [Mars Colonizer!](https://radhesh-sarma.github.io/mars-colonization-project/)
 
-In the project directory, you can run:
+#### Features Available
+* Information & Tutorial tabs, to guide you around.
+* Have fun visualizing a once start, multi-stops paths
+* Varying speeds to visualize the path
+* Generate a random maze, or create your own, by simply toggling and dragging on the play grid
+* A range of algorithms, running at different optimal paces
+    * Dijkstra's,A*,Weighted A* etc (weighted algorithms)
+    * BFS,DFS (in the unweighted category)
+    * Even Bidirectional searches for path, in Bidirectional Dijkstra, Bidirectional A*, Bidirectional BFS and more!
 
-### `npm start`
+![First page](public/intro.PNG)
+![Main page](public/main.PNG)
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Team:
+* [Radhesh Sarma](https://github.com/Radhesh-Sarma) &nbsp;&nbsp;&nbsp; 
+* [Simran Sahni](https://github.com/Simran-Sahni) &nbsp;&nbsp;&nbsp; 
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](<https://facebook.github.io/create-react-app/docs/running-tests>) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](<https://facebook.github.io/create-react-app/docs/deployment>) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](<https://facebook.github.io/create-react-app/docs/getting-started>).
-
-To learn React, check out the [React documentation](<https://reactjs.org/>).
-
-### Code Splitting
-
-This section has moved here: <https://facebook.github.io/create-react-app/docs/code-splitting>
-
-### Analyzing the Bundle Size
-
-This section has moved here: <https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size>
-
-### Making a Progressive Web App
-
-This section has moved here: <https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app>
-
-### Advanced Configuration
-
-This section has moved here: <https://facebook.github.io/create-react-app/docs/advanced-configuration>
-
-### Deployment
-
-This section has moved here: <https://facebook.github.io/create-react-app/docs/deployment>
-
-### `npm run build` fails to minify
-
-This section has moved here: <https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify>
+## Technologies Used:
+* ReactJS
+* Bootstrap 4
