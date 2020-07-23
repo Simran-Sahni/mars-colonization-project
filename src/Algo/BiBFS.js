@@ -7,11 +7,9 @@ export const BiBFS = async function() {
   const width = this.state.width;
   const grid = this.state.grid;
   const directions = [[0, 1], [1, 0], [0, -1], [-1, 0]];
-
-  const isGoodCell = (i, j) => {
-    if (i < 0 || i >=height || j < 0 || j >=width) {
-      return false;
-    }
+  let reached = true;
+  const isGoodCell = (i, j) =>{
+    if (i < 0 || i >=height || j < 0 || j >=width) return false;
     return !(grid[i][j] === 1 || grid[i][j] === 3 || grid[i][j] === 4);
   };
   const start = this.state.start[0];
@@ -21,8 +19,10 @@ export const BiBFS = async function() {
   const par2 = Array(height).fill().map(() => Array(width).fill([]));
   const visited = Array(height).fill().map(() => Array(width).fill(0));
 
+
   par1[start[0]][start[1]] = start;
   par2[end[0]][end[1]] = end;
+
   let ptr;
   while (queue1.length !==0 && queue2.length !== 0) {
     const current = queue1[0]; // current of forward path
@@ -60,14 +60,13 @@ export const BiBFS = async function() {
         if ( neighbour1[0]===start[0] && neighbour1[1]===start[1]) {
           continue;
         }
+
         list1.push(neighbour1);
         grid[neighbour1[0]][neighbour1[1]] = 2;
       }
     }
     queue1 = queue1.concat(list1);
-    if (flag1) {
-      break;
-    }
+    if (flag1) break;
     for (const dir of directions) {
       const neighbour2 = [revcurrent[0] + dir[0], revcurrent[1] + dir[1]];
       if (isGoodCell(neighbour2[0], neighbour2[1])) {
@@ -81,6 +80,7 @@ export const BiBFS = async function() {
         if (visited[neighbour2[0]][neighbour2[1]] === 1 ) {
           ptr = neighbour2; flag2=true; break;
         }
+
         if (neighbour2[0]===end[0] && neighbour2[1]===end[1]) {
           continue;
         }
@@ -100,27 +100,46 @@ export const BiBFS = async function() {
   }
 
   const breakpoint = ptr;
+  console.log({ptr});
   while (true) {
     this.state.path = [...this.state.path, ptr];
-    if (ptr[0] === this.state.start[0][0] &&
+    if (ptr === undefined) {
+      reached = false; break;
+    } else if (ptr[0] === this.state.start[0][0] &&
         ptr[1] === this.state.start[0][1]) {
       break;
     } else {
       ptr = par1[ptr[0]][ptr[1]];
     }
   }
+  if (!reached) {
+    this.showModal(); // return not found
+    this.setState({visual: false});
+    return;
+  }
   this.state.path = this.state.path.reverse();
   ptr = breakpoint;
   let pth2= [];
-  while (true) {
+  let ok = true;
+  while (ok) {
     pth2 = [...pth2, ptr];
-    if (ptr[0] === end[0] && ptr[1] === end[1]) {
-      break;
+    if (ptr === undefined) {
+      reached = false;
+      ok = false;
+    } else if (ptr[0] === this.state.start[0][0] &&
+        ptr[1] === this.state.start[0][1]) {
+      ok = false;
     } else {
       ptr = par2[ptr[0]][ptr[1]];
     }
   }
+  if (!reached) {
+    this.showModal(); // return not found
+    this.setState({visual: false});
+    return;
+  }
   pth2 = pth2.reverse();
   this.state.path = this.state.path.concat(pth2);
+  console.log(this.state.path);
   await this.pathdisplay(this.state.path);
 };

@@ -69,9 +69,17 @@ export const BiAstar = async function() {
         this.setState({grid});
       }
     }
+    grid[start[0][0]][start[0][1]] = 3;
+    grid[end[0][0]][end[0][1]] = 4;
+
     if (ok === 1) {
       break;
     }
+  }
+  if ((meetpoint1 === undefined)||(meetpoint2 === undefined)) {
+    this.showModal(); // return not found
+    this.setState({visual: false});
+    return;
   }
   const path = [...forwardDP[meetpoint1[0]][meetpoint1[1]],
     ...backwardDP[meetpoint2[0]][meetpoint2[1]].reverse()];

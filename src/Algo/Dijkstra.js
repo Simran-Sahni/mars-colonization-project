@@ -90,11 +90,12 @@ export const Dijkstra = async function() {
     return;
   }
   let ptr = [end[0][0], end[0][1]];
-  while (true) {
+  ok = true;
+  while (ok) {
     this.state.path = [...this.state.path, ptr];
     if (ptr[0] === start[0][0] &&
         ptr[1] === start[0][1]) {
-      break;
+      ok = false;
     } else {
       ptr = par[ptr[0]][ptr[1]];
     }

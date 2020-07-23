@@ -23,7 +23,7 @@ export const BidirectionalDijkstra = async function() {
   const par2 = Array(height).fill().map(() => Array(width).fill([]));
   par1[start[0]][start[1]] = start;
   par2[end[0]][end[1]] = end;
-
+  let reached = true;
   let ok = 0;
   // initialising the distance array to a Maxima
   const dist1 = Array(height).fill().map(() =>
@@ -100,25 +100,40 @@ export const BidirectionalDijkstra = async function() {
 
   while (true) {
     this.state.path = [...this.state.path, ptr];
-    if (ptr[0] === start[0] && ptr[1] === start[1]) {
+    if (ptr === undefined) {
+      reached = false;
+      break;
+    } else if (ptr[0] === start[0] && ptr[1] === start[1]) {
       break;
     } else {
       ptr = par1[ptr[0]][ptr[1]];
     }
+  }
+  if (!reached) {
+    this.showModal(); // return not found
+    this.setState({visual: false});
+    return;
   }
   this.state.path = this.state.path.reverse();
   ptr = meetpoint2;
   let pth2= [];
   while (true) {
     pth2 = [...pth2, ptr];
-    if (ptr[0] === end[0] && ptr[1] === end[1]) {
+    if (ptr === undefined) {
+      reached = false; break;
+    } else if (ptr[0] === end[0] && ptr[1] === end[1]) {
       break;
     } else {
       ptr = par2[ptr[0]][ptr[1]];
     }
   }
+  if (!reached) {
+    this.showModal(); // return not found
+    this.setState({visual: false});
+    return;
+  }
   pth2 = pth2.reverse();
   this.state.path = this.state.path.concat(pth2);
-  console.log(this.state.path);
+  // console.log(this.state.path);
   await this.pathdisplay(this.state.path);
 };
