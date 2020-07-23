@@ -1,51 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <link rel="icon" href="%PUBLIC_URL%/glassball.ico" />
-  <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no"
-  />
-  <link rel="icon" href="%PUBLIC_URL%/marsrover.png" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/glassball.ico" />
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link rel="icon" href="%PUBLIC_URL%/marsrover.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <meta name="theme-color" content="#000000" />
-  <meta
-          name="description"
-          content="Web site created using create-react-app"
-  />
-  <!-- Latest compiled and minified CSS -->
-  <link
-          rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-          crossorigin="anonymous"
-  />
+    <meta name="theme-color" content="#000000" />
+    <meta
+            name="description"
+            content="Web site created using create-react-app"
+    />
+    <!-- Latest compiled and minified CSS -->
+    <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossorigin="anonymous"
+    />
 
-  <link
-          href="https://fonts.googleapis.com/css?family=Charm"
-          rel="stylesheet"
-  />
-  <link rel="stylesheet" type="text/css" href="/src/index.css" />
+    <link
+            href="https://fonts.googleapis.com/css?family=Charm"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="/src/index.css" />
 
-  <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-  />
-  <!--
-    manifest.json provides metadata used when your web app is installed on a
-    user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-  -->
-  <!--
-    Notice the use of %PUBLIC_URL% in the tags above.
-    It will be replaced with the URL of the `public` folder during the build.
-    Only files inside the `public` folder can be referenced from the HTML.
-    Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-    work correctly both with client-side routing and a non-root public URL.
-    Learn how to configure a non-root public URL by running `npm run build`.
-  -->
-  <title>Mars Colonizer</title>
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>Mars Colonizer</title>
 </head>
 <body>
 <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -62,59 +62,59 @@
 
 
 
-    <!-- Button trigger modal -->
-    <div class="container-fluid">
+<!-- Button trigger modal -->
+<div class="container-fluid">
 
     <button type="button" class="btn btn-lg" data-toggle="modal" data-target="#fullHeightModalRight" id="info" >
-      <i class="fa fa-info-circle"></i> Info
+        <i class="fa fa-info-circle"></i> Info
     </button>
 
     <!-- Full Height Modal Right -->
     <div class="modal right fade" id="fullHeightModalRight" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
 
-      <!-- Add class .modal-full-height and then add class .modal-right (or other classes from list above) to set a position to the modal -->
-      <div class="modal-dialog modal-right" role="document">
+        <!-- Add class .modal-full-height and then add class .modal-right (or other classes from list above) to set a position to the modal -->
+        <div class="modal-dialog modal-right" role="document">
 
 
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title w-100" id="myModalLabel">About Algorithms</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title w-100" id="myModalLabel">About Algorithms</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" >
 
-            <h5>DFS: Depth First Search</h5>
-            <p>This is an unweighted algorithm.It might not result in shortest path always.</p><hr>
-            <h5>BFS:Breadth First Search</h5>
-            <p>Also an unweighted algorithm. Searches for its neighbours across the breadth first.</p><hr>
-            <h5>Dijkstra's</h5>
-            <p style="word-wrap: break-word;">Also an unweighted algorithm. Searches for its neighbours across the breadth first.</p><hr>
-            <h5>A* search</h5>
-            <p style="word-wrap: break-word;">The fastest algorithm, providing the optimal combination of Dijkstra & Greedy-best first search, by making a <em>smart look-ahead decision</em> to propagate!</p><hr>
-            <h5>Greedy Best First Search</h5>
-            <p style="word-wrap: break-word;">Sample txt!  Also an unweighted algorithm.Searches for its neighbours across the breadth first.</p>
-             <h5>Bidirectional Dijkstra's</h5>
-             <p style="word-wrap: break-word;">Similar to Dijkstra's but starts, from both the end points, thus reducing the search time by a factor of square root</p><hr>
-             <h5>Bidirectional BFS</h5>
-             <p style="word-wrap: break-word;"> Faster than standard BFS, since search starts in BFS pattern, from both the ends.</p><hr>
-             <h5>Bidirectinal A*</h5>
-             <p style="word-wrap: break-word;">A* implemented from both ends.</p><hr>
-              <h5>Weighted A*</h5>
-              <p style="word-wrap: break-word;">Standard A* tweaked with the feature of varying weight parameters in its heuristics</p><hr>
-              <h5>Travelling Salesman</h5>
-              <p style="word-wrap: break-word;">This is the most prude, but obvious approximation of the multiple end points problem. Many real world graphical application companies, deploy an advanced version of this TSP approximation, to route in a graph with multiple destinations!</p><hr>
-          </div>
-          <div class="modal-footer justify-content-center">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          </div>
+                    <h5>DFS: Depth First Search</h5>
+                    <p>This is an unweighted algorithm.It might not result in shortest path always.</p><hr>
+                    <h5>BFS:Breadth First Search</h5>
+                    <p>Also an unweighted algorithm. Searches for its neighbours across the breadth first.</p><hr>
+                    <h5>Dijkstra's</h5>
+                    <p style="word-wrap: break-word;">Also an unweighted algorithm. Searches for its neighbours across the breadth first.</p><hr>
+                    <h5>A* search</h5>
+                    <p style="word-wrap: break-word;">The fastest algorithm, providing the optimal combination of Dijkstra & Greedy-best first search, by making a <em>smart look-ahead decision</em> to propagate!</p><hr>
+                    <h5>Greedy Best First Search</h5>
+                    <p style="word-wrap: break-word;">Sample txt!  Also an unweighted algorithm.Searches for its neighbours across the breadth first.</p>
+                    <h5>Bidirectional Dijkstra's</h5>
+                    <p style="word-wrap: break-word;">Similar to Dijkstra's but starts, from both the end points, thus reducing the search time by a factor of square root</p><hr>
+                    <h5>Bidirectional BFS</h5>
+                    <p style="word-wrap: break-word;"> Faster than standard BFS, since search starts in BFS pattern, from both the ends.</p><hr>
+                    <h5>Bidirectinal A*</h5>
+                    <p style="word-wrap: break-word;">A* implemented from both ends.</p><hr>
+                    <h5>Weighted A*</h5>
+                    <p style="word-wrap: break-word;">Standard A* tweaked with the feature of varying weight parameters in its heuristics</p><hr>
+                    <h5>Travelling Salesman</h5>
+                    <p style="word-wrap: break-word;">This is the most prude, but obvious approximation of the multiple end points problem. Many real world graphical application companies, deploy an advanced version of this TSP approximation, to route in a graph with multiple destinations!</p><hr>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-   </div>
-    <!-- Full Height Modal Right -->
+</div>
+<!-- Full Height Modal Right -->
 
 
 
@@ -129,26 +129,26 @@
         <!-- Add class .modal-full-height and then add class .modal-right (or other classes from list above) to set a position to the modal -->
         <div class="modal-dialog modal-right" role="document">
             <div class="modal-content">
-               <div class="modal-body">
-                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                       <span aria-hidden="true">&times;</span>
-                   </button>
-                  <b><em><p>Please select an Algorithm first & then visualize</p></em></b>
-                   <div class="card" style="width:100%"><div class="card-body"><img src="selectalgos.PNG" class="card-img-top" /></div></div>
-                   <p>To try with more than one end points, click on the first toggle switch of multiple destinations.</p>
-                   <div class="card" style="width:100%"><div class="card-body"><img src="multi.PNG" class="card-img-top" /></div></div>
-                   <p>Now keep on adding, as many destinations as you like, after clicking on the "Add Destination" button.</p><hr>
-                   <div class="card" style="width:100%"><div class="card-body"><img src="addDestionations.PNG" class="card-img-top" /></div></div>
-                   <p>You can also change the speed of animation, using the speed selector button at the end of the row</p>
-                   <div class="card" style="width:100%"><div class="card-body"><img src="addnfeatures.PNG" class="card-img-top" /></div></div>
-                   <p><b>Additional features</b></p>
-                   <p>You can reset the board by clicking on "Clear Board" button.</p>
-                   <p>You can reset the path by clicking on "Clear Path" button.</p>
-                   <p><b><i>Randomize</i></b></p>
-                   <div class="card" style="width:100%"><div class="card-body"><img src="rand.PNG" class="card-img-top" /></div></div>
-                   <p>You can generate a random grid by clicking on the respective button.</p>
-                   <p>Or you can draw a pattern of the walls as you desire,with a free hand,on the grid, with a down pressed mouse click.</p><hr>
-                   <p>For more information about the algorithms, click on the info button, to the right end of the page.</p>
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <b><em><p>Please select an Algorithm first & then visualize</p></em></b>
+                    <div class="card" style="width:100%"><div class="card-body"><img src="selectalgos.PNG" class="card-img-top" /></div></div>
+                    <p>To try with more than one end points, click on the first toggle switch of multiple destinations.</p>
+                    <div class="card" style="width:100%"><div class="card-body"><img src="multi.PNG" class="card-img-top" /></div></div>
+                    <p>Now keep on adding, as many destinations as you like, after clicking on the "Add Destination" button.</p><hr>
+                    <div class="card" style="width:100%"><div class="card-body"><img src="addDestionations.PNG" class="card-img-top" /></div></div>
+                    <p>You can also change the speed of animation, using the speed selector button at the end of the row</p>
+                    <div class="card" style="width:100%"><div class="card-body"><img src="addnfeatures.PNG" class="card-img-top" /></div></div>
+                    <p><b>Additional features</b></p>
+                    <p>You can reset the board by clicking on "Clear Board" button.</p>
+                    <p>You can reset the path by clicking on "Clear Path" button.</p>
+                    <p><b><i>Randomize</i></b></p>
+                    <div class="card" style="width:100%"><div class="card-body"><img src="rand.PNG" class="card-img-top" /></div></div>
+                    <p>You can generate a random grid by clicking on the respective button.</p>
+                    <p>Or you can draw a pattern of the walls as you desire,with a free hand,on the grid, with a down pressed mouse click.</p><hr>
+                    <p>For more information about the algorithms, click on the info button, to the right end of the page.</p>
                 </div>
                 <div class="modal-footer justify-content-center">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -157,21 +157,21 @@
         </div>
     </div>
 </div>
-    <script
-      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-      crossorigin="anonymous"
-    ></script>
+<script
+        src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"
+></script>
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"
+></script>
+<script
+        src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"
+></script>
 
 </body>
 </html>

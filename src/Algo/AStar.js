@@ -29,7 +29,7 @@ export const AStar = async function(w1, w2) {
         pq.push([item[i],
           w1*(dp[current[0]][current[1]].length+1) +
           w2*this.state.heuristics[item[i][0]][item[i][1]]]);
-          par[item[i][0]][item[i][1]] = current;
+        par[item[i][0]][item[i][1]] = current;
         dp[item[i][0]][item[i][1]] = [...dp[current[0]][current[1]], current];
       }
     }
@@ -40,23 +40,22 @@ export const AStar = async function(w1, w2) {
   }
   const pointer = this.state.pointer;
   if (pointer[0] !== end[0][0] || pointer[1] !== end[0][1]) {
-    this.showModal();  //return not found
+    this.showModal(); // return not found
     this.setState({visual: false});
     return;
   }
   let ptr = end[0];
   let path = [];
-  while (true) {
+  let ok = true;
+  while (ok) {
     path = [...path, ptr];
-    console.log("path printing");
     if (ptr[0] === start[0][0] &&
-        ptr[1] === start[0][1]) break;
-    else ptr = par[ptr[0]][ptr[1]];
+        ptr[1] === start[0][1]) {
+      ok = false;
+    } else {
+      ptr = par[ptr[0]][ptr[1]];
+    }
   }
-  this.state.path =  path.reverse();
-  console.log(this.state.path);
+  this.state.path = path.reverse();
   await this.pathdisplay(this.state.path);
-  
-  };
-
-
+};

@@ -23,11 +23,14 @@ export const Dijkstra = async function() {
       continue; // if a wall or visited continue
     }
     if (grid[current[0]][current[1]] === 3) {
-      if (ok) ok = false;
-      else continue; // if you are again pushing the source point, its !ok
+      if (ok) {
+        ok = false;
+      } else {
+        continue;
+      } // if you are again pushing the source point, its !ok
     }
     if (grid[current[0]][current[1]] === 4) {
-      this.setState({grid: grid, pointer: current});
+      this.setState({grid, pointer: current});
       await new Promise((done) =>
         setTimeout(() => done(), this.state.speed));
       break;
@@ -75,7 +78,7 @@ export const Dijkstra = async function() {
       if (grid[current[0]][current[1]] !== 3) {
         grid[current[0]][current[1]] = 2; // mark it as visited
       }
-      this.setState({grid: grid, pointer: current});
+      this.setState({grid, pointer: current});
       await new Promise((done) =>
         setTimeout(() => done(), this.state.speed));
     }
@@ -87,11 +90,15 @@ export const Dijkstra = async function() {
     return;
   }
   let ptr = [end[0][0], end[0][1]];
-  while (true) {
+  ok = true;
+  while (ok) {
     this.state.path = [...this.state.path, ptr];
     if (ptr[0] === start[0][0] &&
-        ptr[1] === start[0][1]) break;
-    else ptr = par[ptr[0]][ptr[1]];
+        ptr[1] === start[0][1]) {
+      ok = false;
+    } else {
+      ptr = par[ptr[0]][ptr[1]];
+    }
   }
   this.state.path = this.state.path.reverse();
   await this.pathdisplay(this.state.path);

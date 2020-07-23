@@ -58,16 +58,16 @@ export const BFS = async function() {
   }
   let ptr = end[0];
   let path = [];
-  while (true) {
+  ok = true;
+  while (ok) {
     path = [...path, ptr];
-    console.log("path printing");
     if (ptr[0] === start[0][0] &&
-        ptr[1] === start[0][1]) break;
-    else ptr = par[ptr[0]][ptr[1]];
+        ptr[1] === start[0][1]) {
+      ok = false;
+    } else {
+      ptr = par[ptr[0]][ptr[1]];
+    }
   }
-  this.state.path =  path.reverse();
-  console.log(this.state.path);
+  this.state.path = path.reverse();
   await this.pathdisplay(this.state.path);
-  
 };
-

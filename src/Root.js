@@ -1,11 +1,11 @@
-import React from 'react';
-import App from './App';
-import Home from './components/Home';
+import React from "react";
+import App from "./App";
+import Home from "./components/Home";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-} from 'react-router-dom';
+} from "react-router-dom";
 
 
 /**

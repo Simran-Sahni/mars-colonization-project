@@ -28,7 +28,14 @@ class Navbar extends React.Component {
     if (!this.state.checkedA) {
       this.editButtons();
     } else {
-      document.getElementById('chngDestBtn').innerHTML = '<button class="btn" type="button"  onClick={this.props.toggleDestination}  style="background-color:#6a040f ;  color:peachpuff">'+ 'Change Destination'+'</ button>';
+      document.getElementById("chngDestBtn").innerHTML =
+          "<button class=\"btn\" " +
+          "type='button'  " +
+          "onClick={this.props.toggleDestination} " +
+          " style=\"background-color:#6a040f;\"  " +
+          "'color:peachpuff'>"+
+          "Change Destination"+
+          "</ button>";
       this.props.multiDestination();
     }
     this.setState({checkedA: !this.state.checkedA});
@@ -36,7 +43,14 @@ class Navbar extends React.Component {
 
 
   editButtons() {
-    document.getElementById('chngDestBtn').innerHTML = '<button class="btn" type="button" style="background-color:#6a040f;  color:peachpuff">'+ 'Add Destination'+'</ button>';
+    document.getElementById("chngDestBtn").innerHTML =
+        "<button " +
+        "class=\"btn\" " +
+        "type='button' "+
+        " style='background-color:#6a040f;'" +
+        " color:peachpuff>"+
+        "Add Destination"+
+        "</button>";
     this.props.multiDestination();
   }
   /**
@@ -45,11 +59,15 @@ class Navbar extends React.Component {
    */
 
   handleChange(event) {
-    const algo = (event.target.getAttribute('id')).toString();
-    const setString = 'Visualize  ' + algo + '!';
-    document.getElementById('visualizebtn').innerHTML =
-        // eslint-disable-next-line max-len
-        '<button id="visualizebtn" class="btn" type="button" style="font-weight:bold">'+ setString+'</ button>';
+    const algo = (event.target.getAttribute("id")).toString();
+    const setString = "Visualize  " + algo + "!";
+    document.getElementById("visualizebtn").innerHTML =
+        "<button id='visualizebtn' " +
+        "class='btn' " +
+        "type='button' " +
+        "style='font-weight:bold'>" +
+        setString +
+        "</button>";
 
     this.props.handle(algo);
     this.setState({selectedAlgo: algo});
@@ -77,7 +95,7 @@ class Navbar extends React.Component {
                 <FormControlLabel
                   control={<Switch color = "primary"
                     checked={this.state.checkedA}
-                    onChange={()=>this.hc()} />
+                    onChange={() => this.hc()} />
                   }
                   label="Multiple Destinations"
                   style={{color: "peachpuff"}}
@@ -182,13 +200,6 @@ class Navbar extends React.Component {
                     </button>
                   </li>
                   <li >
-                    <button id='IDAStar'
-                      disabled={this.props.multipledestinations}
-                      onMouseDown={(event) => this.handleChange(event)}>
-                        Iterative Deepening A*
-                    </button>
-                  </li>
-                  <li >
                     <button id='Weighted-AStar'
                       disabled={this.props.multipledestinations}
                       onMouseDown={(event) => this.handleChange(event)}>
@@ -236,7 +247,7 @@ class Navbar extends React.Component {
                     Speed <span className='caret'/>
                 </button>
                 <ul className='dropdown-menu'>
-                  <li onClick={()=> this.props.newSpeed(1)}>Fast
+                  <li onClick={() => this.props.newSpeed(1)}>Fast
                   </li>
                   <li onClick={() => this.props.newSpeed(350)}>Medium
                   </li>
