@@ -9,7 +9,7 @@ const right = (i) => (i + 1) << 1;
 class PriorityQueue {
   /**
    *
-   * @param comparator
+   * @param {anything} comparator
    */
   constructor(comparator = (a, b) => a < b) {
     this._heap = [];
@@ -42,7 +42,7 @@ class PriorityQueue {
 
   /**
    * pushes values to the priority queue
-   * @param values
+   * @param {anything} values
    * @return {number}
    */
   push(...values) {
@@ -70,7 +70,7 @@ class PriorityQueue {
 
   /**
    *
-   * @param value
+   * @param {number} value
    * @return {*}
    */
   replace(value) {
@@ -93,8 +93,8 @@ class PriorityQueue {
 
   /**
    *
-   * @param i
-   * @param j
+   * @param {number} i
+   * @param {number} j
    * @private
    */
   _swap(i, j) {
@@ -123,7 +123,9 @@ class PriorityQueue {
       (left(node) < this.size() && this._greater(left(node), node)) ||
             (right(node) < this.size() && this._greater(right(node), node))
     ) {
-      const maxChild = (right(node) < this.size() && this._greater(right(node), left(node))) ? right(node) : left(node);
+      const maxChild = (right(node) < this.size() &&
+          this._greater(right(node), left(node))) ?
+          right(node) : left(node);
       this._swap(node, maxChild);
       node = maxChild;
     }

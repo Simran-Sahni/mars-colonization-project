@@ -1,5 +1,5 @@
-import PriorityQueue from './customPriorityQueue';
-import {neighbors} from './Utility';
+import PriorityQueue from "./customPriorityQueue";
+import {neighbors} from "./Utility";
 
 export const AStar = async function(w1, w2) {
   this.computeHeuristics();

@@ -1,4 +1,3 @@
-import App from '../App';
 let heuristics = [];
 let ok = false;
 let end = [];
@@ -9,7 +8,6 @@ export const IDAstar = async function() {
   heuristics = this.state.heuristics;
   grid = this.state.grid;
   end = this.state.end[0];
-  // console.log(end);
   this.computeHeuristics();
   const root = [this.state.start[0][0], this.state.start[0][1]];
   let bound = heuristics[root[0]][root[1]];
@@ -30,7 +28,15 @@ export const IDAstar = async function() {
   // console.log(path);
   this.pathdisplay(path);
 };
-// trying to impliment https://en.wikipedia.org/wiki/Iterative_deepening_A*#Pseudocode
+
+/**
+ *
+ * @param {anyObject} AppState
+ * @param {number} node
+ * @param {number} g
+ * @param {number} bound
+ * @return {boolean|number|*}
+ */
 function search(AppState, node, g, bound) {
   // console.log(path);
   // AppState.setState({pointer: node});

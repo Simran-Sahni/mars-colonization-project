@@ -3,17 +3,17 @@ const isFeasable = (i, j, grid) => {
   if (i < 0 || i >=grid.length || j < 0 || j >=grid[0].length) {
     return false;
   }
-  return (grid[parseInt(i)][parseInt(j)] === 0 ||
-      grid[parseInt(i)][parseInt(j)] === 4);
+  return (grid[parseInt(i, 10)][parseInt(j, 10)] === 0 ||
+      grid[parseInt(i, 10)][parseInt(j, 10)] === 4);
 };
 
 const isFeasable2 = (i, j, grid) => {
   if (i < 0 || i >=grid.length || j < 0 || j >=grid[0].length) {
     return false;
   }
-  return !(grid[parseInt(i)][parseInt(j)] === 1 ||
-      grid[parseInt(i)][parseInt(j)] === 3 ||
-      grid[parseInt(i)][parseInt(j)] === 4);
+  return !(grid[parseInt(i, 10)][parseInt(j, 10)] === 1 ||
+      grid[parseInt(i, 10)][parseInt(j, 10)] === 3 ||
+      grid[parseInt(i, 10)][parseInt(j, 10)] === 4);
 };
 
 export const neighbors = (i, j, grid) => {

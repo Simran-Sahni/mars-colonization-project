@@ -1,5 +1,5 @@
-import PriorityQueue from './customPriorityQueue';
-import {biNeighbors} from './Utility';
+import PriorityQueue from "./customPriorityQueue";
+import {biNeighbors} from "./Utility";
 export const BiAstar = async function() {
   this.computeHeuristics();
   const start = this.state.start; const end = this.state.end;

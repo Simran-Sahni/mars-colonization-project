@@ -1,11 +1,11 @@
-import rover from '../media/mars-rover.svg';
-import React from 'react';
-import PropTypes from 'prop-types';
+import rover from "../media/mars-rover.svg";
+import React from "react";
+import PropTypes from "prop-types";
 export const currentPointer = function(props, i, j) {
   return (<div
     key={i + j}
-    style={{width: '35px', height: '35px', border: '1.5px solid black',
-      backgroundColor: '#69fff1', WebkitUserSelect: 'none',
+    style={{width: "35px", height: "35px", border: "1.5px solid black",
+      backgroundColor: "#69fff1", WebkitUserSelect: "none",
     }}
     onClick={() => {
       if (props.changeSource) {
@@ -15,15 +15,15 @@ export const currentPointer = function(props, i, j) {
       }
     }}
   >
-    <img src={rover} alt='start' style={{width: '25px', height: '25px'}}/>
+    <img src={rover} alt='start' style={{width: "25px", height: "25px"}}/>
   </div>);
 };
 
 export const finalShortestPath = function(props, i, j) {
   return ( <div
     key={i + j}
-    style={{width: '35px', height: '35px', border: '1.5px solid black',
-      backgroundColor: '#fee440', WebkitUserSelect: 'none',
+    style={{width: "35px", height: "35px", border: "1.5px solid black",
+      backgroundColor: "#fee440", WebkitUserSelect: "none",
     }}
     onClick={() => {
       if (props.changeSource) {
@@ -41,8 +41,8 @@ export const startPoint = function(props, i, j) {
   return (
     <div
       key={i + j}
-      style={{width: '35px', height: '35px', border: '1.5px solid black',
-        backgroundColor: '#71b340', WebkitUserSelect: 'none',
+      style={{width: "35px", height: "35px", border: "1.5px solid black",
+        backgroundColor: "#71b340", WebkitUserSelect: "none",
       }}
       onClick={() => {
         if (props.changeSource) {
@@ -62,8 +62,8 @@ export const endPoint = function(props, i, j) {
     <div
       key={i + j}
       style={{
-        width: '35px', height: '35px', border: '1.5px solid black',
-        backgroundColor: '#ee0000', WebkitUserSelect: 'none',
+        width: "35px", height: "35px", border: "1.5px solid black",
+        backgroundColor: "#ee0000", WebkitUserSelect: "none",
       }}
       onClick={() => {
         if (props.changeSource) {
@@ -86,8 +86,8 @@ export const wall = function(props, i, j) {
     <div
       key={i + j}
       style={{
-        width: '35px', height: '35px', border: '1.5px solid black',
-        backgroundColor: '#540b0e', WebkitUserSelect: 'none',
+        width: "35px", height: "35px", border: "1.5px solid black",
+        backgroundColor: "#540b0e", WebkitUserSelect: "none",
       }}
       onClick={() => {
         if (props.changeSource) {
@@ -116,8 +116,8 @@ export const visited = function(props, i, j) {
     <div
       key={i + j}
       style={{
-        width: '35px', height: '35px', border: '1.5px solid black',
-        backgroundColor: '#e09891', WebkitUserSelect: 'none',
+        width: "35px", height: "35px", border: "1.5px solid black",
+        backgroundColor: "#e09891", WebkitUserSelect: "none",
       }}
       onClick={() => {
         if (props.changeSource) {
@@ -137,8 +137,8 @@ export const visited2 = function(props, i, j) {
     <div
       key={i + j}
       style={{
-        width: '35px', height: '35px', border: '1.5px solid black',
-        backgroundColor: '#666666', WebkitUserSelect: 'none',
+        width: "35px", height: "35px", border: "1.5px solid black",
+        backgroundColor: "#666666", WebkitUserSelect: "none",
       }}
       onClick={() => {
         if (props.changeSource) {
@@ -157,8 +157,8 @@ export const empty = function(props, i, j) {
   return ( <div
     key={i + j}
     style={{
-      width: '35px', height: '35px', border: '1.5px solid black',
-      WebkitUserSelect: 'none',
+      width: "35px", height: "35px", border: "1.5px solid black",
+      WebkitUserSelect: "none",
     }}
     onClick={() => {
       if (props.changeSource) {

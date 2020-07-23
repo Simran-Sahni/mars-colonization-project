@@ -1,5 +1,6 @@
 export const BiBFS = async function() {
-  this.setState({path: [], pointer: this.state.start[0], pointer2: this.state.end[0]});
+  this.setState({path: [], pointer:
+        this.state.start[0], pointer2: this.state.end[0]});
   let queue1 = [this.state.start[0]];
   let queue2 = [this.state.end[0]];
   const height = this.state.height;
@@ -9,8 +10,7 @@ export const BiBFS = async function() {
 
   const isGoodCell = (i, j) =>{
     if (i < 0 || i >=height || j < 0 || j >=width) return false;
-    if (grid[i][j]===1 || grid[i][j] === 3 || grid[i][j] === 4) return false;
-    return true;
+    return !(grid[i][j] === 1 || grid[i][j] === 3 || grid[i][j] === 4);
   };
   const start = this.state.start[0];
   const end = this.state.end[0];
@@ -83,8 +83,11 @@ export const BiBFS = async function() {
       }
     }
     queue2 = queue2.concat(list2);
-    this.setState({grid: grid, pointer: current, pointer2: revcurrent, bi: true});
-    await new Promise((done) => setTimeout(() => done(), this.state.speed));// To slow down the speed of Animation
+    this.setState({grid: grid,
+      pointer: current, pointer2: revcurrent, bi: true});
+    await new Promise((done) =>
+      setTimeout(() => done(), this.state.speed));
+    // To slow down the speed of Animation
     if (flag1 || flag2) {
       break;
     }
@@ -93,7 +96,8 @@ export const BiBFS = async function() {
   const breakpoint = ptr;
   while (true) {
     this.state.path = [...this.state.path, ptr];
-    if (ptr[0] === this.state.start[0][0] && ptr[1] === this.state.start[0][1]) break;
+    if (ptr[0] === this.state.start[0][0] &&
+        ptr[1] === this.state.start[0][1]) break;
     else {
       ptr = par1[ptr[0]][ptr[1]];
     }

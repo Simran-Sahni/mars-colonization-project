@@ -12,7 +12,8 @@ export const DFS = async function() {
   while (stack.length !== 0) {
     const current = stack[stack.length - 1];
     stack.pop(); // pop from stack
-    if (current[0] < 0 || current[0] >= height) { // for the current to not go out of bounds
+    if (current[0] < 0 || current[0] >= height) {
+      // for the current to not go out of bounds
       continue;
     }
     if (current[1] < 0 || current[1] >= width) {

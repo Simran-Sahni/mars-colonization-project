@@ -1,4 +1,4 @@
-import PriorityQueue from './customPriorityQueue';
+import PriorityQueue from "./customPriorityQueue";
 
 export const Dijkstra = async function() {
   const start = this.state.start; const end = this.state.end;
@@ -32,7 +32,8 @@ export const Dijkstra = async function() {
         setTimeout(() => done(), this.state.speed));
       break;
     } else {
-      // dijkstra picks the minimum weight path, updates it in its distance array
+      // dijkstra picks the minimum weight path,
+      // updates it in its distance array
       if (current[0] !== height - 1 &&
           grid[current[0] + 1][current[1]] !== 2) {
         if (dist[current[0] + 1][current[1]] >

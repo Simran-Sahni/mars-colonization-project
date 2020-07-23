@@ -1,5 +1,5 @@
-import PriorityQueue from './customPriorityQueue';
-import {biNeighbors} from './Utility';
+import PriorityQueue from "./customPriorityQueue";
+import {biNeighbors} from "./Utility";
 
 export const BidirectionalDijkstra = async function() {
   const start = this.state.start[0];
@@ -11,12 +11,15 @@ export const BidirectionalDijkstra = async function() {
   this.setState({pointer: start[0], pointer2: end[0], bi: true});
   const visited1 = Array(height).fill(undefined,
       undefined, undefined).map(() =>
-    Array(width).fill(0)); // visited array to aid finding and stopping at common points
+    Array(width).fill(0));
+  // visited array to aid finding and stopping at common points
   const visited2 = Array(height).fill(undefined,
       undefined, undefined).map(() =>
     Array(width).fill(0));
-  const forwardPQ = new PriorityQueue((a, b) => a[1] < b[1]); // forward PQ for points from Start end
-  const backwardPQ = new PriorityQueue((a, b) => a[1] < b[1]); // Priority queue for points from the other end
+  const forwardPQ = new PriorityQueue((a, b) => a[1] < b[1]);
+  // forward PQ for points from Start end
+  const backwardPQ = new PriorityQueue((a, b) => a[1] < b[1]);
+  // Priority queue for points from the other end
   forwardPQ.push([start, 0]);
   backwardPQ.push([end, 0]);
   // Parent arrays to restore the path
@@ -115,10 +118,8 @@ export const BidirectionalDijkstra = async function() {
       ptr = par2[ptr[0]][ptr[1]];
     }
   }
-
   pth2 = pth2.reverse();
   this.state.path = this.state.path.concat(pth2);
   console.log(this.state.path);
-
   await this.pathdisplay(this.state.path);
 };

@@ -1,9 +1,11 @@
 module.exports = {
+  parser: "babel-eslint",
   'env': {
     'browser': true,
     'es6': true,
   },
   'extends': [
+    'eslint:recommended',
     'plugin:react/recommended',
     'google',
   ],
@@ -22,5 +24,7 @@ module.exports = {
     'react',
   ],
   'rules': {
+    "quotes": ["error", "double"],
+    "semi": ["error", "always"],
   },
 };
