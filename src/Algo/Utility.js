@@ -3,15 +3,20 @@ const isFeasable = (i, j, grid) => {
   if (i < 0 || i >=grid.length || j < 0 || j >=grid[0].length) {
     return false;
   }
-  return (grid[i][j] === 0 || grid[i][j] === 4);
+  return (grid[parseInt(i)][parseInt(j)] === 0 ||
+      grid[parseInt(i)][parseInt(j)] === 4);
 };
 
-const isFeasable2 = (i, j, grid) =>{
-  if (i < 0 || i >=grid.length || j < 0 || j >=grid[0].length) return false;
-  return !(grid[i][j] === 1 || grid[i][j] === 3 || grid[i][j] === 4);
+const isFeasable2 = (i, j, grid) => {
+  if (i < 0 || i >=grid.length || j < 0 || j >=grid[0].length) {
+    return false;
+  }
+  return !(grid[parseInt(i)][parseInt(j)] === 1 ||
+      grid[parseInt(i)][parseInt(j)] === 3 ||
+      grid[parseInt(i)][parseInt(j)] === 4);
 };
 
-export const neighbors = (i, j, grid) =>{
+export const neighbors = (i, j, grid) => {
   const answer = [];
   for (const direction of directions) {
     const neighbor = [i + direction[0], j + direction[1]];

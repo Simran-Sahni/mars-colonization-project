@@ -8,11 +8,14 @@ export const currentPointer = function(props, i, j) {
       backgroundColor: '#69fff1', WebkitUserSelect: 'none',
     }}
     onClick={() => {
-      if (props.changeSource)props.toggleSource(i, j);
-      else props.changeState(i, j);
+      if (props.changeSource) {
+        props.toggleSource(i, j);
+      } else {
+        props.changeState(i, j);
+      }
     }}
   >
-    <img src={rover} alt="start" style={{width: '25px', height: '25px'}}/>
+    <img src={rover} alt='start' style={{width: '25px', height: '25px'}}/>
   </div>);
 };
 
@@ -23,9 +26,13 @@ export const finalShortestPath = function(props, i, j) {
       backgroundColor: '#fee440', WebkitUserSelect: 'none',
     }}
     onClick={() => {
-      if (props.changeSource) props.changesourcefunc(i, j);
-      else if (props.changeDestination) props.changedestfunc(i, j);
-      else props.changeState(i, j);
+      if (props.changeSource) {
+        props.changesourcefunc(i, j);
+      } else if (props.changeDestination) {
+        props.changedestfunc(i, j);
+      } else {
+        props.changeState(i, j);
+      }
     }}
   >
   </div>);
@@ -38,9 +45,13 @@ export const startPoint = function(props, i, j) {
         backgroundColor: '#71b340', WebkitUserSelect: 'none',
       }}
       onClick={() => {
-        if (props.changeSource) props.changesourcefunc(i, j);
-        else if (props.changeDestination) props.changedestfunc(i, j);
-        else props.changeState(i, j);
+        if (props.changeSource) {
+          props.changesourcefunc(i, j);
+        } else if (props.changeDestination) {
+          props.changedestfunc(i, j);
+        } else {
+          props.changeState(i, j);
+        }
       }
       }
     >
@@ -55,9 +66,11 @@ export const endPoint = function(props, i, j) {
         backgroundColor: '#ee0000', WebkitUserSelect: 'none',
       }}
       onClick={() => {
-        if (props.changeSource) props.changesourcefunc(i, j);
-        else if (props.changeDestination) props.changedestfunc(i, j);
-        else {
+        if (props.changeSource) {
+          props.changesourcefunc(i, j);
+        } else if (props.changeDestination) {
+          props.changedestfunc(i, j);
+        } else {
           props.changeState(i, j);
         }
       }
@@ -77,9 +90,13 @@ export const wall = function(props, i, j) {
         backgroundColor: '#540b0e', WebkitUserSelect: 'none',
       }}
       onClick={() => {
-        if (props.changeSource) props.changesourcefunc(i, j);
-        else if (props.changeDestination) props.changedestfunc(i, j);
-        else props.changeState(i, j);
+        if (props.changeSource) {
+          props.changesourcefunc(i, j);
+        } else if (props.changeDestination) {
+          props.changedestfunc(i, j);
+        } else {
+          props.changeState(i, j);
+        }
       }}
       onTouchStart={(e) => {
         if (window.event.buttons === 1) props.changeState(i, j);
@@ -103,9 +120,13 @@ export const visited = function(props, i, j) {
         backgroundColor: '#e09891', WebkitUserSelect: 'none',
       }}
       onClick={() => {
-        if (props.changeSource) props.changesourcefunc(i, j);
-        else if (props.changeDestination) props.changedestfunc(i, j);
-        else props.changeState(i, j);
+        if (props.changeSource) {
+          props.changesourcefunc(i, j);
+        } else if (props.changeDestination) {
+          props.changedestfunc(i, j);
+        } else {
+          props.changeState(i, j);
+        }
       }}
     >
     </div>
@@ -120,9 +141,13 @@ export const visited2 = function(props, i, j) {
         backgroundColor: '#666666', WebkitUserSelect: 'none',
       }}
       onClick={() => {
-        if (props.changeSource) props.changesourcefunc(i, j);
-        else if (props.changeDestination) props.changedestfunc(i, j);
-        else props.changeState(i, j);
+        if (props.changeSource) {
+          props.changesourcefunc(i, j);
+        } else if (props.changeDestination) {
+          props.changedestfunc(i, j);
+        } else {
+          props.changeState(i, j);
+        }
       }}
     >
     </div>
@@ -136,9 +161,13 @@ export const empty = function(props, i, j) {
       WebkitUserSelect: 'none',
     }}
     onClick={() => {
-      if (props.changeSource) props.changesourcefunc(i, j);
-      else if ((props.changeDestination) || (props.multipledestinations)) props.changedestfunc(i, j);
-      else props.changeState(i, j);
+      if (props.changeSource) {
+        props.changesourcefunc(i, j);
+      } else if ((props.changeDestination) || (props.multipledestinations)) {
+        props.changedestfunc(i, j);
+      } else {
+        props.changeState(i, j);
+      }
     }}
     onTouchStart={(e) => {
       if (window.event.buttons === 1)props.changeState(i, j);
@@ -180,15 +209,15 @@ visited2.propTypes = {
 };
 
 wall.propTypes ={
-  changeSoure: PropTypes.bool,
+  changeSource: PropTypes.bool,
   changeDestination: PropTypes.bool,
-  changesourcefun: PropTypes.func,
+  changesourcefunc: PropTypes.func,
   changedestfunc: PropTypes.func,
   changeState: PropTypes.func,
 };
 
 finalShortestPath.propTypes = {
-  changeSoure: PropTypes.bool,
+  changeSource: PropTypes.bool,
   changeDestination: PropTypes.bool,
   changesourcefunc: PropTypes.func,
   changedestfunc: PropTypes.func,
@@ -197,7 +226,7 @@ finalShortestPath.propTypes = {
 
 
 startPoint.propTypes = {
-  changeSoure: PropTypes.bool,
+  changeSource: PropTypes.bool,
   changeDestination: PropTypes.bool,
   changesourcefunc: PropTypes.func,
   changedestfunc: PropTypes.func,
@@ -205,7 +234,7 @@ startPoint.propTypes = {
 };
 
 endPoint.propTypes = {
-  changeSoure: PropTypes.bool,
+  changeSource: PropTypes.bool,
   changeDestination: PropTypes.bool,
   changesourcefunc: PropTypes.func,
   changedestfunc: PropTypes.func,

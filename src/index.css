@@ -3,11 +3,11 @@ body {
   font-family:
     -apple-system,
     BlinkMacSystemFont,
-    "Segoe UI",
-      sans-serif;
+    'Segoe UI',
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: url("./media/bg.png") no-repeat center center fixed;
+  background: url('./media/bg.png') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -20,22 +20,20 @@ body {
 
 #home {
   position: fixed;
-   width: 100%;
+  width: 100%;
   height: 540px;
 }
-#Legend{
-  font-family:"Lucida Console", Courier, monospace;
+
+#Legend {
+  font-family: 'Lucida Console', Courier, monospace;
   font-weight: bold;
 }
-ul li ul li {
- padding:0;
-  border-bottom:1px solid #540b0e;
-  margin:0;
-}
 
-/*li:hover {*/
-/*  background: #e09f3e;*/
-/*}*/
+ul li ul li {
+  padding: 0;
+  border-bottom: 1px solid #540b0e;
+  margin: 0;
+}
 
 ul li ul li a {
   color: black;
@@ -45,7 +43,7 @@ a:hover {
   color: #e09f3a;
 }
 
-li>ul>li:hover {
+li > ul > li:hover {
   text-decoration: none;
   background-color: greenyellow;
 }
@@ -64,14 +62,14 @@ button,
 .navbar-brand {
   text-transform: uppercase;
   font-family:
-    "Charm",
+    'Charm',
     sans-serif !important;
   font-weight: bold;
   text-shadow: peachpuff;
   color: peachpuff;
 }
 
-#navigation>button{
+#navigation > button {
   font-weight: bolder;
 }
 
@@ -80,44 +78,48 @@ button,
   background: #e09f3e;
   color: black;
 }
-#AlgosList>ul>li>button{
-  width:100%;
-  color:black;
-  display:block;
-  margin:0;
-  border:2px darkred solid;
+
+button:hover {
+  box-shadow: 0 10px 15px -2px rgba(15, 15, 15, 0.25);
+}
+
+#AlgosList > ul > li > button {
+  width: 100%;
+  color: black;
+  display: block;
+  margin: 0;
+  border: 2px darkred solid;
   border-radius: 1px;
 }
-#AlgosList>ul>li>button[disabled]{
-  background: #b7b7a4;
-}
-#AlgosList>ul>li>button[disabled]:hover{
+
+#AlgosList > ul > li > button[disabled] {
   background: #b7b7a4;
 }
 
-#AlgosList>ul>li>button:hover{
+#AlgosList > ul > li > button[disabled]:hover {
+  background: #b7b7a4;
+}
+
+#AlgosList > ul > li > button:hover {
   background-color: greenyellow;
 }
+
 #visualizebtn {
   margin-right: 5px;
 }
 
-button:hover {
-  box-shadow:  0 10px 15px -2px rgba(15,15,15,.25);
-}
-
 #info {
   background: #f7d6e0;
-  border-radius:35%;
+  border-radius: 35%;
   position: fixed;
   right: 0;
   bottom: 0;
   box-shadow: #f7d6e0;
 }
 
-#tutorial{
+#tutorial {
   background: #f7d6e0;
-  border-radius:35%;
+  border-radius: 35%;
   position: fixed;
   left: 0;
   bottom: 0;
@@ -128,6 +130,17 @@ button:hover {
   height: 100%;
   overflow-y: auto;
   opacity: 80%;
+}
+
+.modal.left .modal-dialog {
+  position: fixed;
+  left: 0;
+  width: 320px;
+  height: 100%;
+  -webkit-transform: translate3d(0%, 0, 0);
+  -ms-transform: translate3d(0%, 0, 0);
+  -o-transform: translate3d(0%, 0, 0);
+  transform: translate3d(0%, 0, 0);
 }
 
 .modal.right .modal-dialog {
@@ -152,17 +165,6 @@ button:hover {
   height: 100%;
   overflow-y: auto;
   opacity: 80%;
-}
-
-.modal.left .modal-dialog {
-  position: fixed;
-  left: 0;
-  width: 320px;
-  height: 100%;
-  -webkit-transform: translate3d(0%, 0, 0);
-  -ms-transform: translate3d(0%, 0, 0);
-  -o-transform: translate3d(0%, 0, 0);
-  transform: translate3d(0%, 0, 0);
 }
 
 .modal.left.fade .modal-dialog {
