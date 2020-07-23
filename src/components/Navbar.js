@@ -201,13 +201,6 @@ class Navbar extends React.Component {
                     </button>
                   </li>
                   <li >
-                    <button id='IDAStar'
-                      disabled={this.props.multipledestinations}
-                      onMouseDown={(event) => this.handleChange(event)}>
-                        Iterative Deepening A*
-                    </button>
-                  </li>
-                  <li >
                     <button id='Weighted-AStar'
                       disabled={this.props.multipledestinations}
                       onMouseDown={(event) => this.handleChange(event)}>
