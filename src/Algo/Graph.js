@@ -22,7 +22,7 @@ class Graph {
     let counter = 0;
     for (let i = 0; i < this.height; i++) {
       for (let j = 0; j < this.width; j++) {
-        this.map1[counter] = [[i, j]];
+        this.map1[parseInt(counter, 10)] = [[i, j]];
         this.map2[[i, j]] = counter;
         counter++;
       }
@@ -37,8 +37,8 @@ class Graph {
    * @param {number} vertex
    */
   addVertex(vertex) {
-    if (!this.adjacencyList[vertex]) {
-      this.adjacencyList[vertex] = [];
+    if (!this.adjacencyList[parseInt(vertex, 10)]) {
+      this.adjacencyList[parseInt(vertex, 10)] = [];
     }
   }
 
@@ -48,14 +48,14 @@ class Graph {
    * @param {number} destination
    */
   addEdge(source, destination) {
-    if (!this.adjacencyList[source]) {
-      this.addVertex(source);
+    if (!this.adjacencyList[parseInt(source, 10)]) {
+      this.addVertex(parseInt(source, 10));
     }
-    if (!this.adjacencyList[destination]) {
-      this.addVertex(destination);
+    if (!this.adjacencyList[parseInt(destination, 10)]) {
+      this.addVertex(parseInt(destination, 10));
     }
-    this.adjacencyList[source].push(destination);
-    this.adjacencyList[destination].push(source);
+    this.adjacencyList[parseInt(source, 10)].push(parseInt(destination, 10));
+    this.adjacencyList[parseInt(destination, 10)].push(parseInt(source, 10));
   }
 
   /**
@@ -68,7 +68,7 @@ class Graph {
     if (i < 0 || i >= this.height || j < 0 || j >= this.width ) {
       return false;
     } else {
-      return this.grid[i][j] !== 1;
+      return this.grid[parseInt(i, 10)][parseInt(j, 10)] !== 1;
     }
   }
 
@@ -86,8 +86,8 @@ class Graph {
               const x = this.map2[[i, j]];
               const y = this.map2[[neighbor[0], neighbor[1]]];
               this.addEdge(x, y);
-              this.allPairShortest[x][y] = 1;
-              this.allPairShortest[y][x] = 1;
+              this.allPairShortest[parseInt(x, 10)][parseInt(y, 10)] = 1;
+              this.allPairShortest[parseInt(y, 10)][parseInt(x, 10)] = 1;
             }
           }
         }
@@ -102,11 +102,12 @@ class Graph {
     for (let k = 0; k < this.height*this.width; k++) {
       for (let i = 0; i < this.height*this.width; i++) {
         for (let j = 0; j < this.height*this.width; j++) {
-          this.allPairShortest[i][j] =
-              Math.min(this.allPairShortest[i][j],
-                  this.allPairShortest[i][k] +
-                  this.allPairShortest[k][j]);
-          this.allPairShortest[j][i] = this.allPairShortest[i][j];
+          this.allPairShortest[parseInt(i, 10)][parseInt(j, 10)] =
+              Math.min(this.allPairShortest[parseInt(i, 10)][parseInt(j, 10)],
+                  this.allPairShortest[parseInt(i, 10)][parseInt(k, 10)] +
+                  this.allPairShortest[parseInt(k, 10)][parseInt(j, 10)]);
+          this.allPairShortest[parseInt(j, 10)][parseInt(i, 10)] =
+              this.allPairShortest[parseInt(i, 10)][parseInt(j, 10)];
         }
       }
     }

@@ -12,7 +12,9 @@ export const BiBFS = async function() {
     if (i < 0 || i >=height || j < 0 || j >=width) {
       return false;
     }
-    return !(grid[i][j] === 1 || grid[i][j] === 3 || grid[i][j] === 4);
+    return !(grid[parseInt(i, 10)][parseInt(j, 10)] === 1 ||
+        grid[parseInt(i, 10)][parseInt(j, 10)]=== 3 ||
+        grid[parseInt(i, 10)][parseInt(j, 10)] === 4);
   };
   const start = this.state.start[0];
   const end = this.state.end[0];
@@ -104,15 +106,15 @@ export const BiBFS = async function() {
   }
 
   const breakpoint = ptr;
-  console.log({ptr});
-  while (true) {
+  let ok1 = true;
+  while (ok1) {
     this.state.path = [...this.state.path, ptr];
-    console.log("path printing");
     if (ptr === undefined) {
-      reached = false; break;
+      reached = false;
+      ok1 = false;
     } else if (ptr[0] === this.state.start[0][0] &&
         ptr[1] === this.state.start[0][1]) {
-      break;
+      ok1 = false;
     } else {
       ptr = par1[ptr[0]][ptr[1]];
     }
@@ -128,7 +130,6 @@ export const BiBFS = async function() {
   let ok = true;
   while (ok) {
     pth2 = [...pth2, ptr];
-    console.log("path printing");
     if (ptr === undefined) {
       reached = false;
       ok = false;

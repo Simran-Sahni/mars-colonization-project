@@ -83,16 +83,16 @@ class App extends Component {
 
     this.computeHeuristics();
   }
-    DFS = DFS.bind(this);
-    BFS = BFS.bind(this);
-    Dijkstra = Dijkstra.bind(this);
-    AStar = AStar.bind(this);
-    TSP = TSP.bind(this);
+    dfs = DFS.bind(this);
+    bfs= BFS.bind(this);
+    dijkstra = Dijkstra.bind(this);
+    aStar = AStar.bind(this);
+    tsp = TSP.bind(this);
     aStarForTSP = aStarForTSP.bind(this);
     findOptimalVertex = findOptimalVertex.bind(this);
-    BiBFS = BiBFS.bind(this);
-    BiAstar = BiAstar.bind(this);
-    BidirectionalDijkstra = BidirectionalDijkstra.bind(this);
+    biBFS = BiBFS.bind(this);
+    biAstar = BiAstar.bind(this);
+    bidirectionalDijkstra = BidirectionalDijkstra.bind(this);
 
     toggleSource=() => this.setState({changeSource: !this.state.changeSource});
     toggleDestination = () => {
@@ -105,7 +105,7 @@ class App extends Component {
     changedSource=(i, j) => {
       const grid = this.state.grid;
       grid[this.state.start[0][0]][this.state.start[0][1]] = 0;
-      grid[i][j] = 3; // special point : end point
+      grid[parseInt(i, 10)][parseInt(j, 10)] = 3; // special point : end point
       this.setState({
         changeSource: !this.state.changeSource,
         start: [[i, j]],
@@ -114,7 +114,7 @@ class App extends Component {
     }
     changedDestination = (i, j) => {
       const grid = this.state.grid;
-      grid[i][j] = 4; // special point : end point
+      grid[parseInt(i, 10)][parseInt(j, 10)] = 4; // special point : end point
       if (!this.state.multipledestinations) {
         grid[this.state.end[0][0]][this.state.end[0][1]] = 0;
       } else {
@@ -139,14 +139,16 @@ class App extends Component {
       const height = this.state.height; const width = this.state.width;
       for (let i = 0; i < height; i++) {
         for (let j = 0; j < width; j++) {
-          heuristics[i][j] = Math.abs(end[0][0]-i) + Math.abs(end[0][1]-j);
+          heuristics[parseInt(i, 10)][parseInt(j, 10)] =
+              Math.abs(end[0][0]-i) + Math.abs(end[0][1]-j);
         }
       }
 
       const reverseHeuristics = this.state.reverseHeuristics;
       for (let i = 0; i < height; i++) {
         for (let j = 0; j < width; j++) {
-          reverseHeuristics[i][j] = Math.abs(start[0][0]-i) + Math.abs(start[0][1]-j);
+          reverseHeuristics[parseInt(i, 10)][parseInt(j, 10)] =
+              Math.abs(start[0][0]-i) + Math.abs(start[0][1]-j);
         }
       }
 
@@ -154,31 +156,42 @@ class App extends Component {
     }
     randomizeMatrix = () => {
       this.clearGrid();
-      const newGrid = Array(this.state.height).fill().map(() => Array(this.state.width).fill(0));
+      const newGrid = Array(this.state.height).fill().map(() =>
+        Array(this.state.width).fill(0));
       for (let i = 0; i < this.state.height; i++) {
         for (let j = 0; j < this.state.width; j++) {
-          newGrid[i][j] = (Math.floor(Math.random() * 10) % 2); // random values of zero or one to generate a random grid of walls amd empty cells
+          newGrid[parseInt(i, 10)][parseInt(j, 10)] =
+              (Math.floor(Math.random() * 10) % 2);
+          // random values of zero or one to generate a random grid of
+          // walls amd empty cells
         }
       }
-      newGrid[this.state.start[0][0]][this.state.start[0][1]] = 3; // special point : start
-      newGrid[this.state.end[0][0]][this.state.end[0][1]] = 4; // special point : end
+      newGrid[this.state.start[0][0]][this.state.start[0][1]] = 3;
+      // special point : start
+      newGrid[this.state.end[0][0]][this.state.end[0][1]] = 4;
+      // special point : end
       this.setState({grid: newGrid});
     }
     clearGrid = () => {
-      const newGrid = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
-      newGrid[this.state.start[0][0]][this.state.start[0][1]] = 3; // special point : start
-      newGrid[this.state.end[0][0]][this.state.end[0][1]] = 4; // special point : end
+      const newGrid = Array(this.state.height).fill().map(() =>
+        Array(this.state.width).fill(0));
+      newGrid[this.state.start[0][0]][this.state.start[0][1]] = 3;
+      // special point : start
+      newGrid[this.state.end[0][0]][this.state.end[0][1]] = 4;
+      // special point : end
       this.setState({grid: newGrid, pointer: [], pointer2: []});
     }
     changeState = (x, y) => {
-      if (this.state.grid[x][y] === 3) {
+      if (this.state.grid[parseInt(x, 10)][parseInt(y, 10)] === 3) {
         return;
       } // check if the current point is a special point (start or end)
       const grid = this.state.grid;
-      if (grid[x][y] === 0 || grid[x][y] === 2) { // if it is a visited cell or empty , make it a wall
-        grid[x][y] = 1;
+      if (grid[parseInt(x, 10)][parseInt(y, 10)] === 0 ||
+          grid[parseInt(x, 10)][parseInt(y, 10)] === 2) {
+        // if it is a visited cell or empty , make it a wall
+        grid[parseInt(x, 10)][parseInt(y, 10)] = 1;
       } else { // convert a wall to empty cell
-        grid[x][y] = 0;
+        grid[parseInt(x, 10)][parseInt(y, 10)] = 0;
       }
       grid[this.state.start[0][0]][this.state.start[0][1]] = 3;
       grid[this.state.end[0][0]][this.state.end[0][1]] = 4;
@@ -204,33 +217,33 @@ class App extends Component {
           this.state.start[0][1] === this.state.end[0][1]) {
         return;
       } else if (this.state.currentAlgo === "DFS") {
-        await this.DFS();
+        await this.dfs();
       } else if (this.state.currentAlgo === "Dijkstra") {
-        await this.Dijkstra();
+        await this.dijkstra();
       } else if (this.state.currentAlgo === "BFS") {
-        await this.BFS();
+        await this.bfs();
       } else if (this.state.currentAlgo === "biDijkstra") {
-        await this.BidirectionalDijkstra();
+        await this.bidirectionalDijkstra();
       } else if (this.state.currentAlgo === "Best-FS") {
-        await this.AStar(0, 1);
+        await this.aStar(0, 1);
       } else if (this.state.currentAlgo === "A*") {
-        await this.AStar(1, 1);
+        await this.aStar(1, 1);
       } else if (this.state.currentAlgo === "Weighted-AStar") {
-        await this.AStar(1, 10);
+        await this.aStar(1, 10);
       } else if (this.state.currentAlgo === "TSP") {
         this.state.graph =
             new Graph(this.state.grid, this.state.height, this.state.width);
-        await this.TSP();
+        await this.tsp();
       } else if (this.state.currentAlgo === "biBFS") {
-        await this.BiBFS();
+        await this.biBFS();
       } else if (this.state.currentAlgo === "BiAstar") {
-        await this.BiAstar();
+        await this.biAstar();
       }
     }
     pathdisplay = async (path) => {
       const grid = this.state.grid;
       for (let i = 1; i < path.length; i++) {
-        grid[path[i][0]][path[i][1]] = 5;
+        grid[path[parseInt(i, 10)][0]][path[parseInt(i, 10)][1]] = 5;
         await new Promise((done) => setTimeout(() => done(), this.state.speed));
         this.setState({grid});
       }
@@ -242,12 +255,17 @@ class App extends Component {
       grid[this.state.start[0][0]][this.state.start[0][1]] = 3;
 
       await new Promise((done) => setTimeout(() => done(), this.state.speed));
-      this.setState({grid, visual: false, bi: false, pointer: [], pointer2: []});
+      this.setState({grid, visual: false,
+        bi: false, pointer: [], pointer2: []});
     }
     clearPath = () => {
-      const g = this.state.grid; const path = this.state.path;
-      for (let i = 0; i < path.length; i++) {
-        g[path[i][0]][path[i][1]] = 2;
+      const g = this.state.grid;
+      for (let i = 0; i < this.state.height; i++) {
+        for (let j = 0; j < this.state.width; j++) {
+          if (g[parseInt(i, 10)][parseInt(j, 10)] === 5) {
+            g[parseInt(i, 10)][parseInt(j, 10)] = 2;
+          }
+        }
       }
       this.setState({path: [], grid: g});
     }
@@ -255,15 +273,34 @@ class App extends Component {
       return (
         <div>
           <div id="navigation">
-            <Navbar randomize={this.randomizeMatrix} clearWalls={this.clearGrid} newSpeed={this.changeSpeed} multiDestination={this.multiDestination}
-              handle={this.selectAlgo} selectedAlgo={this.currentAlgo} visualize={this.visualize} clearPath = {this.clearPath}
-              multipledestinations = {this.state.multipledestinations} visual={this.state.visual}
-              toggleSource= {this.toggleSource} toggleDestination= {this.toggleDestination}/>
+            <Navbar randomize={this.randomizeMatrix}
+              clearWalls={this.clearGrid}
+              newSpeed={this.changeSpeed}
+              multiDestination={this.multiDestination}
+              handle={this.selectAlgo}
+              selectedAlgo={this.currentAlgo}
+              visualize={this.visualize}
+              clearPath = {this.clearPath}
+              multipledestinations = {this.state.multipledestinations}
+              visual={this.state.visual}
+              toggleSource= {this.toggleSource}
+              toggleDestination=
+                {this.toggleDestination}/>
           </div>
           <div id="Board">
-            <Grid start={this.state.start} end={this.state.end} height={this.state.height} multipledestinations = {this.state.multipledestinations} bi={this.state.bi}
-              width={this.state.width} grid={this.state.grid} changeState={this.changeState} changesourcefunc={this.changedSource} changedestfunc = {this.changedDestination}
-              pointer={this.state.pointer} pointer2={this.state.pointer2} changeSource = {this.state.changeSource} changeDestination = {this.state.changeDestination} />
+            <Grid start={this.state.start} end={this.state.end}
+              height={this.state.height}
+              multipledestinations = {this.state.multipledestinations}
+              bi={this.state.bi}
+              width={this.state.width}
+              grid={this.state.grid}
+              changeState={this.changeState}
+              changesourcefunc={this.changedSource}
+              changedestfunc = {this.changedDestination}
+              pointer={this.state.pointer}
+              pointer2={this.state.pointer2}
+              changeSource = {this.state.changeSource}
+              changeDestination = {this.state.changeDestination} />
           </div>
           <D show={this.state.modalshow} handleClose={this.hideModal} />
 

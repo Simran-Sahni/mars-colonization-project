@@ -33,17 +33,17 @@ function Grid(props) {
           i === props.pointer2[0] &&
           j === props.pointer2[1]) {
         rowList.push(currentPointer(props, i, j));
-      } else if (props.grid[i][j] === 1) {
+      } else if (props.grid[parseInt(i, 10)][parseInt(j, 10)] === 1) {
         rowList.push(wall(props, i, j));
-      } else if (props.grid[i][j] === 2) {
+      } else if (props.grid[parseInt(i, 10)][parseInt(j, 10)] === 2) {
         rowList.push(visited(props, i, j));
-      } else if (props.grid[i][j] === 3) {
+      } else if (props.grid[parseInt(i, 10)][parseInt(j, 10)] === 3) {
         rowList.push(startPoint(props, i, j));
-      } else if (props.grid[i][j] === 4) {
+      } else if (props.grid[parseInt(i, 10)][parseInt(j, 10)] === 4) {
         rowList.push(endPoint(i, j));
-      } else if (props.grid[i][j] === 5) {
+      } else if (props.grid[parseInt(i, 10)][parseInt(j, 10)] === 5) {
         rowList.push(finalShortestPath(props, i, j));
-      } else if (props.grid[i][j] === 6) {
+      } else if (props.grid[parseInt(i, 10)][parseInt(j, 10)] === 6) {
         rowList.push(visited2(props, i, j));
       } else {
         rowList.push(empty(props, i, j));

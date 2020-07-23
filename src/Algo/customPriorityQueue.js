@@ -37,7 +37,7 @@ class PriorityQueue {
    * @return {*}
    */
   peek() {
-    return this._heap[top];
+    return this._heap[parseInt(top, 10)];
   }
 
   /**
@@ -88,7 +88,7 @@ class PriorityQueue {
    * @private
    */
   _greater(i, j) {
-    return this._comparator(this._heap[i], this._heap[j]);
+    return this._comparator(this._heap[parseInt(i, 10)], this._heap[parseInt(j, 10)]);
   }
 
   /**
@@ -98,7 +98,8 @@ class PriorityQueue {
    * @private
    */
   _swap(i, j) {
-    [this._heap[i], this._heap[j]] = [this._heap[j], this._heap[i]];
+    [this._heap[parseInt(i, 10)], this._heap[parseInt(j, 10)]] =
+        [this._heap[parseInt(j, 10)], this._heap[parseInt(i, 10)]];
   }
 
   /**

@@ -97,14 +97,14 @@ export const BidirectionalDijkstra = async function() {
 
   // Retrieving the found path
   let ptr = meetpoint1;
-
-  while (true) {
+  let ok1 = true;
+  while (ok1) {
     this.state.path = [...this.state.path, ptr];
     if (ptr === undefined) {
       reached = false;
-      break;
+      ok1 = false;
     } else if (ptr[0] === start[0] && ptr[1] === start[1]) {
-      break;
+      ok1 = false;
     } else {
       ptr = par1[ptr[0]][ptr[1]];
     }

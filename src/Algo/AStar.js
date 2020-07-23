@@ -23,14 +23,17 @@ export const AStar = async function(w1, w2) {
     }
     const item = neighbors(current[0], current[1], this.state.grid);
     for (let i =0; i < item.length; i++) {
-      if ((dp[item[i][0]][item[i][1]].length === 0) ||
-          (dp[item[i][0]][item[i][1]].length >
+      if ((dp[item[parseInt(i, 10)][0]][item[parseInt(i, 10)][1]].length ===
+          0) ||
+          (dp[item[parseInt(i, 10)][0]][item[parseInt(i, 10)][1]].length >
               dp[current[0]][current[1]].length + 1)) {
-        pq.push([item[i],
+        pq.push([item[parseInt(i, 10)],
           w1*(dp[current[0]][current[1]].length+1) +
-          w2*this.state.heuristics[item[i][0]][item[i][1]]]);
-        par[item[i][0]][item[i][1]] = current;
-        dp[item[i][0]][item[i][1]] = [...dp[current[0]][current[1]], current];
+          w2*this.state.
+              heuristics[item[parseInt(i, 10)][0]][item[parseInt(i, 10)][1]]]);
+        par[item[parseInt(i, 10)][0]][item[parseInt(i, 10)][1]] = current;
+        dp[item[parseInt(i, 10)][0]][item[parseInt(i, 10)][1]] =
+            [...dp[current[0]][current[1]], current];
       }
     }
     grid[current[0]][current[1]] = 2;

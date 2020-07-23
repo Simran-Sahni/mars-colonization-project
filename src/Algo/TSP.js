@@ -112,8 +112,8 @@ export const aStarForTSP = async function(AppState, start, end) {
   const grid = AppState.state.grid;
   for (let i = 0; i < AppState.state.height; i++) {
     for (let j = 0; j < AppState.state.width; j++) {
-      if (grid[i][j] ===2) {
-        grid[i][j] = 0;
+      if (grid[parseInt(i, 10)][parseInt(j, 10)] ===2) {
+        grid[parseInt(i, 10)][parseInt(j, 10)] = 0;
       }
     }
   }
