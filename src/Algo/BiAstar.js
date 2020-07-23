@@ -27,7 +27,9 @@ export const BiAstar = async function() {
     forwardPQ.pop(); backwardPQ.pop();
     let item = biNeighbors(current1[0], current1[1], this.state.grid);
     for (let i =0; i < item.length; i++) {
-      if (item[i][0] === start[0] && item[i][1] === start[1]) continue;
+      if (item[i][0] === start[0] && item[i][1] === start[1]) {
+        continue;
+      }
       if (visited2[item[i][0]][item[i][1]] === 1) {
         meetpoint2 = item[i]; meetpoint1 = current1;
         ok = 1;
@@ -46,7 +48,9 @@ export const BiAstar = async function() {
     }
     item = biNeighbors(current2[0], current2[1], this.state.grid);
     for (let i =0; i < item.length; i++) {
-      if (item[i][0] === end[0] && item[i][1] === end[1]) continue;
+      if (item[i][0] === end[0] && item[i][1] === end[1]) {
+        continue;
+      }
       if (visited1[item[i][0]][item[i][1]] === 1) {
         meetpoint2 = current2;
         meetpoint1 = item[i];
@@ -65,7 +69,9 @@ export const BiAstar = async function() {
         this.setState({grid});
       }
     }
-    if (ok === 1) break;
+    if (ok === 1) {
+      break;
+    }
   }
   const path = [...forwardDP[meetpoint1[0]][meetpoint1[1]],
     ...backwardDP[meetpoint2[0]][meetpoint2[1]].reverse()];

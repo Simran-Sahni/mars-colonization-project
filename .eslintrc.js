@@ -29,5 +29,6 @@ module.exports = {
     "quotes": ["error", "double"],
     "semi": ["error", "always"],
     "object-shorthand": "error",
+    "new-cap": "error",
   },
 };

@@ -24,8 +24,11 @@ export const DFS = async function() {
       continue; // if its a wall or visited cell, continue
     }
     if (grid[current[0]][current[1]] === 3) {
-      if (ok) ok = false;
-      else continue;
+      if (ok) {
+        ok = false;
+      } else {
+        continue;
+      }
     }
     path.push([current[0], current[1]]);
     if (grid[current[0]][current[1]] === 4) {

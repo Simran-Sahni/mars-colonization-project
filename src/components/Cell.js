@@ -99,11 +99,15 @@ export const wall = function(props, i, j) {
         }
       }}
       onTouchStart={(e) => {
-        if (window.event.buttons === 1) props.changeState(i, j);
+        if (window.event.buttons === 1) {
+          props.changeState(i, j);
+        }
       }
       }
       onMouseEnter={(e) => {
-        if (window.event.buttons === 1) props.changeState(i, j);
+        if (window.event.buttons === 1) {
+          props.changeState(i, j);
+        }
       }
       }
     >

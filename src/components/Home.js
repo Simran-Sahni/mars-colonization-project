@@ -61,7 +61,7 @@ class Welcome extends React.Component {
                 <label>
                   <input type="checkbox"
                     checked={this.state.isChecked1}
-                    onChange={()=>this.toggleChange(1)}
+                    onChange={() => this.toggleChange(1)}
                   />
                                 True
                 </label>
@@ -70,7 +70,7 @@ class Welcome extends React.Component {
                 <label>
                   <input type="checkbox"
                     checked={this.state.isChecked2}
-                    onChange={()=> this.toggleChange(2)}
+                    onChange={() => this.toggleChange(2)}
                   />
                                 False
                 </label>
@@ -89,7 +89,7 @@ class Welcome extends React.Component {
               <Button variant="primary" style={{
                 backgroundColor: "#00ff00",
               }}
-              onClick={()=> this.props.onSubmit(this.state.userAnswer)}>
+              onClick={() => this.props.onSubmit(this.state.userAnswer)}>
                             LETS GO!
               </Button>
             </Modal.Footer>

@@ -96,7 +96,7 @@ class Navbar extends React.Component {
                 <FormControlLabel
                   control={<Switch color = "primary"
                     checked={this.state.checkedA}
-                    onChange={()=> this.hc()} />
+                    onChange={() => this.hc()} />
                   }
                   label="Multiple Destinations"
                   style={{color: "peachpuff"}}

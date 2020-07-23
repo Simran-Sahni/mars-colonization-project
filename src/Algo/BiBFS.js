@@ -8,8 +8,10 @@ export const BiBFS = async function() {
   const grid = this.state.grid;
   const directions = [[0, 1], [1, 0], [0, -1], [-1, 0]];
 
-  const isGoodCell = (i, j) =>{
-    if (i < 0 || i >=height || j < 0 || j >=width) return false;
+  const isGoodCell = (i, j) => {
+    if (i < 0 || i >=height || j < 0 || j >=width) {
+      return false;
+    }
     return !(grid[i][j] === 1 || grid[i][j] === 3 || grid[i][j] === 4);
   };
   const start = this.state.start[0];
@@ -19,13 +21,9 @@ export const BiBFS = async function() {
   const par2 = Array(height).fill().map(() => Array(width).fill([]));
   const visited = Array(height).fill().map(() => Array(width).fill(0));
 
-
   par1[start[0]][start[1]] = start;
   par2[end[0]][end[1]] = end;
-
   let ptr;
-  const mySet = new Set();
-
   while (queue1.length !==0 && queue2.length !== 0) {
     const current = queue1[0]; // current of forward path
     const revcurrent = queue2[0]; // current pointer of reverse path
@@ -52,38 +50,46 @@ export const BiBFS = async function() {
         if (visited[neighbour1[0]][neighbour1[1]] === 1 ) {
           continue;
         }
-        if (grid[neighbour1[0]][neighbour1[1]] === 2) continue;
+        if (grid[neighbour1[0]][neighbour1[1]] === 2) {
+          continue;
+        }
         par1[neighbour1[0]][neighbour1[1]] = current;
         if (visited[neighbour1[0]][neighbour1[1]] === 2 ) {
           ptr=neighbour1; flag1=true; break;
         }
-        if ( neighbour1[0]===start[0] && neighbour1[1]===start[1]) continue;
-
+        if ( neighbour1[0]===start[0] && neighbour1[1]===start[1]) {
+          continue;
+        }
         list1.push(neighbour1);
         grid[neighbour1[0]][neighbour1[1]] = 2;
       }
     }
     queue1 = queue1.concat(list1);
-    if (flag1) break;
+    if (flag1) {
+      break;
+    }
     for (const dir of directions) {
       const neighbour2 = [revcurrent[0] + dir[0], revcurrent[1] + dir[1]];
       if (isGoodCell(neighbour2[0], neighbour2[1])) {
         if (visited[neighbour2[0]][neighbour2[1]] === 2 ) {
           continue;
         }
-        if (grid[neighbour2[0]][neighbour2[1]] === 6) continue;
+        if (grid[neighbour2[0]][neighbour2[1]] === 6) {
+          continue;
+        }
         par2[neighbour2[0]][neighbour2[1]] = revcurrent;
         if (visited[neighbour2[0]][neighbour2[1]] === 1 ) {
           ptr = neighbour2; flag2=true; break;
         }
-
-        if (neighbour2[0]===end[0] && neighbour2[1]===end[1]) continue;
+        if (neighbour2[0]===end[0] && neighbour2[1]===end[1]) {
+          continue;
+        }
         list2.push(neighbour2);
         grid[neighbour2[0]][neighbour2[1]] = 6;
       }
     }
     queue2 = queue2.concat(list2);
-    this.setState({grid: grid,
+    this.setState({grid,
       pointer: current, pointer2: revcurrent, bi: true});
     await new Promise((done) =>
       setTimeout(() => done(), this.state.speed));
@@ -97,8 +103,9 @@ export const BiBFS = async function() {
   while (true) {
     this.state.path = [...this.state.path, ptr];
     if (ptr[0] === this.state.start[0][0] &&
-        ptr[1] === this.state.start[0][1]) break;
-    else {
+        ptr[1] === this.state.start[0][1]) {
+      break;
+    } else {
       ptr = par1[ptr[0]][ptr[1]];
     }
   }
@@ -107,13 +114,13 @@ export const BiBFS = async function() {
   let pth2= [];
   while (true) {
     pth2 = [...pth2, ptr];
-    if (ptr[0] === end[0] && ptr[1] === end[1]) break;
-    else {
+    if (ptr[0] === end[0] && ptr[1] === end[1]) {
+      break;
+    } else {
       ptr = par2[ptr[0]][ptr[1]];
     }
   }
   pth2 = pth2.reverse();
   this.state.path = this.state.path.concat(pth2);
-  console.log(mySet);
   await this.pathdisplay(this.state.path);
 };

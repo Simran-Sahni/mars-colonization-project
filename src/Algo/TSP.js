@@ -122,7 +122,7 @@ export const aStarForTSP = async function(AppState, start, end) {
   await AppState.setState({grid});
   return dp[end[0]][end[1]];
 };
-export const findOptimalVertex = (AppState, unvisited, source) =>{
+export const findOptimalVertex = (AppState, unvisited, source) => {
   const pq = new PriorityQueue((a, b) => a[1] < b[1]);
   const sourceMapped = AppState.state.graph.map2[source];
   for (const item of unvisited) {

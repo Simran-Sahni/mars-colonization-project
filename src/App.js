@@ -94,8 +94,8 @@ class App extends Component {
     BiAstar = BiAstar.bind(this);
     BidirectionalDijkstra = BidirectionalDijkstra.bind(this);
 
-    toggleSource=()=> this.setState({changeSource: !this.state.changeSource});
-    toggleDestination = ()=> {
+    toggleSource=() => this.setState({changeSource: !this.state.changeSource});
+    toggleDestination = () => {
       if (this.state.multipledestinations) {
         this.setState({changeDestination: true});
       } else {
@@ -133,7 +133,7 @@ class App extends Component {
     }
     showModal = () => this.setState({modalshow: true});
     hideModal = () => this.setState({modalshow: false});
-    computeHeuristics= () =>{
+    computeHeuristics= () => {
       const heuristics = this.state.heuristics;
       const start = this.state.start; const end = this.state.end;
       const height = this.state.height; const width = this.state.width;
@@ -154,7 +154,7 @@ class App extends Component {
     }
     randomizeMatrix = () => {
       this.clearGrid();
-      const newGrid = Array(this.state.height).fill(undefined, undefined, undefined).map(() => Array(this.state.width).fill(0));
+      const newGrid = Array(this.state.height).fill().map(() => Array(this.state.width).fill(0));
       for (let i = 0; i < this.state.height; i++) {
         for (let j = 0; j < this.state.width; j++) {
           newGrid[i][j] = (Math.floor(Math.random() * 10) % 2); // random values of zero or one to generate a random grid of walls amd empty cells
@@ -246,7 +246,9 @@ class App extends Component {
     }
     clearPath = () => {
       const g = this.state.grid; const path = this.state.path;
-      for (let i = 0; i < path.length; i++)g[path[i][0]][path[i][1]] = 2;
+      for (let i = 0; i < path.length; i++) {
+        g[path[i][0]][path[i][1]] = 2;
+      }
       this.setState({path: [], grid: g});
     }
     render() {
