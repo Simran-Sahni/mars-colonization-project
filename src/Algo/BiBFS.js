@@ -8,8 +8,10 @@ export const BiBFS = async function() {
   const grid = this.state.grid;
   const directions = [[0, 1], [1, 0], [0, -1], [-1, 0]];
   let reached = true;
-  const isGoodCell = (i, j) =>{
-    if (i < 0 || i >=height || j < 0 || j >=width) return false;
+  const isGoodCell = (i, j) => {
+    if (i < 0 || i >=height || j < 0 || j >=width) {
+      return false;
+    }
     return !(grid[i][j] === 1 || grid[i][j] === 3 || grid[i][j] === 4);
   };
   const start = this.state.start[0];
@@ -66,7 +68,9 @@ export const BiBFS = async function() {
       }
     }
     queue1 = queue1.concat(list1);
-    if (flag1) break;
+    if (flag1) {
+      break;
+    }
     for (const dir of directions) {
       const neighbour2 = [revcurrent[0] + dir[0], revcurrent[1] + dir[1]];
       if (isGoodCell(neighbour2[0], neighbour2[1])) {
@@ -100,7 +104,6 @@ export const BiBFS = async function() {
   }
 
   const breakpoint = ptr;
-  console.log({ptr});
   while (true) {
     this.state.path = [...this.state.path, ptr];
     if (ptr === undefined) {
@@ -140,6 +143,5 @@ export const BiBFS = async function() {
   }
   pth2 = pth2.reverse();
   this.state.path = this.state.path.concat(pth2);
-  console.log(this.state.path);
   await this.pathdisplay(this.state.path);
 };

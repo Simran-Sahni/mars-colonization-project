@@ -30,5 +30,6 @@ module.exports = {
     "semi": ["error", "always"],
     "object-shorthand": "error",
     "new-cap": "error",
+    "arrow-spacing": "error",
   },
 };

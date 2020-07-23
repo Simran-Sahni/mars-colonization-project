@@ -27,9 +27,9 @@ export const BidirectionalDijkstra = async function() {
   let ok = 0;
   // initialising the distance array to a Maxima
   const dist1 = Array(height).fill().map(() =>
-    Array(width).fill(1000000000));
+    Array(width).fill(100000));
   const dist2 = Array(height).fill().map(() =>
-    Array(width).fill(1000000000));
+    Array(width).fill(100000));
   dist1[start[0]][start[1]] = 0;
   dist2[end[0]][end[1]] = 0;
 
@@ -117,12 +117,14 @@ export const BidirectionalDijkstra = async function() {
   this.state.path = this.state.path.reverse();
   ptr = meetpoint2;
   let pth2= [];
-  while (true) {
+  ok = true;
+  while (ok) {
     pth2 = [...pth2, ptr];
     if (ptr === undefined) {
-      reached = false; break;
+      reached = false;
+      ok = false;
     } else if (ptr[0] === end[0] && ptr[1] === end[1]) {
-      break;
+      ok = false;
     } else {
       ptr = par2[ptr[0]][ptr[1]];
     }
