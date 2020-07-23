@@ -152,8 +152,7 @@ class Home extends Component {
   onSubmit(option) {
     if (option === this.state.answer) {
       this.setState({redirect: "/mars-colonization-project/App"});
-      this.setState({redirect: "/App"});
-    } else {
+     } else {
       alert("Wrong Option Chosen");
     }
   }
