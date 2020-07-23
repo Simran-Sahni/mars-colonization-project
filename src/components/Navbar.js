@@ -30,10 +30,10 @@ class Navbar extends React.Component {
     } else {
       document.getElementById("chngDestBtn").innerHTML =
           "<button class=\"btn\" " +
-          "type=\"button\"  " +
+          "type='button'  " +
           "onClick={this.props.toggleDestination} " +
           " style=\"background-color:#6a040f;\"  " +
-          "\"color:peachpuff\">"+
+          "'color:peachpuff'>"+
           "Change Destination"+
           "</ button>";
       this.props.multiDestination();
@@ -48,11 +48,11 @@ class Navbar extends React.Component {
     document.getElementById("chngDestBtn").innerHTML =
         "<button " +
         "class=\"btn\" " +
-        "type=\"button\"" +
-        " style=\"background-color:#6a040f;\"" +
+        "type='button' "+
+        " style='background-color:#6a040f;'" +
         " color:peachpuff>"+
-        "Add Destination"+"" +
-        "</ button>";
+        "Add Destination"+
+        "</button>";
     this.props.multiDestination();
   }
   /**
@@ -63,13 +63,12 @@ class Navbar extends React.Component {
     const algo = (event.target.getAttribute("id")).toString();
     const setString = "Visualize  " + algo + "!";
     document.getElementById("visualizebtn").innerHTML =
-        // eslint-disable-next-line max-len
-        "<button id=\"visualizebtn\" " +
-        "class=\"btn\" " +
-        "type=\"button\" " +
-        "style=\"font-weight:bold\"/" +
-        setString + "" +
-        "> button>";
+        "<button id='visualizebtn' " +
+        "class='btn' " +
+        "type='button' " +
+        "style='font-weight:bold'>" +
+        setString +
+        "</button>";
 
     this.props.handle(algo);
     this.setState({selectedAlgo: algo});
@@ -97,7 +96,7 @@ class Navbar extends React.Component {
                 <FormControlLabel
                   control={<Switch color = "primary"
                     checked={this.state.checkedA}
-                    onChange={()=>this.hc()} />
+                    onChange={()=> this.hc()} />
                   }
                   label="Multiple Destinations"
                   style={{color: "peachpuff"}}
@@ -256,7 +255,7 @@ class Navbar extends React.Component {
                     Speed <span className='caret'/>
                 </button>
                 <ul className='dropdown-menu'>
-                  <li onClick={()=> this.props.newSpeed(1)}>Fast
+                  <li onClick={() => this.props.newSpeed(1)}>Fast
                   </li>
                   <li onClick={() => this.props.newSpeed(350)}>Medium
                   </li>

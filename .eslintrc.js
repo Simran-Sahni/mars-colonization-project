@@ -8,6 +8,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:react/recommended',
     'google',
+    "plugin:security/recommended",
   ],
   'globals': {
     'Atomics': 'readonly',
@@ -22,9 +23,11 @@ module.exports = {
   },
   'plugins': [
     'react',
+    "security",
   ],
   'rules': {
     "quotes": ["error", "double"],
     "semi": ["error", "always"],
+    "object-shorthand": "error",
   },
 };

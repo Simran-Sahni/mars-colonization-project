@@ -29,7 +29,7 @@ export const DFS = async function() {
     }
     path.push([current[0], current[1]]);
     if (grid[current[0]][current[1]] === 4) {
-      this.setState({grid: grid, pointer: current});
+      this.setState({grid, pointer: current});
       await new Promise((done) =>
         setTimeout(() => done(), this.state.speed));
       break;
@@ -44,12 +44,12 @@ export const DFS = async function() {
       }
       stack = stack.concat(list);
     }
-    this.setState({grid: grid, pointer: current});
+    this.setState({grid, pointer: current});
     await new Promise((done) =>
       setTimeout(() => done(), speed));// To slow down the speed of Animation
   }
   if (flag === 0) {
-    this.setState({grid: grid});
+    this.setState({grid});
   }
   const pointer = this.state.pointer;
   if (pointer[0] !== end[0][0] || pointer[1] !== end[0][1]) {

@@ -10,7 +10,6 @@ import {findOptimalVertex} from "./Algo/TSP";
 import {aStarForTSP} from "./Algo/TSP";
 import {TSP} from "./Algo/TSP";
 import {BFS} from "./Algo/BFS";
-import {IDAstar} from "./Algo/IDAStar";
 import {BiBFS} from "./Algo/BiBFS";
 import {BiAstar} from "./Algo/BiAstar";
 import {BidirectionalDijkstra} from "./Algo/BidirectionalDijkstra";
@@ -91,17 +90,19 @@ class App extends Component {
     TSP = TSP.bind(this);
     aStarForTSP = aStarForTSP.bind(this);
     findOptimalVertex = findOptimalVertex.bind(this);
-    IDAstar = IDAstar.bind(this);
     BiBFS = BiBFS.bind(this);
     BiAstar = BiAstar.bind(this);
     BidirectionalDijkstra = BidirectionalDijkstra.bind(this);
 
-    toggleSource=()=>this.setState({changeSource: !this.state.changeSource});
-    toggleDestination = ()=>{
-      if (this.state.multipledestinations) this.setState({changeDestination: true});
-      else this.setState({changeDestination: !this.state.changeDestination});
+    toggleSource=()=> this.setState({changeSource: !this.state.changeSource});
+    toggleDestination = ()=> {
+      if (this.state.multipledestinations) {
+        this.setState({changeDestination: true});
+      } else {
+        this.setState({changeDestination: !this.state.changeDestination});
+      }
     }
-    changedSource=(i, j)=> {
+    changedSource=(i, j) => {
       const grid = this.state.grid;
       grid[this.state.start[0][0]][this.state.start[0][1]] = 0;
       grid[i][j] = 3; // special point : end point
@@ -111,14 +112,14 @@ class App extends Component {
         grid,
       });
     }
-    changedDestination = (i, j)=> {
+    changedDestination = (i, j) => {
       const grid = this.state.grid;
       grid[i][j] = 4; // special point : end point
       if (!this.state.multipledestinations) {
         grid[this.state.end[0][0]][this.state.end[0][1]] = 0;
       } else {
         this.setState({end: [...this.state.end, [i, j]], grid});
-        console.log(this.state.end); return;
+        return;
       }
 
       this.setState({
@@ -132,7 +133,7 @@ class App extends Component {
     }
     showModal = () => this.setState({modalshow: true});
     hideModal = () => this.setState({modalshow: false});
-    computeHeuristics= ()=>{
+    computeHeuristics= () =>{
       const heuristics = this.state.heuristics;
       const start = this.state.start; const end = this.state.end;
       const height = this.state.height; const width = this.state.width;
@@ -170,7 +171,9 @@ class App extends Component {
       this.setState({grid: newGrid, pointer: [], pointer2: []});
     }
     changeState = (x, y) => {
-      if (this.state.grid[x][y] === 3) return; // check if the current point is a special point (start or end)
+      if (this.state.grid[x][y] === 3) {
+        return;
+      } // check if the current point is a special point (start or end)
       const grid = this.state.grid;
       if (grid[x][y] === 0 || grid[x][y] === 2) { // if it is a visited cell or empty , make it a wall
         grid[x][y] = 1;
@@ -179,48 +182,67 @@ class App extends Component {
       }
       grid[this.state.start[0][0]][this.state.start[0][1]] = 3;
       grid[this.state.end[0][0]][this.state.end[0][1]] = 4;
-      this.setState({grid: grid});
+      this.setState({grid});
     }
     changeSpeed = (newSpeed) => this.setState({speed: newSpeed});
     selectAlgo = (name) => this.setState({currentAlgo: name});
     visualize = async () => {
-      if (this.state.currentAlgo === "Not Selected") return;
+      if (this.state.currentAlgo === "Not Selected") {
+        return;
+      }
       const pointer = this.state.pointer;
       pointer[0] = this.state.start[0][0];
       pointer[1] = this.state.start[0][1];
       this.setState({pointer, visual: true});
 
-      if (this.state.start[0] === this.state.end[0][0] && this.state.start[1] === this.state.end[0][1]) return;
+      if (this.state.start[0] === this.state.end[0][0] &&
+          this.state.start[1] === this.state.end[0][1]) {
+        return;
+      }
 
-      if (this.state.start[0][0] === this.state.end[0][0] && this.state.start[0][1] === this.state.end[0][1]) return;
-
-      else if (this.state.currentAlgo === "DFS") await this.DFS();
-      else if (this.state.currentAlgo === "Dijkstra") await this.Dijkstra();
-      else if (this.state.currentAlgo === "BFS") await this.BFS();
-      else if (this.state.currentAlgo === "biDijkstra") await this.BidirectionalDijkstra();
-      else if (this.state.currentAlgo === "Best-FS") await this.AStar(0, 1);
-      else if (this.state.currentAlgo === "A*") await this.AStar(1, 1);
-      else if (this.state.currentAlgo === "Weighted-AStar") await this.AStar(1, 10);
-      else if (this.state.currentAlgo === "TSP") {
-        this.state.graph = new Graph(this.state.grid, this.state.height, this.state.width);
+      if (this.state.start[0][0] === this.state.end[0][0] &&
+          this.state.start[0][1] === this.state.end[0][1]) {
+        return;
+      } else if (this.state.currentAlgo === "DFS") {
+        await this.DFS();
+      } else if (this.state.currentAlgo === "Dijkstra") {
+        await this.Dijkstra();
+      } else if (this.state.currentAlgo === "BFS") {
+        await this.BFS();
+      } else if (this.state.currentAlgo === "biDijkstra") {
+        await this.BidirectionalDijkstra();
+      } else if (this.state.currentAlgo === "Best-FS") {
+        await this.AStar(0, 1);
+      } else if (this.state.currentAlgo === "A*") {
+        await this.AStar(1, 1);
+      } else if (this.state.currentAlgo === "Weighted-AStar") {
+        await this.AStar(1, 10);
+      } else if (this.state.currentAlgo === "TSP") {
+        this.state.graph =
+            new Graph(this.state.grid, this.state.height, this.state.width);
         await this.TSP();
-      } else if (this.state.currentAlgo === "IDAStar") await this.IDAstar();
-      else if (this.state.currentAlgo === "biBFS") await this.BiBFS();
-      else if (this.state.currentAlgo === "BiAstar") await this.BiAstar();
+      } else if (this.state.currentAlgo === "biBFS") {
+        await this.BiBFS();
+      } else if (this.state.currentAlgo === "BiAstar") {
+        await this.BiAstar();
+      }
     }
     pathdisplay = async (path) => {
       const grid = this.state.grid;
       for (let i = 1; i < path.length; i++) {
         grid[path[i][0]][path[i][1]] = 5;
         await new Promise((done) => setTimeout(() => done(), this.state.speed));
-        this.setState({grid: grid});
+        this.setState({grid});
       }
-      if (!this.state.bi) grid[this.state.end[0][0]][this.state.end[0][1]] = 5;
-      else grid[this.state.end[0][0]][this.state.end[0][1]] = 4;
+      if (!this.state.bi) {
+        grid[this.state.end[0][0]][this.state.end[0][1]] = 5;
+      } else {
+        grid[this.state.end[0][0]][this.state.end[0][1]] = 4;
+      }
       grid[this.state.start[0][0]][this.state.start[0][1]] = 3;
 
       await new Promise((done) => setTimeout(() => done(), this.state.speed));
-      this.setState({grid: grid, visual: false, bi: false, pointer: [], pointer2: []});
+      this.setState({grid, visual: false, bi: false, pointer: [], pointer2: []});
     }
     clearPath = () => {
       const g = this.state.grid; const path = this.state.path;

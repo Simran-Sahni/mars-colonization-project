@@ -12,7 +12,7 @@ class Graph {
   constructor(grid, height, width) {
     this.adjacencyList = {};
     this.allPairShortest = Array(height*width).
-        fill(undefined, undefined, undefined).map(() =>
+        fill().map(() =>
           Array(height*width).fill(1000000000));
     this.grid = grid;
     this.map1 = new Map();
@@ -78,6 +78,7 @@ class Graph {
    *
    */
   constructGraph() {
+    const directions = [[0, 1], [1, 0], [0, -1], [-1, 0]];
     for (let i = 0; i < this.height; i++) {
       for (let j = 0; j < this.width; j++) {
         if (this.isNotWall(i, j)) {
@@ -118,4 +119,4 @@ Graph.propTypes = {
   grid: PropTypes.array,
 };
 export default Graph;
-const directions = [[0, 1], [1, 0], [0, -1], [-1, 0]];
+

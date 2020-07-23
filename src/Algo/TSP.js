@@ -20,10 +20,11 @@ export const aStarForTSP = async function(AppState, start, end) {
   const heuristics = AppState.state.heuristics;
   for (let i = 0; i < AppState.state.height; i++) {
     for (let j = 0; j < AppState.state.width; j++) {
-      heuristics[i][j] = Math.abs(end[0]-i) + Math.abs(end[1]-j);
+      heuristics[parseInt(i, 10)][parseInt(j, 10)] =
+          Math.abs(end[0]-i) + Math.abs(end[1]-j);
     }
   }
-  AppState.setState({heuristics: heuristics,
+  AppState.setState({heuristics,
     path: [], pointer: start, bi: true});
   const pq = new PriorityQueue((a, b) => a[1] < b[1]);
   pq.push([start, AppState.state.heuristics[start[0]][start[1]]]);
@@ -129,5 +130,5 @@ export const findOptimalVertex = (AppState, unvisited, source) =>{
     pq.push([item,
       AppState.state.graph.allPairShortest[sourceMapped][destinationMapped]]);
   }
-  return pq.peek()[0];
+  return pq.peek()[parseInt(0, 10)];
 };
