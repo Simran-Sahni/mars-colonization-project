@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/mars-colonization-project/static/css/main.e3fbac97.chunk.css",
-    "main.js": "/mars-colonization-project/static/js/main.3d251953.chunk.js",
-    "main.js.map": "/mars-colonization-project/static/js/main.3d251953.chunk.js.map",
+    "main.js": "/mars-colonization-project/static/js/main.2cbadbf8.chunk.js",
+    "main.js.map": "/mars-colonization-project/static/js/main.2cbadbf8.chunk.js.map",
     "runtime-main.js": "/mars-colonization-project/static/js/runtime-main.4ea65d4a.js",
     "runtime-main.js.map": "/mars-colonization-project/static/js/runtime-main.4ea65d4a.js.map",
     "static/js/2.630edcad.chunk.js": "/mars-colonization-project/static/js/2.630edcad.chunk.js",
     "static/js/2.630edcad.chunk.js.map": "/mars-colonization-project/static/js/2.630edcad.chunk.js.map",
     "index.html": "/mars-colonization-project/index.html",
-    "precache-manifest.4d7af549a900e11fde1710d791f87d2b.js": "/mars-colonization-project/precache-manifest.4d7af549a900e11fde1710d791f87d2b.js",
+    "precache-manifest.50d3438d2622c3f2a6443915f5a3cc62.js": "/mars-colonization-project/precache-manifest.50d3438d2622c3f2a6443915f5a3cc62.js",
     "service-worker.js": "/mars-colonization-project/service-worker.js",
     "static/css/main.e3fbac97.chunk.css.map": "/mars-colonization-project/static/css/main.e3fbac97.chunk.css.map",
     "static/js/2.630edcad.chunk.js.LICENSE.txt": "/mars-colonization-project/static/js/2.630edcad.chunk.js.LICENSE.txt",
@@ -29,6 +29,6 @@
     "static/js/runtime-main.4ea65d4a.js",
     "static/js/2.630edcad.chunk.js",
     "static/css/main.e3fbac97.chunk.css",
-    "static/js/main.3d251953.chunk.js"
+    "static/js/main.2cbadbf8.chunk.js"
   ]
 }
