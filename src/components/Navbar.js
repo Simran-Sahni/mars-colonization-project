@@ -69,7 +69,7 @@ class Navbar extends React.Component {
             <div className="navbar-header">
               <a id="refreshButton"
                 className="navbar-brand"
-                href="/mars-colonization-project/App">
+                href="https://simran-sahni.github.io/mars-colonization-project/App">
                 {/* eslint-disable-next-line max-len */}
                   Conquer Mars! <i className="fa fa-rocket"/>
                 <span className="icon" />

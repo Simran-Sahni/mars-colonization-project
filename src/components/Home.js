@@ -170,7 +170,7 @@ class Home extends Component {
    */
   render() {
     if (this.state.redirect !== null) {
-      return <Redirect to='https://simran-sahni.github.io/mars-colonization-project/App'/>;
+      return <Redirect to='/mars-colonization-project/App'/>;
     }
     return (
 
