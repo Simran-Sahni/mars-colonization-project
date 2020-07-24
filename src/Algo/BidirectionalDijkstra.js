@@ -102,9 +102,9 @@ export const BidirectionalDijkstra = async function() {
     this.state.path = [...this.state.path, ptr];
     if (ptr === undefined) {
       reached = false;
-      ok1 = false;
+      ok1 = false; break;
     } else if (ptr[0] === start[0] && ptr[1] === start[1]) {
-      ok1 = false;
+      ok1 = false; break;
     } else {
       ptr = par1[ptr[0]][ptr[1]];
     }
@@ -134,7 +134,7 @@ export const BidirectionalDijkstra = async function() {
     this.setState({visual: false});
     return;
   }
-  pth2 = pth2.reverse();
+
   this.state.path = this.state.path.concat(pth2);
   // console.log(this.state.path);
   await this.pathdisplay(this.state.path);

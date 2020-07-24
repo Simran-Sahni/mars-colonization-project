@@ -167,7 +167,7 @@ export const empty = function(props, i, j) {
     onClick={() => {
       if (props.changeSource) {
         props.changesourcefunc(i, j);
-      } else if ((props.changeDestination) || (props.multipledestinations)) {
+      } else if ((props.changeDestination)) {
         props.changedestfunc(i, j);
       } else {
         props.changeState(i, j);

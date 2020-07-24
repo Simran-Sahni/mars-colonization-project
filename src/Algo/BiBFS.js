@@ -112,9 +112,11 @@ export const BiBFS = async function() {
     if (ptr === undefined) {
       reached = false;
       ok1 = false;
+      break;
     } else if (ptr[0] === this.state.start[0][0] &&
         ptr[1] === this.state.start[0][1]) {
       ok1 = false;
+      break;
     } else {
       ptr = par1[ptr[0]][ptr[1]];
     }
@@ -125,7 +127,8 @@ export const BiBFS = async function() {
     return;
   }
   this.state.path = this.state.path.reverse();
-  ptr = breakpoint;
+  ptr = par2[breakpoint[0]][breakpoint[1]];
+
   let pth2= [];
   let ok = true;
   while (ok) {
@@ -147,7 +150,6 @@ export const BiBFS = async function() {
     this.setState({visual: false});
     return;
   }
-  pth2 = pth2.reverse();
   this.state.path = this.state.path.concat(pth2);
   await this.pathdisplay(this.state.path);
 };

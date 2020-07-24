@@ -44,6 +44,26 @@ const D = ({handleClose, show}) => {
     </>
   );
 };
+//This is the path length modal, shown after the process
+const PathModal = ({handleClose, show, pathlength}) => {
+  return (
+      <>
+        <Modal
+            show={show}
+            onHide={handleClose}
+            style={{
+              marginLeft:'0',
+              opacity:'70%',
+
+            }}
+        >
+          <Modal.Header closeButton>
+            Path length:  {pathlength}
+          </Modal.Header>
+         </Modal>
+      </>
+  );
+};
 /**
  * Class for our Application
  */
@@ -55,8 +75,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      height: 20, // height of the grid
-      width: 20, // width of the grid
+      height: 17, // height of the grid
+      width: 30, // width of the grid
       start: [[10, 9]], // start position
       end: [[10, 15]], // end position
       grid: Array(20).fill().map(() => Array(20).fill(0)),
@@ -72,6 +92,8 @@ class App extends Component {
       changeDestination: false,
       multipledestinations: false,
       visual: false,
+      pathmodal:false,
+      pathlength: 0,
       currentAlgo: "Not Selected",
       bi: false, // boolean indicator for bidirectional algos
     };
@@ -96,11 +118,7 @@ class App extends Component {
 
     toggleSource=() => this.setState({changeSource: !this.state.changeSource});
     toggleDestination = () => {
-      if (this.state.multipledestinations) {
-        this.setState({changeDestination: true});
-      } else {
         this.setState({changeDestination: !this.state.changeDestination});
-      }
     }
     changedSource=(i, j) => {
       const grid = this.state.grid;
@@ -115,11 +133,11 @@ class App extends Component {
     changedDestination = (i, j) => {
       const grid = this.state.grid;
       grid[parseInt(i, 10)][parseInt(j, 10)] = 4; // special point : end point
-      if (!this.state.multipledestinations) {
-        grid[this.state.end[0][0]][this.state.end[0][1]] = 0;
-      } else {
+      if (this.state.multipledestinations && this.state.changeDestination) {
         this.setState({end: [...this.state.end, [i, j]], grid});
         return;
+      } else {
+        grid[this.state.end[0][0]][this.state.end[0][1]] = 0;
       }
 
       this.setState({
@@ -133,6 +151,7 @@ class App extends Component {
     }
     showModal = () => this.setState({modalshow: true});
     hideModal = () => this.setState({modalshow: false});
+    hidePathModal = () => this.setState({pathmodal: false});
     computeHeuristics= () => {
       const heuristics = this.state.heuristics;
       const start = this.state.start; const end = this.state.end;
@@ -242,20 +261,20 @@ class App extends Component {
     }
     pathdisplay = async (path) => {
       const grid = this.state.grid;
+      console.log(this.state.path);
       for (let i = 1; i < path.length; i++) {
         grid[path[parseInt(i, 10)][0]][path[parseInt(i, 10)][1]] = 5;
         await new Promise((done) => setTimeout(() => done(), this.state.speed));
         this.setState({grid});
       }
-      if (!this.state.bi) {
-        grid[this.state.end[0][0]][this.state.end[0][1]] = 5;
-      } else {
-        grid[this.state.end[0][0]][this.state.end[0][1]] = 4;
-      }
-      grid[this.state.start[0][0]][this.state.start[0][1]] = 3;
+
+       grid[this.state.end[0][0]][this.state.end[0][1]] = 4;
+       grid[this.state.start[0][0]][this.state.start[0][1]] = 3;
 
       await new Promise((done) => setTimeout(() => done(), this.state.speed));
       this.setState({grid, visual: false,
+        pathlength: path.length,
+        pathmodal:true,
         bi: false, pointer: [], pointer2: []});
     }
     clearPath = () => {
@@ -303,6 +322,7 @@ class App extends Component {
               changeDestination = {this.state.changeDestination} />
           </div>
           <D show={this.state.modalshow} handleClose={this.hideModal} />
+          <PathModal show={this.state.pathmodal} handleClose={this.hidePathModal} pathlength={this.state.pathlength} />
 
         </div>
       );

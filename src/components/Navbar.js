@@ -25,34 +25,20 @@ class Navbar extends React.Component {
    * changes state in app when user toggles the switch for multiple destination
    */
   hc() {
-    if (!this.state.checkedA) {
-      this.editButtons();
-    } else {
-      document.getElementById("chngDestBtn").innerHTML =
-          "<button class=\"btn\" " +
-          "type='button'  " +
-          "onClick={this.props.toggleDestination} " +
-          " style=\"background-color:#6a040f; color:peachpuff\">"+
-          "Change Destination"+
-          "</ button>";
-      this.props.multiDestination();
-    }
-    this.setState({checkedA: !this.state.checkedA});
+      if (!this.state.checkedA) {
+          this.editButtons();
+      } else {
+          document.getElementById('chngDestBtn').innerHTML = 'Change Destination';
+          this.props.multiDestination();
+      }
+      this.setState({checkedA: !this.state.checkedA});
   }
 
-  /**
-   * Changes the buttons when multiple destination toggle is changed
-   */
-  editButtons() {
-    document.getElementById("chngDestBtn").innerHTML =
-        "<button " +
-        "class=\"btn\" " +
-        "type='button' "+
-        " style='background-color:#6a040f;color:peachpuff' >"+
-        "Add Destination"+
-        "</button>";
-    this.props.multiDestination();
-  }
+
+    editButtons() {
+        document.getElementById('chngDestBtn').innerHTML = 'Add Destination';
+        this.props.multiDestination();
+    }
   /**
    * Changes the Visualize Algo button according to the state
    * @param {anything} event
@@ -113,9 +99,10 @@ class Navbar extends React.Component {
                 </button>
               </li>
               <li className="nav-item"
-                id="chngDestBtn">
+                >
                 <button onClick={this.props.toggleDestination}
                   className="btn"
+                  id="chngDestBtn"
                   style={{
                     backgroundColor: "#6a040f",
                     color: "peachpuff",
