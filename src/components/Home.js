@@ -191,8 +191,9 @@ class Home extends Component {
             width: "25%",
             height: "25%",
             fontSize: "2em",
+            textAlign:"center",
             marginTop: "35px"}}>
-          <p><b>&nbsp;&nbsp;&nbsp;&nbsp;MISSION</b></p>
+          <p><b>&nbsp;&nbsp;&nbsp;MISSION</b></p>
           <p><b> COLONIZE MARS! </b></p>
         </div>
 
@@ -200,9 +201,11 @@ class Home extends Component {
         <Button variant="primary" size="lg" onClick={this.handleShow} style={{
           backgroundColor: "#283618",
           color: "#fefae0",
-          position: "relative",
-          margin: "20%",
-          marginLeft: "38%",
+          position:"relative center",
+            marginTop:"20%",
+            marginLeft:"43%",
+           scrollMarginTop:"20%",
+            scrollMarginLeft:"43%",
         }}>
           <strong>LAUNCH TO MARS</strong>
         </Button>
